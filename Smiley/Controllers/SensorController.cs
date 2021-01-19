@@ -23,6 +23,12 @@ namespace Smiley.Controllers
             return View("MySensors", list);
         }
 
+        [AllowAnonymous]
+        public IActionResult Forbidden()
+        {
+            return View();
+        }
+
         [Authorize(Roles = "owner")]
         public IActionResult Create()
         {
@@ -119,10 +125,10 @@ namespace Smiley.Controllers
             {
                 string userid = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 string sql = @"UPDATE Facility  
-                              SET facility_type='{2}', location_name='{3}', address='{4}', operation_hour='{5}', status='{6}', 
+                              SET facility_type='{2}', location_name='{3}', address='{4}', operation_hour='{5}', 
                             WHERE sensor_id={0} AND smiley_user_id='{1}'";
                 
-                if (DBUtl.ExecSQL(sql, facility.sensor_id, userid, facility.facility_type, facility.location_name, facility.address, facility.operation_hour, facility.status) == 1)
+                if (DBUtl.ExecSQL(sql, facility.sensor_id, userid, facility.facility_type, facility.location_name, facility.address, facility.operation_hour) == 1)
                 {
                     TempData["Message"] = "Sensor Updated";
                     TempData["MsgType"] = "success";
@@ -168,6 +174,44 @@ namespace Smiley.Controllers
             return RedirectToAction("MySensors");
         }
 
+        [Authorize(Roles = "owner")]
+        public IActionResult UpdateStatus(int id)
+        {
+            string userid = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            string sql = @"SELECT * FROM Facility WHERE sensor_id={0} AND smiley_user_id='{1}'";
+
+            List<Facility> onOffFacil = DBUtl.GetList<Facility>(sql, id, userid);
+            if (onOffFacil.Count != 1)
+            {
+                TempData["Message"] = "Sensor Record does not exist";
+                TempData["MsgType"] = "warning";
+            }
+            else
+            {
+                Facility facility = onOffFacil[0];
+                int newStatus = 1;
+                String msgOutput = "on";
+                if (facility.status)
+                {
+                    newStatus = 0;
+                    msgOutput = "off";
+                }
+
+                int res = DBUtl.ExecSQL("UPDATE Facility SET status = '{2}', WHERE sensor_id ={0} AND smiley_user_id = '{1}'", id, userid, newStatus);
+                if (res == 1)
+                {
+                    TempData["Message"] = "Sensor has been turned " + msgOutput;
+                    TempData["MsgType"] = "success";
+                }
+                else
+                {
+                    TempData["Message"] = DBUtl.DB_Message;
+                    TempData["MsgType"] = "danger";
+                }
+            }
+            return RedirectToAction("MySensors");
+        }
 
 
     }
