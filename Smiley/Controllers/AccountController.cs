@@ -22,8 +22,7 @@ namespace Smiley.Controllers
 
         private const string ROLE_COL = "smiley_user_role";
         private const string NAME_COL = "full_name";
-        private string userrole = "";
-        private string username = "";
+        
 
         private const string REDIRECT_CNTR = "Home";
         private const string REDIRECT_ACTN = "Index";
@@ -136,7 +135,7 @@ namespace Smiley.Controllers
                                Your userid is <b>{1}</b> and password is <b>{2}</b>.
                                <br/><br/>{4} {5}";
                     string title = "Registration Successful - Welcome";
-                    string message = String.Format(template, usr.full_name, usr.smiley_user_id, usr.smiley_user_pw, userrole, username);
+                    string message = String.Format(template, usr.full_name, usr.smiley_user_id, usr.smiley_user_pw, User.FindFirst(ClaimTypes.Role).Value, User.FindFirst(ClaimTypes.NameIdentifier).Value);
                     string result = "";
 
                     bool outcome = false;
@@ -201,8 +200,6 @@ namespace Smiley.Controllers
                          }, "Basic"
                       )
                    );
-                userrole = ds.Rows[0][ROLE_COL].ToString();
-                username = ds.Rows[0][NAME_COL].ToString();
                 return true;
             }
             return false;

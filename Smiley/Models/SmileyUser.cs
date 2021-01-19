@@ -7,7 +7,7 @@ namespace Smiley.Models
     public class SmileyUser
     {
         [Required(ErrorMessage = "Please enter User ID")]
-        [Remote(action: "VerifyUserID", controller: "Account")]
+        [Remote(action: "VerifyUserID", controller: "Account", ErrorMessage ="User ID already in use")]
         public string smiley_user_id { get; set; }
 
         [Required(ErrorMessage = "Please enter Password")]
@@ -22,6 +22,7 @@ namespace Smiley.Models
 
         [Required(ErrorMessage = "Please enter Email")]
         [EmailAddress(ErrorMessage = "Invalid Email")]
+        [Remote(action: "VerifyUserEmail", controller: "Account", ErrorMessage = "Email already in use")]
         public string email { get; set; }
 
         [Required(ErrorMessage = "Please select User Role")]
