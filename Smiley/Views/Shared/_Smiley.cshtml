@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Where We Were</title>
+    <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/lib/jquery/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery/jquery.validate.unobtrusive.min.js"></script>
+    <link href="~/lib/font-awesome/css/fontawesome.min.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/brands.min.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/solid.min.css" rel="stylesheet" />
+    <link href="~/lib/company.css" rel="stylesheet" />
+    <style>
+        body {
+            color: lightcoral;
+            background-color: lavenderblush;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+
+        <!-- Hamburger Menu -->
+        <button class="navbar-toggler" type="button"
+                data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            if (User.IsInRole("admin"))
+            {
+                <partial name="SmileyAdmin" /> // Admin Users
+            }
+            else
+            {
+                <partial name="SmileyUser" /> // Login Users
+            }
+        }
+        else
+        {
+            <partial name="SmileyGuest" />// Guest Users
+        }
+    </nav>
+
+    <div class="container">
+        @RenderBody()
+    </div>
+
+    <footer class="fixed-bottom">
+        <!-- Insert Company Footer -->
+        <div class="text-center">
+            <p>&copy; @DateTime.Now.Year - Smiley</p>
+        </div>
+    </footer>
+
+</body>
+</html>
+

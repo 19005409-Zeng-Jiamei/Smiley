@@ -20,9 +20,31 @@ namespace Smiley.Controllers
             return View();
         }
 
-        public IActionResult Records()
+        public IActionResult RetrievePrediction()
         {
-            string sql = String.Format("SELECT * FROM Prediction ORDER BY prediction_id");
+            string sql = String.Format("SELECT * FROM Prediction WHERE ORDER BY prediction_id");
+
+            DataTable dt = DBUtl.GetTable(sql);
+
+            String xxx = DBUtl.DB_Message;
+
+            return View(dt.Rows);
+        }
+
+        public IActionResult RetrieveFacility()
+        {
+            string sql = String.Format("SELECT * FROM Facility ORDER BY sensor_id");
+
+            DataTable dt = DBUtl.GetTable(sql);
+
+            String xxx = DBUtl.DB_Message;
+
+            return View(dt.Rows);
+        }
+
+        public IActionResult RetrieveUser()
+        {
+            string sql = String.Format("SELECT * FROM SmileyUser ORDER BY smiley_user_id");
 
             DataTable dt = DBUtl.GetTable(sql);
 
@@ -37,14 +59,6 @@ namespace Smiley.Controllers
 
             return View();  
         }
-
-
-
-        public IActionResult Test()
-        {
-            return View();
-        }
-
 
 
     }
