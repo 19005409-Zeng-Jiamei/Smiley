@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Smiley
 {
@@ -18,6 +19,12 @@ namespace Smiley
         {
 
             services.AddMvc(options => options.EnableEndpointRouting = false);
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(options => {
+                        options.LoginPath = "/Account/Login/";
+                        options.AccessDeniedPath = "/Account/Forbidden/";
+                    });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -29,8 +36,8 @@ namespace Smiley
                 app.UseDeveloperExceptionPage();
             }
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
-
         }
     }
 }
