@@ -50,7 +50,7 @@ namespace Smiley.Controllers
                 string insert =
                    @"INSERT INTO FACILITY(facility_type, location_name, address, operation_hour, status, smiley_user_id) VALUES
 ('{0}', '{1}', '{2}', '{3}', {4}, '{5}')";
-                if (DBUtl.ExecSQL(insert, sensor.facility_type, sensor.location_name, sensor.address, sensor.operation_hour, sensor.status, sensor.smiley_user_id) == 1)
+                if (DBUtl.ExecSQL(insert, sensor.facility_type, sensor.location_name, sensor.address, sensor.operation_hour, 1, sensor.smiley_user_id) == 1)
                 {
                     string select = "SELECT * FROM SmileyUser WHERE smiley_user_id = '{0}'";
                     DataTable ds = DBUtl.GetTable(select, sensor.smiley_user_id);

@@ -1,0 +1,60 @@
+﻿@model List<Facility>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-@TempData["MsgType"]">
+        @TempData["Message"]
+    </div>
+}
+
+<h2>My Sensors</h2>
+<table class="table table-condensed table-hover">
+    <tr>
+        <th>Sensor ID</th>
+        <th>Facility Type</th>
+        <th>Location Name</th>
+        <th>Address</th>
+        <th>Operation Hour</th>
+        <th>Status</th>
+        <th>&nbsp;</th>
+    </tr>
+
+    @foreach (Facility sensor in Model)
+    {
+        <tr>
+            <td>@sensor.sensor_id</td>
+            <td>@sensor.facility_type</td>
+            <td>@sensor.location_name</td>
+            <td>@sensor.address</td>
+            <td>@sensor.operation_hour</td>
+            <td>
+                @{string icon = "fas fa-lightbulb"; List<String> stats = new List<string>() { "Off", "on" };
+                    if (sensor.status)
+                    {
+                        icon = "far fa-lightbulb";
+                        stats = new List<string>() { "On", "off" };
+                    }
+                }
+                @stats[0]
+                <a asp-controller="Sensor"
+                   asp-action="UpdateStatus"
+                   asp-route-id="@sensor.smiley_user_id"
+                   onclick="return confirm('Turn @stats[1] Sensor [@sensor.sensor_id]?')">
+                    <i class=@icon></i>
+                </a>
+            </td>
+            <td>
+                <a asp-controller="Sensor" asp-action="Update" asp-route-id="@sensor.smiley_user_id">
+                    <i class="fas fa-pencil-alt"></i>
+                </a>
+                <a asp-controller="Sensor"
+                   asp-action="Delete"
+                   asp-route-id="@sensor.smiley_user_id"
+                   onclick="return confirm('Delete Sensor [@sensor.sensor_id]')">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>

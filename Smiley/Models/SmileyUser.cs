@@ -7,6 +7,7 @@ namespace Smiley.Models
     public class SmileyUser
     {
         [Required(ErrorMessage = "Please enter User ID")]
+        [StringLength(10, ErrorMessage ="Please make sure that User ID is 10 characters or less")]
         [Remote(action: "VerifyUserID", controller: "Account", ErrorMessage ="User ID already in use")]
         public string smiley_user_id { get; set; }
 
