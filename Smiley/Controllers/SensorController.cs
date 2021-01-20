@@ -1,18 +1,24 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Smiley.Models;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Security.Claims;
+using Smiley.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
 
 namespace Smiley.Controllers
 {
     public class SensorController : Controller
     {
+        [AllowAnonymous]
+        public IActionResult Index()
+        {
+            List<Facility> list = DBUtl.GetList<Facility>("SELECT * FROM Facility");
+            return RedirectToAction("MySensors", list);
+        }
+
         [Authorize(Roles = "owner")]
         public IActionResult MySensors()
         {

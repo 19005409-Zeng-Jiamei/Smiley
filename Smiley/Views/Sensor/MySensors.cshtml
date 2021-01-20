@@ -39,7 +39,7 @@
                 <a asp-controller="Sensor"
                    asp-action="UpdateStatus"
                    asp-route-id="@sensor.smiley_user_id"
-                   onclick="return confirm('Turn @stats[1] Sensor [@sensor.sensor_id]?')">
+                   onclick="return confirm('Turn @stats[1] Sensor @sensor.sensor_id')">
                     <i class=@icon></i>
                 </a>
             </td>
