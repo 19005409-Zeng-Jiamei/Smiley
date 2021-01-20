@@ -1,9 +1,9 @@
 {
-   "version": "1.0",
-   "defaultProvider": "cdnjs",
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
    "libraries": [
       {
-         "library": "twitter-bootstrap@4.1.3",
+         "library": "twitter-bootstrap@4.3.1",
          "destination": "wwwroot/lib/bootstrap/",
          "files": [
             "css/bootstrap.min.css",
@@ -11,70 +11,29 @@
          ]
       },
       {
-         "library": "jquery@3.3.1",
+         "library": "jquery@3.4.1",
          "destination": "wwwroot/lib/jquery/",
          "files": [
             "jquery.min.js"
          ]
       },
       {
-         "library": "jquery-validate@1.17.0",
-         "destination": "wwwroot/lib/jquery/",
+         "library": "jquery-validate@1.19.1",
+         "destination": "wwwroot/lib/jquery-validate/",
          "files": [
             "jquery.validate.min.js"
          ]
       },
       {
-         "library": "jquery-validation-unobtrusive@3.2.10",
-         "destination": "wwwroot/lib/jquery/",
+         "library": "jquery-validation-unobtrusive@3.2.11",
+         "destination": "wwwroot/lib/jquery-validation-unobtrusive/",
          "files": [
             "jquery.validate.unobtrusive.min.js"
          ]
       },
       {
-         "library": "Chart.js@2.7.2",
-         "destination": "wwwroot/lib/chartjs/",
-         "files": [
-            "Chart.min.js"
-         ]
-      },
-      {
-         "library": "datatables@1.10.19",
-         "destination": "wwwroot/lib/datatables/",
-         "files": [
-            "js/jquery.dataTables.min.js",
-            "css/jquery.dataTables.min.css"
-         ]
-      },
-      {
-         "library": "moment.js@2.22.2",
-         "destination": "wwwroot/lib/moment/",
-         "files": [
-            "moment.min.js"
-         ]
-      },
-      {
-         "library": "tempusdominus-bootstrap-4@5.1.1",
-         "destination": "wwwroot/lib/dtpicker/",
-         "files": [
-            "js/tempusdominus-bootstrap-4.min.js",
-            "css/tempusdominus-bootstrap-4.min.css"
-         ]
-      },
-      {
-         "provider": "cdnjs",
-         "library": "font-awesome@4.7.0",
-         "destination": "wwwroot/lib/font-awesome/",
-         "files": [
-            "css/font-awesome.min.css",
-            "css/font-awesome.css.map",
-            "fonts/fontawesome-webfont.eot",
-            "fonts/fontawesome-webfont.svg",
-            "fonts/fontawesome-webfont.ttf",
-            "fonts/fontawesome-webfont.woff",
-            "fonts/fontawesome-webfont.woff2",
-            "fonts/FontAwesome.otf"
-         ]
+         "library": "font-awesome@5.11.2",
+         "destination": "wwwroot/lib/font-awesome/"
       }
    ]
 }
