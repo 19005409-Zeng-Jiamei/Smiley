@@ -133,9 +133,9 @@ namespace Smiley.Controllers
                     string template = @"Hi {0},<br/><br/>
                                Welcome to Smiley! :)
                                Your userid is <b>{1}</b> and password is <b>{2}</b>.
-                               <br/><br/>{4} {5}";
+                               <br/><br/>{3} {4}";
                     string title = "Registration Successful - Welcome";
-                    string message = String.Format(template, usr.full_name, usr.smiley_user_id, usr.smiley_user_pw, User.FindFirst(ClaimTypes.Role).Value, User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                    string message = String.Format(template, usr.full_name, usr.smiley_user_id, usr.smiley_user_pw, User.FindFirst(ClaimTypes.Role).Value, User.FindFirst(ClaimTypes.Name).Value);
                     string result = "";
 
                     bool outcome = false;

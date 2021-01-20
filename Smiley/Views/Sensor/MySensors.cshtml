@@ -28,7 +28,8 @@
             <td>@sensor.address</td>
             <td>@sensor.operation_hour</td>
             <td>
-                @{string icon = "fas fa-lightbulb"; List<String> stats = new List<string>() { "Off", "on" };
+                @{string icon = "fas fa-lightbulb"; 
+                    List<String> stats = new List<string>() { "Off", "on" };
                     if (sensor.status)
                     {
                         icon = "far fa-lightbulb";

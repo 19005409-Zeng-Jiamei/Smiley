@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Smiley.Models
 {
-    public class Prediction
+    public class HandSignal
     {
         public int prediction_id { get; set;}
 
