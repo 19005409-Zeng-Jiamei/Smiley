@@ -35,18 +35,20 @@
             {
                 <partial name="SmileyAdmin" /> // Admin Users
             }
+
             else if (User.IsInRole("owner"))
             {
                 <partial name="SmileyOwner" /> // Owner Users
             }
-            else if (User.IsInRole("user"))
+
+            else
             {
                 <partial name="SmileyUser" /> // Login Users
             }
-            else
-            {
-                <partial name="SmileyGuest" />// Guest Users
-            }
+        }
+        else
+        {
+            <partial name="SmileyGuest" />// Guest Users
         }
     </nav>
 
