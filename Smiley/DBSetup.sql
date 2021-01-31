@@ -19,9 +19,9 @@ DROP TABLE IF EXISTS Emotion;
 CREATE TABLE SmileyUser(
 	smiley_user_id      VARCHAR(10)   PRIMARY KEY,
 	smiley_user_pw      VARBINARY(50) NOT NULL,
-	full_name			VARCHAR(50)   NOT NULL,
+	full_name	        VARCHAR(50)   NOT NULL,
 	smiley_user_picfile VARCHAR(200)  NULL,
-	email				VARCHAR(50)   NOT NULL,
+	email		        VARCHAR(50)   NOT NULL,
 	smiley_user_role    VARCHAR(20)   NOT NULL,
 	last_login          DATETIME      NULL
 );
@@ -41,7 +41,7 @@ INSERT INTO SmileyUser (smiley_user_id, smiley_user_pw , full_name, email, smile
 --Create sensor's building table
 --
 CREATE TABLE Building(
-	building_id			INT PRIMARY KEY IDENTITY,
+	building_id		    INT PRIMARY KEY IDENTITY,
 	building_name		VARCHAR(50)  NOT NULL,
 	building_type		VARCHAR(50)  NOT NULL,
 	building_address	VARCHAR(200)  NOT NULL,
@@ -100,12 +100,12 @@ SET IDENTITY_INSERT Sensor OFF;
 --Create table for sensor's exact location
 --
 CREATE TABLE Exact_Location(
-	location_id		 INT PRIMARY KEY IDENTITY,
-	location_name	 VARCHAR(50) NOT NULL,
-	location_type	 VARCHAR(50) NOT NULL,
-	location_address VARCHAR(50) NOT NULL,
-	building_id		 INT 	     NOT NULL,
-	sensor_id		 INT 	     NOT NULL,
+	location_id		         INT PRIMARY KEY IDENTITY,
+	location_name	         VARCHAR(50) NOT NULL,
+	location_type	         VARCHAR(50) NOT NULL,
+	location_address         VARCHAR(50) NOT NULL,
+	building_id		         INT 	     NOT NULL,
+	sensor_id		         INT 	     NOT NULL,
 	CONSTRAINT fk13 FOREIGN KEY(building_id) REFERENCES Building(building_id),
 	CONSTRAINT fk14 FOREIGN KEY(sensor_id) REFERENCES Sensor(sensor_id)
 );
@@ -133,8 +133,8 @@ SET IDENTITY_INSERT Exact_Location OFF;
 CREATE TABLE Door(
 	door_record_id   INT PRIMARY KEY IDENTITY,
 	door_gesture	 VARCHAR(50) NOT NULL,
-	time_stamp       DATE   NOT NULL,
-	sensor_id		 INT 	     NOT NULL,
+	time_stamp       DATE        NOT NULL,
+	sensor_id	     INT 	     NOT NULL,
 	CONSTRAINT fk15 FOREIGN KEY(sensor_id) REFERENCES Sensor(sensor_id)
 );
 
@@ -169,9 +169,9 @@ SET IDENTITY_INSERT Door OFF;
 --Create feedback record table
 --
 CREATE TABLE Feedback(
-	feedback_id		  INT PRIMARY KEY IDENTITY,
+	feedback_id	      INT PRIMARY KEY IDENTITY,
 	feedback_gesture  VARCHAR(50) NOT NULL,		
-	time_stamp        DATE   NOT NULL,
+	time_stamp        DATE        NOT NULL,
 	sensor_id         INT 	      NOT NULL,
 	CONSTRAINT fk16 FOREIGN KEY(sensor_id) REFERENCES Sensor(sensor_id)
 );
@@ -228,10 +228,10 @@ CREATE TABLE FaceId(
 CREATE TABLE SmileyCustomer(
 	customer_id         INT PRIMARY KEY IDENTITY,
 	customer_name	    VARCHAR(50)  NOT NULL,
-	surname				VARCHAR(50)  NOT NULL,
-	email				VARCHAR(50)  NOT NULL,
+	surname		        VARCHAR(50)  NOT NULL,
+	email		        VARCHAR(50)  NOT NULL,
 	membership          VARCHAR(50)  NOT NULL,
-	signup_date         DATE    NOT NULL,
+	signup_date         DATE         NOT NULL,
 	sensor_id	        INT          NOT NULL,
 	CONSTRAINT fk18 FOREIGN KEY(sensor_id) REFERENCES Sensor(sensor_id)
 );
@@ -269,8 +269,8 @@ SET IDENTITY_INSERT SmileyCustomer OFF;
 --
 CREATE TABLE Emotion(
 	emotion_record_id      INT PRIMARY KEY IDENTITY,
-	emotion_type		   VARCHAR(50)   NOT NULL,
-	sensor_id			   INT           NOT NULL,
+	emotion_type	       VARCHAR(50)   NOT NULL,
+	sensor_id	           INT           NOT NULL,
 	CONSTRAINT fk19 FOREIGN KEY(sensor_id) REFERENCES Sensor(sensor_id)
 );
 
