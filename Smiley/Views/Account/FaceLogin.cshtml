@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="~/lib/upload.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <style>
+        #vid-show, #vid-canvas, #vid-take {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="form-signin-heading offset-sm-1">Face Login</h2>
+
+        <div class="row h-100 justify-content-center">
+
+            <div class="card col-sm-5 my-sm-auto" style="background-color: #2F2FA2;
+        color: white;
+        border-color: #2F2FA2;">
+                <div class="card-body">
+                    <img src="~/images/LogInPagePi.png" style="width:100%" />
+                </div>
+            </div>
+
+            <div class="col-sm-5 my-sm-auto">
+
+                <div class="card" style="background-color: #2F2FA2;
+        color: white;
+        border-color: white;
+        padding-left: 2em;
+        padding-left: 2em;
+        padding-right: 2em;">
+                    <div class="card-body">
+                        <p style="font-family: Lucida Handwriting, cursive; font-size: 30px; color: #F64C72">Smiley</p>
+
+                        <div id="vid-controls" class="col-sm-4">
+                            <video id="vid-show" autoplay width="320" height="240"></video>
+                            <input id="vid-take" type="button" value="Login" class="btn btn-primary" />
+                            <div id="vid-canvas"></div>
+                        </div>
+                    </div>
+                    @if (TempData["Message"] != null)
+                    {
+                        <div class="alert alert-info">
+                            @TempData["Message"]
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <br />
+
+            <div class="card" style="background-color: #2F2FA2;
+        color: white;
+        border-color: white; padding-left: 2em;
+        padding-right: 2em;">
+                <div class="card-body">
+                    Login with UserID & Passwords
+                    <a asp-action="Login" asp-controller="Account" style="        color: #F64C72;">
+                        Login
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

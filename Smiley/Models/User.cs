@@ -4,15 +4,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Smiley.Models
 {
-    public class SmileyUser
+    public class User
     {
         [Required(ErrorMessage = "Please enter User ID")]
-        [StringLength(10, ErrorMessage ="Please make sure that User ID is 10 characters or less")]
-        [Remote(action: "VerifyUserID", controller: "Account", ErrorMessage ="User ID already in use")]
+        [StringLength(10, ErrorMessage = "Please make sure that User ID is 10 characters or less")]
         public string smiley_user_id { get; set; }
 
         [Required(ErrorMessage = "Please enter Password")]
-        [StringLength(20, MinimumLength = 5, ErrorMessage = "Password must be 5 characters or more")]
+        [StringLength(30, MinimumLength = 8, ErrorMessage = "Password must be 8 characters or more")]
         public string smiley_user_pw { get; set; }
 
         [Compare("smiley_user_pw", ErrorMessage = "Passwords do not match")]
@@ -20,6 +19,8 @@ namespace Smiley.Models
 
         [Required(ErrorMessage = "Please enter Full Name")]
         public string full_name { get; set; }
+
+        public string smiley_user_picfile { get; set; }
 
         [Required(ErrorMessage = "Please enter Email")]
         [EmailAddress(ErrorMessage = "Invalid Email")]
@@ -31,6 +32,8 @@ namespace Smiley.Models
 
         public DateTime last_login { get; set; }
 
+        public int face_id { get; set; }
 
+        public string superior_id { get; set; }
     }
 }

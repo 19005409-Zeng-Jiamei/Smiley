@@ -1,0 +1,191 @@
+﻿@{
+   Layout = "_Candidate";
+}
+
+<script language="Javascript">
+   window.addEventListener("load", function () {
+      // [1] GET ALL THE HTML ELEMENTS
+      var video = document.getElementById("vid-show"),
+         snapshot = document.getElementById("snapshot"),
+         take = document.getElementById("vid-take");
+
+      // [2] ASK FOR USER PERMISSION TO ACCESS CAMERA
+      // WILL FAIL IF NO CAMERA IS ATTACHED TO COMPUTER
+      navigator.mediaDevices.getUserMedia({ video: true })
+         .then(function (stream) {
+            // [3] SHOW VIDEO STREAM ON VIDEO TAG
+            video.srcObject = stream;
+            video.play();
+
+            // [4] WHEN WE CLICK ON "TAKE PHOTO" BUTTON
+            take.addEventListener("click", function () {
+               // Create snapshot from video
+               var draw = document.createElement("canvas");
+               draw.width = video.videoWidth;
+               draw.height = video.videoHeight;
+               var context2D = draw.getContext("2d");
+               context2D.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+               // Upload to server
+               draw.toBlob(function (blob) {
+                  var data = new FormData();
+                  data.append('upimage', blob);
+                  var xhr = new XMLHttpRequest();
+                  xhr.open('POST', "/candidate/snapshot", true);
+                  xhr.onload = function () {
+                     if (xhr.status == 403 || xhr.status == 404) {
+                        alert("Error Loading Photo");
+                     } else {
+                        document.getElementById("PicFile").value = this.response;
+                        //calert(this.response);
+                        var img = document.createElement("img");
+                        img.src = "/candidates/" + this.response;
+                        img.width = 120;
+                        img.height = 80;
+                        snapshot.appendChild(img);
+
+                     }
+                  };
+                  xhr.send(data);
+               });
+            });
+         })
+         .catch(function (err) {
+            document.getElementById("vid-controls").innerHTML = "Please enable access and attach a camera";
+         });
+   });
+
+
+</script>
+
+@model Candidate
+
+   <div class="row">
+      <div class="offset-sm-2 col-sm-4">
+         <h2>New Candidate</h2>
+      </div>
+   </div>
+
+   <div class="row">
+      <div class="col-sm-6">
+         <form asp-controller="Candidate"
+               asp-action="Create"
+               method="post" enctype="multipart/form-data">
+
+            <div class="form-group row">
+               <label class="control-label col-sm-2" asp-for="RegNo">Reg# :</label>
+               <div class="col-sm-8">
+                  <input asp-for="RegNo" class="form-control" />
+               </div>
+            </div>
+
+            <div class="form-group row">
+               <label class="control-label col-sm-2" asp-for="CName">Name :</label>
+               <div class="col-sm-8">
+                  <input asp-for="CName" class="form-control" />
+               </div>
+            </div>
+
+            <div class="form-group row">
+               <label class="control-label col-sm-2" asp-for="Height">Height :</label>
+               <div class="col-sm-8">
+                  <input asp-for="Height" class="form-control" />
+               </div>
+            </div>
+
+            <div class="form-group row">
+               <label class="control-label col-sm-2" asp-for="BirthDate">BirthDate :</label>
+               <div class="col-sm-8">
+                  <input type="text" asp-for="BirthDate" class="form-control" placeholder="YYYY-MM-DD" />
+               </div>
+            </div>
+
+            <div class="form-group row">
+               <label class="control-label col-sm-2" asp-for="Gender">Gender:</label>
+               <div class="col-sm-8">
+                  <div class="form-check form-check-inline">
+                     <input type="radio" class="form-check-input" id="rbfemale"
+                            asp-for="Gender" value="F" />
+                     <label class="form-check-label" for="rbfemale">Female</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                     <input type="radio" class="form-check-input" id="rbmale"
+                            asp-for="Gender" value="M" />
+                     <label class="form-check-label" for="rbmale">Male</label>
+                  </div>
+               </div>
+            </div>
+
+            <div class="form-group row">
+               <label class="control-label col-sm-2" asp-for="Race">Race:</label>
+               <div class="col-sm-8">
+                  <select asp-for="Race" class="form-control">
+                     <option value="">-- Select --</option>
+                     <option value="CH">Chinese</option>
+                     <option value="MA">Malay </option>
+                     <option value="IN">Indian</option>
+                     <option value="OT">Others</option>
+                  </select>
+               </div>
+            </div>
+
+            <div class="form-group row">
+               <label class="control-label col-sm-2" asp-for="Clearance">Clearance:</label>
+               <div class="col-sm-8">
+                  <div class="form-check">
+                     <input type="checkbox" class="form-check-input"
+                            asp-for="Clearance" />
+                     <label class="form-check-label" asp-for="Clearance">
+                        Completed
+                     </label>
+                  </div>
+               </div>
+            </div>
+
+            <div class="form-group row">
+               <label class="control-label col-sm-2" asp-for="PicFile">Photo:</label>
+               <div class="col-sm-8">
+                  <input type="text" hidden asp-for="PicFile" class="form-control" />
+                  <div id="snapshot" class="form-group row"></div>
+                  </div>
+               </div>
+
+            <div class="form-group row">
+               <div class="offset-sm-2 col-sm-8">
+                  <input type="submit" value="Add" class="btn btn-primary" />
+               </div>
+            </div>
+
+            <div class="form-group row">
+               <div class="offset-sm-2 col-sm-8">
+                  <div asp-validation-summary="All" class="text-danger"></div>
+               </div>
+            </div>
+
+            @if (ViewData["Message"] != null)
+            {
+               <div class="form-group row">
+                  <div class="offset-sm-2 col-sm-8">
+                     <div class="alert alert-@ViewData["MsgType"]">
+                        <text>@ViewData["Message"]</text>
+                     </div>
+                  </div>
+               </div>
+            }
+         </form>
+
+      </div>
+
+
+      <div class="col-sm-6">
+         <div id="vid-controls" class="form-group row">
+            <video id="vid-show" autoplay width="240" height="320"></video>
+            <div id="vid-canvas"></div>
+         </div>
+         <div class="form-group row">
+            <input id="vid-take" type="button" value="Take Photo" class="btn btn-info" />
+         </div>
+      </div>
+
+   
+
+

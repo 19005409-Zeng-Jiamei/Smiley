@@ -1,0 +1,55 @@
+﻿@model List<string[]>
+
+@section MoreScripts {
+    <link href="~/lib/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#JSFeedbackTable').DataTable({
+                ordering: true,
+                paging: true,
+                searching: true,
+                info: true,
+                lengthChange: true,
+                pageLength: 10
+            });
+        });
+    </script>
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-@TempData["MsgType"]">
+        @TempData["Message"]
+    </div>
+}
+
+<h2>Feedbacks</h2>
+
+<table class="table table-condensed table-hover" @*id="JSFeedbackTable"*@ style=" background-color: #2F2FA2; color: white;">
+    <thead>
+        <tr>
+            <th>Gesture</th>
+            <th>TimeStamp</th>
+            <th>Sensor ID</th>
+            <th>Feedback Type</th>
+            @*<th>&nbsp;</th>*@
+        </tr>
+    </thead>
+    @foreach (string[] feedbackRow in TempData["Feedbacks"] as List<string[]>)
+    {
+        <tr>
+            <td>@feedbackRow[0]</td>
+            <td>@feedbackRow[1]</td>
+            <td>@feedbackRow[2]</td>
+            <td>@feedbackRow[3]</td>
+            @*<td>
+                    <a asp-controller="Feedback"
+                       asp-action="Delete"
+                       asp-route-id="@user.smiley_user_id"
+                       onclick="return confirm('Delete User [@user.full_name]')">Delete</a>
+                </td>*@
+        </tr>
+    }
+</table>

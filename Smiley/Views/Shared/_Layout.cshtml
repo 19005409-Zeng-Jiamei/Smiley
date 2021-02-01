@@ -7,10 +7,15 @@
     <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="~/lib/jquery/jquery.validate.min.js"></script>
     <script src="~/lib/jquery/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://kit.fontawesome.com/4a3e78d515.js" crossorigin="anonymous"></script>
+    @RenderSection("MoreScripts", false)
 </head>
 <body>
     <div class="container">
         @RenderBody()
+    </div>
+    <div>
+        &nbsp;
     </div>
 </body>
 </html>

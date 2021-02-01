@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Data;
 using System.Security.Claims;
@@ -20,94 +18,18 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Smiley.Controllers
 {
-    public class AccountController : Controller
+    public class CustomerController : Controller
     {
-        private const string LOGIN_SQL =
-           @"SELECT * FROM SmileyUser 
-            WHERE smiley_user_id = '{0}' 
-              AND smiley_user_pw = HASHBYTES('SHA1', '{1}')";
-
-        private const string LASTLOGIN_SQL =
-           @"UPDATE SmileyUser SET last_login=GETDATE() WHERE smiley_user_id ='{0}'";
-
-        private const string ROLE_COL = "smiley_user_role";
-        private const string NAME_COL = "full_name";
-
-        private const string REDIRECT_CNTR = "Feedback";
-        private const string REDIRECT_ACTN = "Index";
-
-        private const string LOGIN_VIEW = "Login";
-
-        [AllowAnonymous]
-        public IActionResult Login(string returnUrl = null)
-        {
-            TempData["ReturnUrl"] = returnUrl;
-            return View(LOGIN_VIEW);
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        public IActionResult Login(UserLogin user)
-        {
-            if (!AuthenticateUser(user.UserID, user.Password, out ClaimsPrincipal principal))
-            {
-                ViewData["Message"] = "Incorrect User ID or Password";
-                ViewData["MsgType"] = "warning";
-                return View(LOGIN_VIEW);
-            }
-            else
-            {
-                HttpContext.SignInAsync(
-                   CookieAuthenticationDefaults.AuthenticationScheme,
-                   principal);
-
-                // Update the Last Login Timestamp of the User
-                DBUtl.ExecSQL(LASTLOGIN_SQL, user.UserID);
-
-                if (TempData["returnUrl"] != null)
-                {
-                    string returnUrl = TempData["returnUrl"].ToString();
-                    if (Url.IsLocalUrl(returnUrl))
-                        return Redirect(returnUrl);
-                }
-
-                return RedirectToAction(REDIRECT_ACTN, REDIRECT_CNTR);
-            }
-        }
 
         [Authorize]
-        public IActionResult Logoff(string returnUrl = null)
-        {
-            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            if (Url.IsLocalUrl(returnUrl))
-                return Redirect(returnUrl);
-            return RedirectToAction(LOGIN_VIEW);
-        }
-
-        [Authorize]
-        public IActionResult Profile(string returnUrl = null)
+        public IActionResult ViewCustomers(string returnUrl = null)
         {
 
-            return View();
-        }
-
-        [Authorize]
-        public IActionResult Users(string returnUrl = null)
-        {
-            string role = User.FindFirst(ClaimTypes.Role).Value;
-            List<User> list = new List<User>();
-            if (role.Equals("admin"))
-            {
-                list = DBUtl.GetList<User>("SELECT * FROM SmileyUser");
-            }
-            else if (role.Equals("owner"))
-            {
-                list = DBUtl.GetList<User>("SELECT * FROM SmileyUser WHERE smiley_user_role='user'");
-            }
+            List<User> list = DBUtl.GetList<User>("SELECT * FROM SmileyCustomer");
 
             return View(list);
         }
@@ -115,11 +37,11 @@ namespace Smiley.Controllers
         [Authorize(Roles = "owner,admin")]
         public IActionResult Delete(string id)
         {
-            string delete = "DELETE FROM SmileyUser WHERE smiley_user_id='{0}'";
+            string delete = "DELETE FROM SmileyCustomer WHERE customer_id='{0}'";
             int res = DBUtl.ExecSQL(delete, id);
             if (res == 1)
             {
-                TempData["Message"] = "User Record Deleted";
+                TempData["Message"] = "Customer Record Deleted";
                 TempData["MsgType"] = "success";
             }
             else
@@ -128,31 +50,129 @@ namespace Smiley.Controllers
                 TempData["MsgType"] = "danger";
             }
 
-            return RedirectToAction("Users");
+            return RedirectToAction("ViewCustomers");
         }
 
-        private bool AuthenticateUser(string uid, string pw, out ClaimsPrincipal principal)
+        [Authorize(Roles = "owner, admin")]
+        public IActionResult Update(int id)
         {
-            principal = null;
+            List<Customer> editedCustomer = new List<Customer>();
 
-            DataTable ds = DBUtl.GetTable(LOGIN_SQL, uid, pw);
-            if (ds.Rows.Count == 1)
+
+            string sql = @"SELECT * FROM SmileyCustomer
+                         WHERE customer_id={0}";
+            editedCustomer = DBUtl.GetList<Customer>(sql, id);
+
+            if (editedCustomer.Count != 1)
             {
-                principal =
-                   new ClaimsPrincipal(
-                      new ClaimsIdentity(
-                         new Claim[] {
-                        new Claim(ClaimTypes.NameIdentifier, uid),
-                        new Claim(ClaimTypes.Name, ds.Rows[0][NAME_COL].ToString()),
-                        new Claim(ClaimTypes.Role, ds.Rows[0][ROLE_COL].ToString())
-                         }, "Basic"
-                      )
-                   );
+                TempData["Message"] = "Customer Record does not exist";
+                TempData["MsgType"] = "warning";
 
-                return true;
+                return RedirectToAction("ViewCustomers");
             }
-            return false;
+            else
+            {
+                Customer custom = editedCustomer[0];
+                return View(custom);
+            }
         }
+
+        public IActionResult Update(Customer customer)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewData["Message"] = "Invalid Input";
+                ViewData["MsgType"] = "danger";
+                return View("Update", customer);
+            }
+            else
+            {
+
+                string sql = @"UPDATE SmileyCustomer SET customer_name='{1}', surname='{2}', email='{3}', membership='{4}', customer_picfile='{5}' WHERE customer_id={0} ";
+
+                if (DBUtl.ExecSQL(sql, customer.customer_id, customer.customer_name, customer.surname, customer.email, customer.membership, customer.picfile) == 1)
+                {
+                    TempData["Message"] = "Customer Updated";
+                    TempData["MsgType"] = "success";
+                }
+                else
+                {
+                    TempData["Message"] = DBUtl.DB_Message;
+                    TempData["MsgType"] = "danger";
+                }
+
+                return RedirectToAction("ViewCustomers");
+            }
+
+        }
+
+        [Authorize(Roles = "owner, admin")]
+        public IActionResult NewCustomer()
+        {
+
+            List<String> memberList = new List<String>();
+            memberList.Add("Bronze");
+            memberList.Add("Silver");
+            memberList.Add("Gold");
+            ViewData["membershipList"] = memberList;
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult NewSensor(Customer customer)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewData["Message"] = "Invalid Input";
+                ViewData["MsgType"] = "warning";
+                return View("NewSensor");
+            }
+            else
+            {
+                string insert =
+                   @"INSERT INTO SmileyCustomer(customer_name, surname, email, membership, signup_date) VALUES ('{0}', '{1}', '{2}', '{3}', CURDATE())";
+
+                if (DBUtl.ExecSQL(insert, customer.customer_name, customer.surname, customer.email, customer.membership) == 1)
+                {                 
+
+                    String newCustEmail = customer.email;
+
+                    string template = @"Hey {0} {1},<br/><br/>
+                               Welcome to Smiley. You are now registered as a {2} Smiley Customer!
+                               <br/><br/>Cheers!<br/>Smiley :)";
+                    string title = "Welcome to Smiley!";
+
+                    string message = String.Format(template, customer.customer_name, customer.surname, customer.membership);
+
+                    string result = "";
+
+                    bool outcome = false;
+
+                    outcome = EmailUtl.SendEmail(newCustEmail, title, message, out result);
+                    if (outcome)
+                    {
+                        TempData["Message"] = "Customer Successfully Added.";
+                        TempData["MsgType"] = "success";
+                    }
+                    else
+                    {
+                        TempData["Message"] = result;
+                        TempData["MsgType"] = "warning";
+                    }
+
+                    return RedirectToAction("ViewCustomers");
+                }
+                else
+                {
+                    ViewData["Message"] = DBUtl.DB_Message;
+                    ViewData["MsgType"] = "danger";
+                    return View("NewCustomer");
+                }
+            }
+        }
+
+
         public async Task<string> Test()
         {
             var personGroupId = "c200y2019";
@@ -184,11 +204,6 @@ namespace Smiley.Controllers
             }
 
             return "";
-        }
-
-        public IActionResult FaceLogin()
-        {
-            return View();
         }
 
         public async Task<string> FaceLogin(IFormFile upimage)

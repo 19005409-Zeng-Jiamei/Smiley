@@ -1,61 +1,50 @@
-﻿<div class="collapse navbar-collapse" id="navbarSupportedContent">
+﻿<a class="navbar-brand" asp-controller="Feedback" asp-action="Performance">
+    <p style="font-family: Lucida Handwriting, cursive; font-size: 30px; color:white">Smiley</p>
+</a>
 
-    <div class="navbar">
-
-        <!--For records-->
-        <div class="dropdown">
-            <button class="dropbtn">
-                Records
-                <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-                <a class="nav-link" asp-controller="Home" asp-action="RetrievePrediction">All predictions</a>
-                <a class="nav-link" asp-controller="Home" asp-action="RetrieveFacility">All Facilities</a>
-                <a class="nav-link" asp-controller="Home" asp-action="RetrieveUser">All Users</a>
-            </div>
-        </div>
-
-        <div class="dropdown">
-            <button class="dropbtn">
-                Records
-                <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-                <a class="nav-link" asp-controller="Home" asp-action="MyTrips">Link 1</a>
-                <a class="nav-link" asp-controller="Home" asp-action="MyTrips">Link 1</a>
-                <a class="nav-link" asp-controller="Home" asp-action="MyTrips">Link 1</a>
-            </div>
-        </div>
-
-        <div class="dropdown">
-            <button class="dropbtn">
-                Records
-                <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-                <a class="nav-link" asp-controller="Home" asp-action="MyTrips">Link 1</a>
-                <a class="nav-link" asp-controller="Home" asp-action="MyTrips">Link 1</a>
-                <a class="nav-link" asp-controller="Home" asp-action="MyTrips">Link 1</a>
-            </div>
-        </div>
-
-
-        <ul class="nav navbar-nav ml-auto">
-            <li>
-                <p class="navbar-text">
-                    Welcome @User.Identity.Name<br />
-                </p>
-            </li>
-            <li>
-                <a class="nav-link" asp-controller="Account" asp-action="Logoff">
-                    <i class="fa fa-sign-out"></i>
-                    Logout
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="nav navbar-nav ml-auto">
+        <li>
+            <a class="nav-link" asp-controller="Feedback" asp-action="Index">
+                <i class="fas fa-home" style="color:white"></i>
+            </a>
+        </li>
+        <li>
+            <a class="nav-link" asp-controller="Sensor" asp-action="AllSensors">
+                <i class="fas fas fa-video" style="color:white"></i>
+            </a>
+        </li>
+        <li>
+            <a class="nav-link" asp-controller="Account" asp-action="Users">
+                <i class="fas fa-user-friends" style="color:white"></i>
+            </a>
+        </li>
+        <li class="nav-item dropdown">
+            
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-user-alt" style="color:white"></i>
+            </a>
+            
+            <div class="dropdown-menu dropdown-menu-sm-right" aria-labelledby="navbarDropdown" style="background-color:#F64C72;">
+                
+                <a class="dropdown-item" href="#" style="color:white">
+                    <i class="fas fa-user-circle"></i>  Profile
                 </a>
-            </li>
-            <li>
-                &nbsp;&nbsp;&nbsp;
-            </li>
-        </ul>
-    </div>
+                
+                <a class="dropdown-item" href="#" style="color:white">
+                    <i class="fa fa-gear"></i>  Settings
+                </a>
+            
+                <div class="dropdown-divider" style="color:white"></div>
 
+                <a class="nav-link text-center" asp-controller="Account" asp-action="Logoff" style="color: white">
+                    Log Out
+                </a>
+
+            </div>
+        </li>
+        <li>
+            &nbsp;&nbsp;&nbsp;
+        </li>
+    </ul>
 </div>

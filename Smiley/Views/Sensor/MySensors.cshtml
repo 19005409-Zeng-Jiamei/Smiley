@@ -1,4 +1,23 @@
-﻿@model List<Facility>
+﻿@model List<Sensor>
+
+@section MoreScripts {
+    <link href="~/lib/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#JSSensorTable').DataTable({
+                ordering: true,
+                paging: true,
+                searching: true,
+                info: true,
+                lengthChange: true,
+                pageLength: 10
+            });
+        });
+    </script>
+}
+
 
 @if (TempData["Message"] != null)
 {
@@ -8,49 +27,50 @@
 }
 
 <h2>My Sensors</h2>
-<table class="table table-condensed table-hover">
-    <tr>
-        <th>Sensor ID</th>
-        <th>Facility Type</th>
-        <th>Location Name</th>
-        <th>Address</th>
-        <th>Operation Hour</th>
-        <th>Status</th> 
-        <th>&nbsp;</th>
-    </tr>
+<table class="table table-condensed table-hover" @*id="JSSensorTable" *@>
+    <thead>
+        <tr>
+            <th>Sensor ID</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Status</th>
+            <th>Building ID</th>
 
-    @foreach (Facility sensor in Model)
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    @foreach (Sensor sensor in Model)
     {
         <tr>
             <td>@sensor.sensor_id</td>
-            <td>@sensor.facility_type</td>
-            <td>@sensor.location_name</td>
-            <td>@sensor.address</td>
-            <td>@sensor.operation_hour</td>
+            <td>@sensor.start_time.ToString("HH:mm")</td>
+            <td>@sensor.end_time.ToString("HH:mm")</td>
             <td>
-                @{string icon = "fas fa-lightbulb"; 
-                    List<String> stats = new List<string>() { "Off", "on" };
-                    if (sensor.status)
+                @{string icon = "fas fa-lightbulb";
+                    List<String> stats = new List<string>() { "Off   ", "on" };
+                    if (sensor.sensor_status == 1)
                     {
                         icon = "far fa-lightbulb";
-                        stats = new List<string>() { "On", "off" };
+                        stats = new List<string>() { "On   ", "off" };
                     }
                 }
-                @stats[0]
+
                 <a asp-controller="Sensor"
                    asp-action="UpdateStatus"
-                   asp-route-id="@sensor.smiley_user_id"
-                   onclick="return confirm('Turn @stats[1] Sensor @sensor.sensor_id')">
-                    <i class=@icon></i>
+                   asp-route-id="@sensor.sensor_id"
+                   onclick="return confirm('Turn @stats[1] Sensor @sensor.sensor_id')" style="color:white">
+                    @stats[0] <i class='@icon'></i>
                 </a>
             </td>
+            <td>@sensor.location_id</td>
             <td>
                 <a asp-controller="Sensor" asp-action="Update" asp-route-id="@sensor.smiley_user_id">
                     <i class="fas fa-pencil-alt"></i>
                 </a>
+                |
                 <a asp-controller="Sensor"
                    asp-action="Delete"
-                   asp-route-id="@sensor.smiley_user_id"
+                   asp-route-id="@sensor.sensor_id"
                    onclick="return confirm('Delete Sensor [@sensor.sensor_id]')">
                     <i class="fas fa-trash-alt"></i>
                 </a>

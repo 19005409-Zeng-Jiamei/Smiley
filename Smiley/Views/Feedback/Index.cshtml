@@ -1,11 +1,97 @@
-﻿@{
-    ViewData["Title"] = "Index";
-    Layout = "_Smiley";
+﻿@section MoreScripts
+{
+    <script language="javascript">
+            new Chart(document.getElementById("chart"), {
+                type: '@ViewData["Chart"]', data: {
+                    labels: @Json.Serialize(ViewData["Labels"]),
+                    datasets: [{
+                        label: '@ViewData["Legend"]',
+                        data: @Json.Serialize(ViewData["Colors"]),
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    legend: {
+                        display: @ViewData["ShowLegend"]
+                        },
+                    title: {
+                        display: true,
+                        text: '@ViewData["Title1"]'
+                    }
+                }
+            });
+    </script>
 
+    @*<script language="javascript">
+            $(document).ready(function () {
+                new Chart(document.getElementById("chart2"), {
+                    type: '@ViewData["Chart"]', data: {
+                        labels: @Json.Serialize(ViewData["Labels"]),
+                        datasets: [{
+                            label: '@ViewData["Legend"]',
+                            data: @Json.Serialize(ViewData["Colors"]),
+                            fill: false
+                        }]
+                    },
+                    options: {
+                        responsive: false,
+                        legend: {
+                            display: @ViewData["ShowLegend"]
+                            },
+                        title: {
+                            display: true,
+                            text: '@ViewData["Title2"]'
+                        }
+                    }
+                });
+            });
+        </script>*@
+
+    <script>
+        var canvas = document.getElementById("chart2");
+        var ctx = canvas.getContext('2d');
+
+        // Global Options:
+        Chart.defaults.global.defaultFontColor = 'black';
+        Chart.defaults.global.defaultFontSize = 16;
+
+        var data = {
+            labels: @Json.Serialize(ViewData["Labels"]),
+            datasets: [
+                {
+                    label: '@ViewData["Legend"]',
+                    data: @Json.Serialize(ViewData["Colors"]),
+                    fill: true,
+                }
+            ]
+        };
+
+        // Notice the rotation from the documentation.
+
+        var options = {
+             responsive: false,
+                    legend: {
+                        display: @ViewData["ShowLegend"]
+                        },
+                    title: {
+                        display: true,
+                        text: '@ViewData["Title2"]'
+                    }
+        };
+
+
+        // Chart declaration:
+        var chart2 = new Chart(ctx, {
+            type: '@ViewData["Chart"]',
+            data: data,
+            options: options
+        });
+    </script>
 }
 
-<body>
-   
+<canvas id="chart" width="800" height="450"></canvas>
+<canvas id="chart2" width="800" height="450"></canvas>
 
 
-</body>
+
