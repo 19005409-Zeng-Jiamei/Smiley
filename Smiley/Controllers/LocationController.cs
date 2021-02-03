@@ -26,12 +26,12 @@ namespace Smiley.Controllers
         {
             List<SelectListItem> Buildlist = DBUtl.GetList<SelectListItem>(
                 @"SELECT DISTINCT
-                Chamber as Value,
-                Chamber as Text
-                FROM Performance 
-                ORDER BY Chamber"
+                building_id as Value,
+                building_name as Text
+                FROM Building 
+                ORDER BY building_name"
                 );
-            ViewData["ChamberList"] = Clist;
+            ViewData["BuildingList"] = Buildlist;
 
             return View();
         }
@@ -67,45 +67,45 @@ namespace Smiley.Controllers
             }
         }
 
-        [Authorize(Roles = "manager")]
+        [Authorize(Roles = "owner, admin")]
         public IActionResult Update(int id)
         {
-            List<SelectListItem> Clist = DBUtl.GetList<SelectListItem>(
+            List<SelectListItem> Buildlist = DBUtl.GetList<SelectListItem>(
                 @"SELECT DISTINCT
-                Chamber as Value,
-                Chamber as Text
-                FROM Performance 
-                ORDER BY Chamber"
+                building_id as Value,
+                building_name as Text
+                FROM Building 
+                ORDER BY building_name"
                 );
-            ViewData["ChamberList"] = Clist;
+            ViewData["BuildingList"] = Buildlist;
 
-            List<SelectListItem> Dlist = new List<SelectListItem>
-            {
-                new SelectListItem("0.5","0.5"),new SelectListItem("1","1"),
-                new SelectListItem("1.5","1.5"),new SelectListItem("2","2"),
-                new SelectListItem("2.5","2.5"),new SelectListItem("3","3"),
-                new SelectListItem("3.5","3.5"),new SelectListItem("4","4"),
-            };
-            ViewData["DurationList"] = Dlist;
+            List<SelectListItem> LocaTypelist = DBUtl.GetList<SelectListItem>(
+                @"SELECT DISTINCT
+                location_type as Value,
+                location_type as Text
+                FROM Exact_Location 
+                ORDER BY location_type"
+                );
+            ViewData["LocationTypeList"] = LocaTypelist;
 
 
-            string select = "SELECT * FROM Performance WHERE Pid='{0}'";
-            List<Performance> list = DBUtl.GetList<Performance>(select, id);
+            string select = "SELECT * FROM Exact_Location WHERE location_id='{0}'";
+            List<Location> list = DBUtl.GetList<Location>(select, id);
             if (list.Count == 1)
             {
                 return View(list[0]);
             }
             else
             {
-                TempData["Message"] = "Performance record does not exist";
+                TempData["Message"] = "Location record does not exist";
                 TempData["MsgType"] = "warning";
-                return RedirectToAction("Index");
+                return RedirectToAction("ViewLocations");
             }
         }
 
-        [Authorize(Roles = "manager")]
+        [Authorize(Roles = "owner, admin")]
         [HttpPost]
-        public IActionResult Update(Performance perform)
+        public IActionResult Update(Location loca)
         {
             if (!ModelState.IsValid)
             {
@@ -116,12 +116,12 @@ namespace Smiley.Controllers
             else
             {
                 string update =
-                   @"UPDATE Performance
-                    SET Title='{1}', Artist='{2}', PerformDT='{3:yyyy-MM-dd HH:mm}', Duration={4}, Price={5}, Chamber='{6}' WHERE Pid='{0}'";
-                int res = DBUtl.ExecSQL(update, perform.Pid, perform.Title, perform.Artist, perform.PerformDT, perform.Duration, perform.Price, perform.Chamber);
+                   @"UPDATE Exact_Location
+                    SET location_name='{1}', location_type='{2}', location_address='{3}', building_id={4} WHERE Pid='{0}'";
+                int res = DBUtl.ExecSQL(update, loca.location_id, loca.location_name, loca.location_type, loca.location_address, loca.building_id);
                 if (res == 1)
                 {
-                    TempData["Message"] = "Performance Updated";
+                    TempData["Message"] = "Location Updated";
                     TempData["MsgType"] = "success";
                 }
                 else
@@ -129,27 +129,27 @@ namespace Smiley.Controllers
                     TempData["Message"] = DBUtl.DB_Message;
                     TempData["MsgType"] = "danger";
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("ViewLocations");
             }
         }
 
-        [Authorize(Roles = "manager")]
+        [Authorize(Roles = "owner, admin")]
         public IActionResult Delete(int id)
         {
-            string select = @"SELECT * FROM Performance WHERE Pid={0}";
+            string select = @"SELECT * FROM Exact_Location WHERE location_id={0}";
             DataTable ds = DBUtl.GetTable(select, id);
             if (ds.Rows.Count != 1)
             {
-                TempData["Message"] = "Performance does not exist";
+                TempData["Message"] = "Location does not exist";
                 TempData["MsgType"] = "warning";
             }
             else
             {
-                string delete = "DELETE FROM Performance WHERE Pid={0}";
+                string delete = "DELETE FROM Exact_Location WHERE location_id={0}";
                 int res = DBUtl.ExecSQL(delete, id);
                 if (res == 1)
                 {
-                    TempData["Message"] = "Performance Deleted";
+                    TempData["Message"] = "Location Deleted";
                     TempData["MsgType"] = "success";
                 }
                 else
@@ -158,7 +158,7 @@ namespace Smiley.Controllers
                     TempData["MsgType"] = "danger";
                 }
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("ViewLocations");
         }
 
     }

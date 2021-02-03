@@ -35,7 +35,7 @@
 	  <None Include="Views\Feedback\Index.cshtml" />
 	  <None Include="Views\Feedback\MyFeedbacks.cshtml" />
 	  <None Include="Views\Location\Create.cshtml" />
-	  <None Include="Views\Location\List.cshtml" />
+	  <None Include="Views\Location\ViewLocations.cshtml" />
 	  <None Include="Views\Location\Update.cshtml" />
 	  <None Include="Views\Shared\SmileyAdmin.cshtml" />
 	  <None Include="Views\Shared\SmileyGuest.cshtml" />
