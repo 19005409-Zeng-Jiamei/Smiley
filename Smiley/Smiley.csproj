@@ -1,19 +1,80 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>d61c81ae-b71e-4d15-b1b7-dbceca80b56f</UserSecretsId>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<UserSecretsId>d61c81ae-b71e-4d15-b1b7-dbceca80b56f</UserSecretsId>
+	</PropertyGroup>
 
-  <ItemGroup>
-	  <PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.Face" Version="2.6.0-preview.1" />
-	<PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
-	  <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.Face" Version="2.6.0-preview.1" />
+		<PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+		<PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+		<PackageReference Include="ZXing.Net" Version="0.16.5" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\customers\" />
-    <Folder Include="wwwroot\smileyUsers\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="wwwroot\customers\" />
+		<Folder Include="wwwroot\smileyUsers\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="Views\Account\Create.cshtml" />
+	  <None Include="Views\Account\FaceLogin.cshtml" />
+	  <None Include="Views\Account\Login.cshtml" />
+	  <None Include="Views\Account\Profile.cshtml" />
+	  <None Include="Views\Account\Update.cshtml" />
+	  <None Include="Views\Account\Users.cshtml" />
+	  <None Include="Views\Building\Create.cshtml" />
+	  <None Include="Views\Building\Update.cshtml" />
+	  <None Include="Views\Building\ViewBuildings.cshtml" />
+	  <None Include="Views\Customer\Create.cshtml" />
+	  <None Include="Views\Customer\Update.cshtml" />
+	  <None Include="Views\Customer\ViewAll.cshtml" />
+	  <None Include="Views\Customer\ViewCustomers.cshtml" />
+	  <None Include="Views\Feedback\Index.cshtml" />
+	  <None Include="Views\Feedback\MyFeedbacks.cshtml" />
+	  <None Include="Views\Location\Create.cshtml" />
+	  <None Include="Views\Location\List.cshtml" />
+	  <None Include="Views\Location\Update.cshtml" />
+	  <None Include="Views\Shared\SmileyAdmin.cshtml" />
+	  <None Include="Views\Shared\SmileyGuest.cshtml" />
+	  <None Include="Views\Shared\SmileyOwner.cshtml" />
+	  <None Include="Views\Shared\SmileyUser.cshtml" />
+	  <None Include="Views\Shared\_Layout.cshtml" />
+	  <None Include="Views\Shared\_Smiley.cshtml" />
+	  <None Include="wwwroot\lib\bootstrap\js\bootstrap.min.js" />
+	  <None Include="wwwroot\lib\chartjs\Chart.min.js" />
+	  <None Include="wwwroot\lib\chartjs\chartjs-plugin-labels.min.js" />
+	  <None Include="wwwroot\lib\datatables\js\jquery.dataTables.min.js" />
+	  <None Include="wwwroot\lib\dtpicker\js\tempusdominus-bootstrap-4.min.js" />
+	  <None Include="wwwroot\lib\font-awesome\js\all.js" />
+	  <None Include="wwwroot\lib\font-awesome\js\all.min.js" />
+	  <None Include="wwwroot\lib\font-awesome\js\brands.js" />
+	  <None Include="wwwroot\lib\font-awesome\js\brands.min.js" />
+	  <None Include="wwwroot\lib\font-awesome\js\conflict-detection.js" />
+	  <None Include="wwwroot\lib\font-awesome\js\conflict-detection.min.js" />
+	  <None Include="wwwroot\lib\font-awesome\js\fontawesome.js" />
+	  <None Include="wwwroot\lib\font-awesome\js\fontawesome.min.js" />
+	  <None Include="wwwroot\lib\font-awesome\js\regular.js" />
+	  <None Include="wwwroot\lib\font-awesome\js\regular.min.js" />
+	  <None Include="wwwroot\lib\font-awesome\js\solid.js" />
+	  <None Include="wwwroot\lib\font-awesome\js\solid.min.js" />
+	  <None Include="wwwroot\lib\font-awesome\js\v4-shims.js" />
+	  <None Include="wwwroot\lib\font-awesome\js\v4-shims.min.js" />
+	  <None Include="wwwroot\lib\font-awesome\sprites\brands.svg" />
+	  <None Include="wwwroot\lib\font-awesome\sprites\regular.svg" />
+	  <None Include="wwwroot\lib\font-awesome\sprites\solid.svg" />
+	  <None Include="wwwroot\lib\font-awesome\webfonts\fa-brands-400.svg" />
+	  <None Include="wwwroot\lib\font-awesome\webfonts\fa-brands-400.woff2" />
+	  <None Include="wwwroot\lib\font-awesome\webfonts\fa-regular-400.svg" />
+	  <None Include="wwwroot\lib\font-awesome\webfonts\fa-regular-400.woff2" />
+	  <None Include="wwwroot\lib\font-awesome\webfonts\fa-solid-900.svg" />
+	  <None Include="wwwroot\lib\font-awesome\webfonts\fa-solid-900.woff2" />
+	  <None Include="wwwroot\lib\jquery\jquery.min.js" />
+	  <None Include="wwwroot\lib\jquery\jquery.validate.min.js" />
+	  <None Include="wwwroot\lib\jquery\jquery.validate.unobtrusive.min.js" />
+	  <None Include="wwwroot\lib\moment\moment.min.js" />
+	</ItemGroup>
 
 </Project>

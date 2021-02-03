@@ -1,0 +1,89 @@
+﻿@model Customer;
+
+@section MoreScripts {
+    <script src="~/lib/moment/moment.min.js"></script>
+    <link href="~/lib/dtpicker/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <script src="~/lib/dtpicker/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <script language="javascript">
+        $(document).ready(function () {
+            $('#JSPerformDT')
+                .datetimepicker({
+                    format: 'YYYY-MM-DD HH:mm',
+                    defaultDate: '@DateTime.Now.AddDays(14)', sideBySide: true
+                });
+        });
+    </script>
+}
+
+<form asp-controller="Customer" asp-action="Update"
+      method="post">
+
+    <div class="form-group row">
+        <div class="offset-sm-2 col-sm-6 ">
+            <h2>Update Customer</h2> @*Input Name*@
+        </div>
+    </div>
+
+    <input asp-for="customer_id" hidden />
+
+    <div class="form-group row">
+        <label class="control-label col-sm-2" asp-for="customer_name">Name: </label>
+        <div class="col-sm-4">
+            <input type="text" asp-for="customer_name" class="form-control" />
+        </div>
+        <div class="col-sm-3">
+            <span asp-validation-for="customer_name" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="control-label col-sm-2" asp-for="surname">Surname: </label>
+        <div class="col-sm-4">
+            <input type="text" asp-for="surname" class="form-control" />
+        </div>
+        <div class="col-sm-3">
+            <span asp-validation-for="surname" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="control-label col-sm-2" asp-for="email">Email: </label>
+        <div class="col-sm-4">
+            <input type="text" asp-for="email" class="form-control" />
+        </div>
+        <div class="col-sm-3">
+            <span asp-validation-for="email" class="text-danger"></span>
+        </div>
+    </div>
+
+    @{
+        List<SelectListItem> memberList = ViewData["MembershipList"] as List<SelectListItem>;
+    }
+    <div class="form-group row">
+        <label class="control-label col-sm-2" asp-for="membership">Membership: </label>
+        <div class="col-sm-4">
+            <select asp-for="membership" class="form-group" asp-items="memberList"></select>
+        </div>
+        <div class="col-sm-3">
+            <span asp-validation-for="membership" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="offset-sm-2 col-sm-6">
+            <input type="submit" value="Submit" class="btn btn-primary" />
+        </div>
+    </div>
+
+    @if (ViewData["Message"] != null)
+    {
+        <div class="form-group row">
+            <div class="offset-sm-2 col-sm-6">
+                <div class="alert alert-@ViewData["MsgType"]">
+                    @ViewData["Message"]
+                </div>
+            </div>
+        </div>
+    }
+</form>

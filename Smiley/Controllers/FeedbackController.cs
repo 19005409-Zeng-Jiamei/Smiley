@@ -1,31 +1,29 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Data;
-using System.Security.Claims;
 using Smiley.Models;
 using Microsoft.AspNetCore.Authorization;
-using System.Collections.Generic;
-
+using System.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Smiley.Controllers
 {
     public class FeedbackController : Controller
     {
-        [Authorize]
         public IActionResult Index()
         {
-            PrepareData(0);
-            PrepareData(2);
             ViewData["Chart"] = "pie";
-            ViewData["Title1"] = "Gesture Feedback Summary";
+            PrepareData(0);
+            ViewData["Title0"] = "Gesture Feedback Summary";
+            ViewData["ShowLegend0"] = "true";
+            PrepareData(2);
             ViewData["Title2"] = "Emotion Feedback Summary";
-            ViewData["ShowLegend"] = true;
-            return View();
+            ViewData["ShowLegend2"] = "false";
+            return View("Index");
         }
 
-        [Authorize(Roles = "owner,user")]
         public IActionResult MyFeedbacks()
         {
             TempData["Feedbacks"] = feedbacksGather("owner");
@@ -65,29 +63,20 @@ namespace Smiley.Controllers
             }
 
             string[] colours = new[] { "#F1F0CC", "#C297AB", "#933E89", "#F64C71", "#FDCA40", "#86BBD8", "#563D67", "#BDBF09", "#99728D" };
+            ViewData["Colors"] = colours;
 
-            ViewData["Colours"] = colours;
+            string[] grades = new[] { "A", "B", "C", "D", "F" };
 
-            string[] feedbackGest = new string[] { };
-            if (x == 0)
-            {
-                feedbackGest = new string[] { "Good", "Neutral", "Bad" };
-                ViewData["Data"] = dataGesture;
-                ViewData["Legend"] = "Gestures";
-            }
-            else if (x == 1)
-            {
-                feedbackGest = new string[] { "Open", "Close" };
-                ViewData["Data"] = dataDoor;
-                ViewData["Legend"] = "Door";
-            }
-            else
-            {
-                feedbackGest = new string[] { "Anger", "Anticipation", "Joy", "Trust", "Fear", "Surprise", "Sadness", "Disgust", "Others" };
-                ViewData["Data"] = dataEmotion;
-                ViewData["Legend"] = "Emotions";
-            }
-            ViewData["Labels"] = feedbackGest;
+            ViewData["Labels0"] = new string[] { "Good", "Neutral", "Bad" };
+            ViewData["Data0"] = dataGesture;
+            ViewData["Legend0"] = "Gestures";
+            ViewData["Labels1"] = new string[] { "Open", "Close" };
+            ViewData["Data1"] = dataDoor;
+            ViewData["Legend1"] = "Door";
+            ViewData["Labels2"] = new string[] { "Anger", "Anticipation", "Joy", "Trust", "Fear", "Surprise", "Sadness", "Disgust", "Others" };
+            ViewData["Data2"] = dataEmotion;
+            ViewData["Legend2"] = "Emotions";
+            
         }
 
         private int FeedbackCat(string gesture, string modelname)
@@ -165,8 +154,5 @@ namespace Smiley.Controllers
 
             return feedbackList;
         }
-
-        
-
     }
 }

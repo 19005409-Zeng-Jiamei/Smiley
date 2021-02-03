@@ -10,31 +10,35 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Smiley.Controllers
 {
-    public class SensorController : Controller
+    public class LocationController : Controller
     {
-        [AllowAnonymous]
-        public IActionResult About()
-        {
-            return View();
-        }
 
-        [Authorize(Roles = "manager, member")]
-        public IActionResult Index()
+        [Authorize(Roles = "owner, admin")]
+        public IActionResult ViewLocations()
         {
-            DataTable dt = DBUtl.GetTable("SELECT * FROM Performance");
-            return View("Index", dt.Rows);
+            DataTable dt = DBUtl.GetTable("SELECT * FROM Exact_Location");
+            return View(dt.Rows);
 
         }
 
-        [Authorize(Roles = "manager")]
+        [Authorize(Roles = "owner, admin")]
         public IActionResult Create()
         {
+            List<SelectListItem> Buildlist = DBUtl.GetList<SelectListItem>(
+                @"SELECT DISTINCT
+                Chamber as Value,
+                Chamber as Text
+                FROM Performance 
+                ORDER BY Chamber"
+                );
+            ViewData["ChamberList"] = Clist;
+
             return View();
         }
 
-        [Authorize(Roles = "manager")]
+        [Authorize(Roles = "owner, admin")]
         [HttpPost]
-        public IActionResult Create(Performance perform)
+        public IActionResult Create(Location loca)
         {
             if (!ModelState.IsValid)
             {
@@ -45,14 +49,13 @@ namespace Smiley.Controllers
             else
             {
                 string insert =
-                   @"INSERT INTO Performance(Title, Artist, PerformDT, Duration, Price, Chamber) VALUES
-                   ('{0}', '{1}', '{2:yyyy-MM-dd HH:mm}', {3}, {4},	'{5}')";
+                   @"INSERT INTO Exact_Location(location_name, location_type, location_address, building_id) VALUES
+('{0}','{1}','{2}', {3})";
 
-                int res = DBUtl.ExecSQL(insert, perform.Title, perform.Artist, perform.PerformDT,
-                                                perform.Duration, perform.Price, perform.Chamber);
+                int res = DBUtl.ExecSQL(insert, loca.location_name, loca.location_type, loca.location_address, loca.building_id);
                 if (res == 1)
                 {
-                    TempData["Message"] = "Performance Created";
+                    TempData["Message"] = "Location Created";
                     TempData["MsgType"] = "success";
                 }
                 else
@@ -60,7 +63,7 @@ namespace Smiley.Controllers
                     TempData["Message"] = DBUtl.DB_Message;
                     TempData["MsgType"] = "danger";
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("ViewLocations");
             }
         }
 

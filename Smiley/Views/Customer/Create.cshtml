@@ -6,12 +6,12 @@
 
         <div class="form-group row">
             <div class="offset-sm-2 col-sm-4">
-                <h2>Create a New Sensor</h2>
+                <h2>Create a New Customer</h2>
             </div>
         </div>
 
         <div class="form-group row">
-            <label class="control-label col-sm-2" asp-for="customer_name">Customer Name: </label>
+            <label class="control-label col-sm-2" asp-for="customer_name">Name: </label>
             <div class="col-sm-4">
                 <input type="text" asp-for="customer_name" class="form-control" />
             </div>
@@ -31,7 +31,7 @@
         </div>
 
         <div class="form-group row">
-            <label class="control-label col-sm-2" asp-for="email">Email : </label>
+            <label class="control-label col-sm-2" asp-for="email">Email: </label>
             <div class="col-sm-4">
                 <input type="text" asp-for="email" class="form-control" />
             </div>
@@ -40,27 +40,16 @@
             </div>
         </div>
 
-        @if (User.IsInRole("admin"))
-        {
-            <div class="form-group row">
-                <label class="control-label col-sm-2" asp-for="smiley_user_id">Smiley User ID : </label>
-                <div class="col-sm-4">
-                    <select asp-for="smiley_user_id" class="form-group" asp-items="userList"></select>
-                </div>
-                <div class="col-sm-3">
-                    <span asp-validation-for="smiley_user_id" class="text-danger"></span>
-                </div>
-
-            </div>
+        @{
+            List<SelectListItem> memberList = ViewData["MembershipList"] as List<SelectListItem>;
         }
-
         <div class="form-group row">
-            <label class="control-label col-sm-2" asp-for="email">Email : </label>
+            <label class="control-label col-sm-2" asp-for="membership">Membership: </label>
             <div class="col-sm-4">
-                <input type="text" asp-for="email" class="form-control" />
+                <select asp-for="membership" class="form-group" asp-items="memberList"></select>
             </div>
             <div class="col-sm-3">
-                <span asp-validation-for="email" class="text-danger"></span>
+                <span asp-validation-for="membership" class="text-danger"></span>
             </div>
         </div>
 

@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿/*using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using C200.Models;
+using Smiley.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -121,3 +121,4 @@ namespace C200.Controllers
 
    }
 }
+*/

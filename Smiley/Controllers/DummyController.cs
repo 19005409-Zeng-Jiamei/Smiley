@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Smiley.Controllers
 {
-    public class SensorController : Controller
+    public class DummyController : Controller
     {
         [AllowAnonymous]
         public IActionResult About()
