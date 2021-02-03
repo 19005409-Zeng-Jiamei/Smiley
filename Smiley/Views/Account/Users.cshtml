@@ -17,8 +17,8 @@
     </script>
 }
 
-@model @*Enter Model Name*@
-<h2>@*Enter Title*@</h2>
+@model List<User>
+<h2>View All Users</h2>
 
 @if (TempData["Message"] != null)
 {
@@ -28,31 +28,26 @@
 }
 
 <div>
-    <table id="JSDummyTable" class="table"> @*Change Table Name*@
+    <table id="JSUserTable" class="table">
         <thead>
             <tr>
-                <th>Title</th>
-                <th>Artist</th>
-                <th>Date/Time</th>
-                <th>Duration</th>
-                <th>Price</th>
-                <th>Chamber</th>
-                @if (User.IsInRole("manager"))
-                {
-                    <th>Action</th>
-                }
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Last Login</th>
+                <th>Action</th>
             </tr>
         </thead>
 
         <tbody>
-            @foreach (DataRow row in Model)
+            @foreach (User user in Model)
             {
                 <tr>
-                    <td>@row["Title"]</td>
-                    <td>@row["Artist"]</td>
-                    <td>@String.Format("{0:yyyy-MM-dd HH:mm}", row["PerformDT"])</td>
-                    <td>@row["Duration"] hrs</td>
-                    <td>@String.Format("{0:c}", row["Price"])</td>
+                    <td>@user.full_name</td>
+                    <td>@user.email</td>
+                    <td>@user.smiley_user_role</td>
+                    <td>@user.last_login.ToString()</td>
+                    <td>@user.</td>
                     <td>@row["Chamber"]</td>
                     @if (User.IsInRole("manager"))
                     {

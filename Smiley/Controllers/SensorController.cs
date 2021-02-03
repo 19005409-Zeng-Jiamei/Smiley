@@ -13,22 +13,31 @@ namespace Smiley.Controllers
     public class SensorController : Controller
     {
         [Authorize(Roles = "owner, admin")]
-        public IActionResult Index()
+        public IActionResult ViewSensors()
         {
-            DataTable dt = DBUtl.GetTable("SELECT * FROM Performance");
-            return View("Index", dt.Rows);
+            DataTable dt = DBUtl.GetTable("SELECT * FROM Sensors");
+            return View(dt.Rows);
 
         }
 
         [Authorize(Roles = "owner, admin")]
         public IActionResult Create()
         {
+            List<SelectListItem> localist = DBUtl.GetList<SelectListItem>(
+                @"SELECT DISTINCT
+                location_id as Value,
+                location_name as Text
+                FROM Exact_Location 
+                ORDER BY location_name"
+                );
+            ViewData["LocationList"] = localist;
+
             return View();
         }
 
-        [Authorize(Roles = "manager")]
+        [Authorize(Roles = "owner, admin")]
         [HttpPost]
-        public IActionResult Create(Performance perform)
+        public IActionResult Create(Sensor sense)
         {
             if (!ModelState.IsValid)
             {
@@ -39,14 +48,13 @@ namespace Smiley.Controllers
             else
             {
                 string insert =
-                   @"INSERT INTO Performance(Title, Artist, PerformDT, Duration, Price, Chamber) VALUES
-                   ('{0}', '{1}', '{2:yyyy-MM-dd HH:mm}', {3}, {4},	'{5}')";
+                   @"INSERT INTO Sensor(start_time, end_time, sensor_status, smiley_user_id, location_id) VALUES
+                   ('{0: HH:mm}', '{1: HH:mm}', 1, '{2}', '{3}')";
 
-                int res = DBUtl.ExecSQL(insert, perform.Title, perform.Artist, perform.PerformDT,
-                                                perform.Duration, perform.Price, perform.Chamber);
+                int res = DBUtl.ExecSQL(insert, sense.start_time, sense.end_time, sense.smiley_user_id, sense.location_id);
                 if (res == 1)
                 {
-                    TempData["Message"] = "Performance Created";
+                    TempData["Message"] = "Sensor Created";
                     TempData["MsgType"] = "success";
                 }
                 else
@@ -54,49 +62,50 @@ namespace Smiley.Controllers
                     TempData["Message"] = DBUtl.DB_Message;
                     TempData["MsgType"] = "danger";
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("ViewSensors");
             }
         }
 
-        [Authorize(Roles = "manager")]
+        [Authorize(Roles = "owner, admin")]
         public IActionResult Update(int id)
         {
-            List<SelectListItem> Clist = DBUtl.GetList<SelectListItem>(
+            List<SelectListItem> localist = DBUtl.GetList<SelectListItem>(
                 @"SELECT DISTINCT
-                Chamber as Value,
-                Chamber as Text
-                FROM Performance 
-                ORDER BY Chamber"
+                location_id as Value,
+                location_name as Text
+                FROM Exact_Location 
+                ORDER BY location_name"
                 );
-            ViewData["ChamberList"] = Clist;
+            ViewData["LocationList"] = localist;
 
-            List<SelectListItem> Dlist = new List<SelectListItem>
-            {
-                new SelectListItem("0.5","0.5"),new SelectListItem("1","1"),
-                new SelectListItem("1.5","1.5"),new SelectListItem("2","2"),
-                new SelectListItem("2.5","2.5"),new SelectListItem("3","3"),
-                new SelectListItem("3.5","3.5"),new SelectListItem("4","4"),
-            };
-            ViewData["DurationList"] = Dlist;
+            List<SelectListItem> UserList = DBUtl.GetList<SelectListItem>(
+                @"SELECT DISTINCT
+                smiley_user_id as Value,
+                full_name as Text
+                FROM SmileyUser 
+                WHERE smiley_user_role = 'owner'
+                ORDER BY full_name"
+                );
+            ViewData["OwnerList"] = UserList;
 
 
-            string select = "SELECT * FROM Performance WHERE Pid='{0}'";
-            List<Performance> list = DBUtl.GetList<Performance>(select, id);
+            string select = "SELECT * FROM Sensor WHERE sensor_id ='{0}'";
+            List<Sensor> list = DBUtl.GetList<Sensor>(select, id);
             if (list.Count == 1)
             {
                 return View(list[0]);
             }
             else
             {
-                TempData["Message"] = "Performance record does not exist";
+                TempData["Message"] = "Sensor record does not exist";
                 TempData["MsgType"] = "warning";
-                return RedirectToAction("Index");
+                return RedirectToAction("ViewSensors");
             }
         }
 
-        [Authorize(Roles = "manager")]
+        [Authorize(Roles = "owner, admin")]
         [HttpPost]
-        public IActionResult Update(Performance perform)
+        public IActionResult Update(Sensor sense)
         {
             if (!ModelState.IsValid)
             {
@@ -107,12 +116,12 @@ namespace Smiley.Controllers
             else
             {
                 string update =
-                   @"UPDATE Performance
-                    SET Title='{1}', Artist='{2}', PerformDT='{3:yyyy-MM-dd HH:mm}', Duration={4}, Price={5}, Chamber='{6}' WHERE Pid='{0}'";
-                int res = DBUtl.ExecSQL(update, perform.Pid, perform.Title, perform.Artist, perform.PerformDT, perform.Duration, perform.Price, perform.Chamber);
+                   @"UPDATE Sensor
+                    SET start_time='{1: HH:mm}', end_time='{2: HH:mm}', smiley_user_id='{3}', location_id={4} WHERE sensor_id='{0}'";
+                int res = DBUtl.ExecSQL(update, sense.sensor_id, sense.start_time, sense.end_time, sense.smiley_user_id, sense.location_id);
                 if (res == 1)
                 {
-                    TempData["Message"] = "Performance Updated";
+                    TempData["Message"] = "Sensor Updated";
                     TempData["MsgType"] = "success";
                 }
                 else
@@ -120,27 +129,27 @@ namespace Smiley.Controllers
                     TempData["Message"] = DBUtl.DB_Message;
                     TempData["MsgType"] = "danger";
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("ViewSensors");
             }
         }
 
-        [Authorize(Roles = "manager")]
+        [Authorize(Roles = "owner, admin")]
         public IActionResult Delete(int id)
         {
-            string select = @"SELECT * FROM Performance WHERE Pid={0}";
+            string select = @"SELECT * FROM Sensor WHERE sensor_id={0}";
             DataTable ds = DBUtl.GetTable(select, id);
             if (ds.Rows.Count != 1)
             {
-                TempData["Message"] = "Performance does not exist";
+                TempData["Message"] = "Sensor does not exist";
                 TempData["MsgType"] = "warning";
             }
             else
             {
-                string delete = "DELETE FROM Performance WHERE Pid={0}";
+                string delete = "DELETE FROM Sensor WHERE sensor_id={0}";
                 int res = DBUtl.ExecSQL(delete, id);
                 if (res == 1)
                 {
-                    TempData["Message"] = "Performance Deleted";
+                    TempData["Message"] = "Sensor Deleted";
                     TempData["MsgType"] = "success";
                 }
                 else
@@ -149,7 +158,7 @@ namespace Smiley.Controllers
                     TempData["MsgType"] = "danger";
                 }
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("ViewSensors");
         }
 
     }
