@@ -12,13 +12,7 @@ namespace Smiley.Controllers
 {
     public class SensorController : Controller
     {
-        [AllowAnonymous]
-        public IActionResult About()
-        {
-            return View();
-        }
-
-        [Authorize(Roles = "manager, member")]
+        [Authorize(Roles = "owner, admin")]
         public IActionResult Index()
         {
             DataTable dt = DBUtl.GetTable("SELECT * FROM Performance");
@@ -26,7 +20,7 @@ namespace Smiley.Controllers
 
         }
 
-        [Authorize(Roles = "manager")]
+        [Authorize(Roles = "owner, admin")]
         public IActionResult Create()
         {
             return View();
