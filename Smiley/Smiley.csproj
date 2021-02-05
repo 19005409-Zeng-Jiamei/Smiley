@@ -30,7 +30,6 @@
 	  <None Include="Views\Building\ViewBuildings.cshtml" />
 	  <None Include="Views\Customer\Create.cshtml" />
 	  <None Include="Views\Customer\Update.cshtml" />
-	  <None Include="Views\Customer\ViewAll.cshtml" />
 	  <None Include="Views\Customer\ViewCustomers.cshtml" />
 	  <None Include="Views\Feedback\Index.cshtml" />
 	  <None Include="Views\Feedback\MyFeedbacks.cshtml" />

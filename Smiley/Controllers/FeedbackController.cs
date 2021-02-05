@@ -7,20 +7,21 @@ using Smiley.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 
 namespace Smiley.Controllers
 {
     public class FeedbackController : Controller
     {
+        [Authorize(Roles ="admin, owner")]
         public IActionResult Index()
         {
             ViewData["Chart"] = "pie";
+            ViewData["ShowLegend"] = "true";
             PrepareData(0);
             ViewData["Title0"] = "Gesture Feedback Summary";
-            ViewData["ShowLegend0"] = "true";
             PrepareData(2);
             ViewData["Title2"] = "Emotion Feedback Summary";
-            ViewData["ShowLegend2"] = "false";
             return View("Index");
         }
 

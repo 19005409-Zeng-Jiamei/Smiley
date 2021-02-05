@@ -7,6 +7,7 @@ using Smiley.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 
 namespace Smiley.Controllers
 {
@@ -16,8 +17,12 @@ namespace Smiley.Controllers
         [Authorize(Roles = "owner, admin")]
         public IActionResult ViewLocations()
         {
-            DataTable dt = DBUtl.GetTable("SELECT * FROM Exact_Location");
-            return View(dt.Rows);
+            DataTable dt = new DataTable();
+            if (User.IsInRole("admin"))
+            dt = DBUtl.GetTable("SELECT * FROM Exact_Location INNER JOIN Sensor ON Sensor.location_id = Exact_Location.location_id");  
+            else
+                dt = DBUtl.GetTable("SELECT * FROM Exact_Location INNER JOIN Sensor ON Sensor.location_id = Exact_Location.location_id WHERE smiley_user_id='{0}'", User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            return View("ViewLocation", dt.Rows);
 
         }
 

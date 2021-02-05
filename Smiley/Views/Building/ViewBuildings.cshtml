@@ -5,7 +5,7 @@
 
     <script>
         $(document).ready(function () {
-            $('#JSDummyTable').DataTable({ //Pls Change Name Here
+            $('#JSBuildingTable').DataTable({
                 ordering: true,
                 paging: true,
                 searching: true,
@@ -17,8 +17,8 @@
     </script>
 }
 
-@model @*Enter Model Name*@
-<h2>@*Enter Title*@</h2>
+@model DataRowCollection
+<h2>Buildings</h2>
 
 @if (TempData["Message"] != null)
 {
@@ -28,19 +28,14 @@
 }
 
 <div>
-    <table id="JSDummyTable" class="table"> @*Change Table Name*@
+    <table id="JSBuildingTable" class="table">
         <thead>
             <tr>
-                <th>Title</th>
-                <th>Artist</th>
-                <th>Date/Time</th>
-                <th>Duration</th>
-                <th>Price</th>
-                <th>Chamber</th>
-                @if (User.IsInRole("manager"))
-                {
-                    <th>Action</th>
-                }
+                <th>Name</th>
+                <th>Type</th>
+                <th>Address</th>
+                <th>Postal Code</th>
+                <th>Action</th>
             </tr>
         </thead>
 
@@ -48,46 +43,37 @@
             @foreach (DataRow row in Model)
             {
                 <tr>
-                    <td>@row["Title"]</td>
-                    <td>@row["Artist"]</td>
-                    <td>@String.Format("{0:yyyy-MM-dd HH:mm}", row["PerformDT"])</td>
-                    <td>@row["Duration"] hrs</td>
-                    <td>@String.Format("{0:c}", row["Price"])</td>
-                    <td>@row["Chamber"]</td>
-                    @if (User.IsInRole("manager"))
-                    {
-                        <td>
-                            <a asp-controller=""
-                               asp-action="Update"
-                               asp-route-id="">
-                                @*Change Controller and ID Name*@
-                                Update
-                            </a> |
-                            <a asp-controller=""
-                               asp-action="Delete"
-                               asp-route-id="@row["Pid"]"
-                               onclick="return confirm('Delete Performance <@row["Title"]>')">
-                                @*Change Controller and ID Name*@
-                                Delete
-                            </a>
-                        </td>
-                    }
+                    <td>@row["building_name"]</td>
+                    <td>@row["building_type"]</td>
+                    <td>@row["building_address"]</td>
+                    <td>@row["building_postal_code"]</td>
+
+                    <td>
+                        <a asp-controller="Building"
+                           asp-action="Update"
+                           asp-route-id="@row["building_id"]">
+                            Update
+                        </a> |
+                        <a asp-controller="Building"
+                           asp-action="Delete"
+                           asp-route-id="@row["building_id"]"
+                           onclick="return confirm('Delete Building <@row["building_id"]>')">
+                            Delete
+                        </a>
+                    </td>
+
                 </tr>
+
             }
         </tbody>
 
         <tfoot>
             <tr>
-                <th>Title</th>
-                <th>Artist</th>
-                <th>Date/Time</th>
-                <th>Duration</th>
-                <th>Price</th>
-                <th>Chamber</th>
-                @if (User.IsInRole("manager"))
-                {
-                    <th>Action</th>
-                }
+                <th>Name</th>
+                <th>Type</th>
+                <th>Address</th>
+                <th>Postal Code</th>
+                <th>Action</th>
             </tr>
         </tfoot>
 

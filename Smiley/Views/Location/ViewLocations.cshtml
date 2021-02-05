@@ -5,7 +5,7 @@
 
     <script>
         $(document).ready(function () {
-            $('#JSDummyTable').DataTable({ //Pls Change Name Here
+            $('#JSLocationTable').DataTable({ //Pls Change Name Here
                 ordering: true,
                 paging: true,
                 searching: true,
@@ -17,8 +17,9 @@
     </script>
 }
 
-@model @*Enter Model Name*@
-<h2>@*Enter Title*@</h2>
+@model DataRowCollection
+
+<h2>Location</h2>
 
 @if (TempData["Message"] != null)
 {
@@ -28,19 +29,19 @@
 }
 
 <div>
-    <table id="JSDummyTable" class="table"> @*Change Table Name*@
+    <table id="JSLocationTable" class="table">
         <thead>
             <tr>
-                <th>Title</th>
-                <th>Artist</th>
-                <th>Date/Time</th>
-                <th>Duration</th>
-                <th>Price</th>
-                <th>Chamber</th>
-                @if (User.IsInRole("manager"))
+                <th>Name</th>
+                <th>Type</th>
+                <th>Address</th>
+                <th>Building Name</th>
+                @if (User.IsInRole("admin"))
                 {
-                    <th>Action</th>
+                    <th>User ID</th>
                 }
+                <th>Action</th>
+
             </tr>
         </thead>
 
@@ -48,47 +49,44 @@
             @foreach (DataRow row in Model)
             {
                 <tr>
-                    <td>@row["Title"]</td>
-                    <td>@row["Artist"]</td>
-                    <td>@String.Format("{0:yyyy-MM-dd HH:mm}", row["PerformDT"])</td>
-                    <td>@row["Duration"] hrs</td>
-                    <td>@String.Format("{0:c}", row["Price"])</td>
-                    <td>@row["Chamber"]</td>
-                    @if (User.IsInRole("manager"))
+                    <td>@row["location_name"]</td>
+                    <td>@row["location_type"]</td>
+                    <td>@row["location_address"]</td>
+                    <td>@row["building_name"]</td>
+                    @if (User.IsInRole("admin"))
                     {
-                        <td>
-                            <a asp-controller=""
-                               asp-action="Update"
-                               asp-route-id="">
-                                @*Change Controller and ID Name*@
-                                Update
-                            </a> |
-                            <a asp-controller=""
-                               asp-action="Delete"
-                               asp-route-id="@row["Pid"]"
-                               onclick="return confirm('Delete Performance <@row["Title"]>')">
-                                @*Change Controller and ID Name*@
-                                Delete
-                            </a>
-                        </td>
+                        <th>@row["smiley_user_id"]</th>
                     }
+                    <td>
+                        <a asp-controller="Location"
+                           asp-action="Update"
+                           asp-route-id="@row["location_id"]">
+                            Update
+                        </a> |
+                        <a asp-controller="Location"
+                           asp-action="Delete"
+                           asp-route-id="@row["location_id"]"
+                           onclick="return confirm('Delete Location <@row["location_type"]>')">
+                            Delete
+                        </a>
+                    </td>
+
                 </tr>
+
             }
         </tbody>
 
         <tfoot>
             <tr>
-                <th>Title</th>
-                <th>Artist</th>
-                <th>Date/Time</th>
-                <th>Duration</th>
-                <th>Price</th>
-                <th>Chamber</th>
-                @if (User.IsInRole("manager"))
+                <th>Name</th>
+                <th>Type</th>
+                <th>Address</th>
+                <th>Building Name</th>
+                @if (User.IsInRole("admin"))
                 {
-                    <th>Action</th>
+                    <th>User ID</th>
                 }
-            </tr>
+                <th>Action</th>
         </tfoot>
 
 

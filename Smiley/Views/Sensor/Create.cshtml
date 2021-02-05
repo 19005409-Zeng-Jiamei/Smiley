@@ -1,46 +1,46 @@
 ﻿@model Customer
 
-    <form asp-controller="Customer"
-          asp-action="Create"
-          method="post">
+<form asp-controller="Customer"
+      asp-action="Create"
+      method="post">
 
-        <div class="form-group row">
-            <div class="offset-sm-2 col-sm-4">
-                <h2>Create a New Sensor</h2>
-            </div>
+    <div class="form-group row">
+        <div class="offset-sm-2 col-sm-4">
+            <h2>Create a New Sensor</h2>
         </div>
+    </div>
 
-        <div class="form-group row">
-            <label class="control-label col-sm-2" asp-for="customer_name">Customer Name: </label>
-            <div class="col-sm-4">
-                <input type="text" asp-for="customer_name" class="form-control" />
-            </div>
-            <div class="col-sm-3">
-                <span asp-validation-for="customer_name" class="text-danger"></span>
-            </div>
+    <div class="form-group row">
+        <label class="control-label col-sm-2" asp-for="customer_name">Customer Name: </label>
+        <div class="col-sm-4">
+            <input type="text" asp-for="customer_name" class="form-control" />
         </div>
-
-        <div class="form-group row">
-            <label class="control-label col-sm-2" asp-for="surname">Surname: </label>
-            <div class="col-sm-4">
-                <input type="text" asp-for="surname" class="form-control" />
-            </div>
-            <div class="col-sm-3">
-                <span asp-validation-for="surname" class="text-danger"></span>
-            </div>
+        <div class="col-sm-3">
+            <span asp-validation-for="customer_name" class="text-danger"></span>
         </div>
+    </div>
 
-        <div class="form-group row">
-            <label class="control-label col-sm-2" asp-for="email">Email : </label>
-            <div class="col-sm-4">
-                <input type="text" asp-for="email" class="form-control" />
-            </div>
-            <div class="col-sm-3">
-                <span asp-validation-for="email" class="text-danger"></span>
-            </div>
+    <div class="form-group row">
+        <label class="control-label col-sm-2" asp-for="surname">Surname: </label>
+        <div class="col-sm-4">
+            <input type="text" asp-for="surname" class="form-control" />
         </div>
+        <div class="col-sm-3">
+            <span asp-validation-for="surname" class="text-danger"></span>
+        </div>
+    </div>
 
-        @if (User.IsInRole("admin"))
+    <div class="form-group row">
+        <label class="control-label col-sm-2" asp-for="email">Email : </label>
+        <div class="col-sm-4">
+            <input type="text" asp-for="email" class="form-control" />
+        </div>
+        <div class="col-sm-3">
+            <span asp-validation-for="email" class="text-danger"></span>
+        </div>
+    </div>
+
+    @*@if (User.IsInRole("admin"))
         {
             <div class="form-group row">
                 <label class="control-label col-sm-2" asp-for="smiley_user_id">Smiley User ID : </label>
@@ -52,34 +52,34 @@
                 </div>
 
             </div>
-        }
+        }*@
 
-        <div class="form-group row">
-            <label class="control-label col-sm-2" asp-for="email">Email : </label>
-            <div class="col-sm-4">
-                <input type="text" asp-for="email" class="form-control" />
-            </div>
-            <div class="col-sm-3">
-                <span asp-validation-for="email" class="text-danger"></span>
-            </div>
+    <div class="form-group row">
+        <label class="control-label col-sm-2" asp-for="email">Email : </label>
+        <div class="col-sm-4">
+            <input type="text" asp-for="email" class="form-control" />
         </div>
-
-        <div class="form-group row">
-            <div class="offset-sm-2 col-sm-6">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+        <div class="col-sm-3">
+            <span asp-validation-for="email" class="text-danger"></span>
         </div>
+    </div>
 
-        @if (ViewData["Message"] != null)
-        {
-            <div class="form-group row">
-                <div class="offset-sm-2 col-sm-4">
-                    <div class="alert alert-@ViewData[" MsgType"]">
-                        <text>@ViewData["Message"]</text>
-                    </div>
+    <div class="form-group row">
+        <div class="offset-sm-2 col-sm-6">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </div>
+
+    @if (ViewData["Message"] != null)
+    {
+        <div class="form-group row">
+            <div class="offset-sm-2 col-sm-4">
+                <div class="alert alert-@ViewData[" MsgType"]">
+                    <text>@ViewData["Message"]</text>
                 </div>
             </div>
-        }
+        </div>
+    }
 
-    </form>
+</form>
 

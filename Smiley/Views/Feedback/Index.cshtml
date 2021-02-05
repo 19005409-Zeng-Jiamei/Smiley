@@ -1,26 +1,41 @@
 ﻿@section MoreScripts {
     <script language="javascript">
+        Chart.defaults.global.defaultFontSize = 15;
+        Chart.defaults.global.defaultFontColor = 'black';
 
-      $(document).ready(function () {
-         new Chart(document.getElementById("chart"), {
-            type: '@ViewData["Chart"]',
-            data: {
-               labels: @Json.Serialize(ViewData["Labels0"]),
-               datasets: [{
-                  label: '@ViewData["Legend0"]',
-                  data: @Json.Serialize(ViewData["Data0"]),
-                  backgroundColor: @Json.Serialize(ViewData["Colors"]),
-                  fill: false
-               }]
-            },
-            options: {
-               responsive: false,
-               legend: {
-                  display: @ViewData["ShowLegend0"]
+        $(document).ready(function () {
+          new Chart(document.getElementById("chart"), {
+              type: '@ViewData["Chart"]',
+              data: {
+                  labels: @Json.Serialize(ViewData["Labels0"]),
+                  datasets: [{
+                      label: '@ViewData["Legend0"]',
+                      data: @Json.Serialize(ViewData["Data0"]),
+                      backgroundColor: @Json.Serialize(ViewData["Colors"]),
+                      fill: true,
+                      borderWidth: 0,
+
+                  }]
+              },
+              options: {
+                  responsive: false,
+                  legend: {
+
+                      display: @ViewData["ShowLegend"],
+                      labels: {
+                          // This more specific font property overrides the global property
+                          fontColor: 'white',
+                          fontSize: 15
+                      },
+                      position: 'right',
                },
                title: {
                   display: true,
-                  text: '@ViewData["Title0"]'
+                   text: '@ViewData["Title0"]',
+                   fontColor: 'white',
+                   fontSize: 30,
+                   fontStyle: 'normal'
+
                }
             }
          });
@@ -35,27 +50,46 @@
                   label: '@ViewData["Legend2"]',
                   data: @Json.Serialize(ViewData["Data2"]),
                   backgroundColor: @Json.Serialize(ViewData["Colors"]),
-                  fill: false
+                   fill: false,
+                   borderWidth: 0
                }]
             },
             options: {
                responsive: false,
                legend: {
-                  display: @ViewData["ShowLegend2"]
-               },
+                   display: @ViewData["ShowLegend"],
+                   labels: {
+                          // This more specific font property overrides the global property
+                          fontColor: 'white',
+                          fontSize: 15
+                   },
+                   position: 'right',
+                },
                title: {
                   display: true,
-                  text: '@ViewData["Title2"]'
-               }
+                   text: '@ViewData["Title2"]',
+                   fontColor: 'white',
+                   fontSize: 30,
+                   fontStyle: 'normal'
+                },
             }
          });
       });
 
     </script>
 }
-
-<canvas id="chart" width="600" height="400" style="color:white"></canvas>
-<canvas id="chart1" width="600" height="400" style="color:white"></canvas>
+<div class="row h-100 justify-content-center">
+    <div class="col-sm-6 my-sm-auto" style="background-color: #2F2FA2;
+        color: white;
+        border-color: #2F2FA2;">
+        <canvas id="chart" width="500" height="400"></canvas>
+    </div>
+    <div class="col-sm-6 my-sm-auto" style="background-color: #2F2FA2;
+        color: white;
+        border-color: #2F2FA2;">
+        <canvas id="chart1" width="500" height="400"></canvas>
+    </div>
+</div>
 
 
 

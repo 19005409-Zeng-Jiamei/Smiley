@@ -23,4 +23,6 @@ namespace Smiley.Models
         [Required(ErrorMessage = "Please enter Location ID")]
         public int location_id { get; set; }
     }
+
+    
 }

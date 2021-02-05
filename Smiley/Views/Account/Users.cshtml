@@ -5,7 +5,7 @@
 
     <script>
         $(document).ready(function () {
-            $('#JSDummyTable').DataTable({ //Pls Change Name Here
+            $('#JSUserTable').DataTable({ //Pls Change Name Here
                 ordering: true,
                 paging: true,
                 searching: true,
@@ -47,29 +47,11 @@
                     <td>@user.email</td>
                     <td>@user.smiley_user_role</td>
                     <td>@user.last_login.ToString()</td>
-                    <td>@user.</td>
-                    <td>@row["Chamber"]</td>
-                    @if (User.IsInRole("manager"))
-                    {
-                        <td>
-                            <a asp-controller=""
-                               asp-action="Update"
-                               asp-route-id="">
-                                @*Change Controller and ID Name*@
-                                Update
-                            </a> |
-                            <a asp-controller=""
-                               asp-action="Delete"
-                               asp-route-id="@row["Pid"]"
-                               onclick="return confirm('Delete Performance <@row["Title"]>')">
-                                @*Change Controller and ID Name*@
-                                Delete
-                            </a>
-                        </td>
-                    }
+                    <td>@user.email</td>
+                  
                 </tr>
-            }
-        </tbody>
+                }
+            </tbody>
 
         <tfoot>
             <tr>
