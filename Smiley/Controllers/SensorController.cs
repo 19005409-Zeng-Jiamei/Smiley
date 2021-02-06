@@ -125,6 +125,44 @@ namespace Smiley.Controllers
         }
 
         [Authorize(Roles = "owner, admin")]
+        public IActionResult UpdateSensor(int id)
+        {
+
+            string sql = @"SELECT * FROM Sensor WHERE sensor_id={0}";
+
+            List<Sensor> onOffFacil = DBUtl.GetList<Sensor>(sql, id);
+            if (onOffFacil.Count != 1)
+            {
+                TempData["Message"] = "Sensor Record does not exist";
+                TempData["MsgType"] = "warning";
+            }
+            else
+            {
+                Sensor facility = onOffFacil[0];
+                int newStatus = 1;
+                String msgOutput = "on";
+                if (facility.sensor_status == 1)
+                {
+                    newStatus = 0;
+                    msgOutput = "off";
+                }
+
+                int res = DBUtl.ExecSQL("UPDATE Sensor SET sensor_status = '{1}', WHERE sensor_id ={0}", id, newStatus);
+                if (res == 1)
+                {
+                    TempData["Message"] = "Sensor has been turned " + msgOutput;
+                    TempData["MsgType"] = "success";
+                }
+                else
+                {
+                    TempData["Message"] = DBUtl.DB_Message;
+                    TempData["MsgType"] = "danger";
+                }
+            }
+            return RedirectToAction("ViewSensors");
+        }
+
+        [Authorize(Roles = "owner, admin")]
         [HttpPost]
         public IActionResult Update(Sensor sense)
         {
