@@ -27,7 +27,9 @@
     </div>
 }
 
+
 <div>
+
     <table id="JSUserTable" class="table">
         <thead>
             <tr>
@@ -47,27 +49,25 @@
                     <td>@user.email</td>
                     <td>@user.smiley_user_role</td>
                     <td>@user.last_login.ToString()</td>
-                    <td>@user.email</td>
+                    <td>
+                        <a asp-controller="Account"
+                           asp-action="Update"
+                           >
+                            Update
+                        </a> |
+                        <a asp-controller="Account"
+                           asp-action="Delete"
+                           >
+                          
+                            Delete
+                        </a>
+                    </td>
+
                   
                 </tr>
                 }
             </tbody>
 
-        <tfoot>
-            <tr>
-                <th>Title</th>
-                <th>Artist</th>
-                <th>Date/Time</th>
-                <th>Duration</th>
-                <th>Price</th>
-                <th>Chamber</th>
-                @if (User.IsInRole("manager"))
-                {
-                    <th>Action</th>
-                }
-            </tr>
-        </tfoot>
-
-
     </table>
+
 </div>

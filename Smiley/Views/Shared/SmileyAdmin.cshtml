@@ -1,40 +1,124 @@
-﻿<a class="navbar-brand" asp-controller="Feedback" asp-action="Performance">
+﻿<a class="navbar-brand" asp-controller="Feedback" asp-action="Index">
     <p style="font-family: Lucida Handwriting, cursive; font-size: 30px; color:white">Smiley</p>
 </a>
 
 <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="nav navbar-nav ml-auto">
-        <li>
-            <a class="nav-link" asp-controller="Feedback" asp-action="Index">
-                <i class="fas fa-home" style="color:white"></i>
+
+
+        <li class="nav-item dropdown">
+
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fab fa-raspberry-pi" style="color:white"></i>
             </a>
+
+            <div class="dropdown-menu dropdown-menu-sm-right" aria-labelledby="navbarDropdown" style="background-color:#F64C72;">
+
+                <a class="dropdown-item" asp-controller="Sensor" asp-action="ViewSensors" style="color:white">
+                    <i class="fal fa-sensor" style="color:white"></i>  All Sensors
+                </a>
+
+                <a class="dropdown-item" asp-controller="Sensor" asp-action="Create" style="color:white">
+                    <i class="far fa-plus-square" style="color:white"></i>  Add Sensor
+                </a>
+
+            </div>
         </li>
-        <li>
-            <a class="nav-link" asp-controller="Sensor" asp-action="AllSensors">
+
+        <li class="nav-item dropdown">
+
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-store" style="color:white"></i>
+            </a>
+
+            <div class="dropdown-menu dropdown-menu-sm-right" aria-labelledby="navbarDropdown" style="background-color:#F64C72;">
+
+                <a class="dropdown-item" asp-controller="Location" asp-action="ViewLocations" style="color:white">
+                    <i class="fal fa-sensor" style="color:white"></i>  All Location
+                </a>
+
+                <a class="dropdown-item" asp-controller="Location" asp-action="Create" style="color:white">
+                    <i class="far fa-plus-square" style="color:white"></i>  Add Location
+                </a>
+
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
+
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-building" style="color:white"></i>
+            </a>
+
+            <div class="dropdown-menu dropdown-menu-sm-right" aria-labelledby="navbarDropdown" style="background-color:#F64C72;">
+
+                <a class="dropdown-item" asp-controller="Building" asp-action="ViewBuildings" style="color:white">
+                    <i class="fal fa-sensor" style="color:white"></i>  All Building
+                </a>
+
+                <a class="dropdown-item" asp-controller="Sensor" asp-action="Create" style="color:white">
+                    <i class="fas fa-plus"></i>  Add Building
+                </a>
+
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
+
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fas fa-video" style="color:white"></i>
             </a>
+
+            <div class="dropdown-menu dropdown-menu-sm-right" aria-labelledby="navbarDropdown" style="background-color:#F64C72;">
+
+                <a class="nav-link" asp-controller="Account" asp-action="Users">
+                    <i class="fas fa-users" style="color:white"></i>  View All Users
+                </a>
+
+                <a class="nav-link" asp-controller="Account" asp-action="Create" style="color:white">
+                    <i class="fas fa-user-plus" style="color:white"></i>  Create User
+                </a>
+
+            </div>
+
         </li>
-        <li>
-            <a class="nav-link" asp-controller="Account" asp-action="Users">
+
+        <li class="nav-item dropdown">
+
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-user-friends" style="color:white"></i>
             </a>
+
+            <div class="dropdown-menu dropdown-menu-sm-right" aria-labelledby="navbarDropdown" style="background-color:#F64C72;">
+
+                <a class="nav-link" asp-controller="Account" asp-action="Users">
+                    <i class="fas fa-users" style="color:white"></i>  View All Users
+                </a>
+
+                <a class="nav-link" asp-controller="Account" asp-action="Create" style="color:white">
+                    <i class="fas fa-user-plus" style="color:white"></i>  Create User
+                </a>
+
+            </div>
+
         </li>
+
         <li class="nav-item dropdown">
-            
+
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-user-alt" style="color:white"></i>
             </a>
-            
+
             <div class="dropdown-menu dropdown-menu-sm-right" aria-labelledby="navbarDropdown" style="background-color:#F64C72;">
-                
-                <a class="dropdown-item" href="#" style="color:white">
-                    <i class="fas fa-user-circle"></i>  Profile
+
+                <a class="dropdown-item" href="Views/Account/Profile" style="color:white">
+                    <i class="fas fa-user-circle" style="color:white"></i>  Profile
                 </a>
-                
+
                 <a class="dropdown-item" href="#" style="color:white">
-                    <i class="fa fa-gear"></i>  Settings
+                    <i class="fa fa-gear" style="color:white"></i>  Settings
                 </a>
-            
+
                 <div class="dropdown-divider" style="color:white"></div>
 
                 <a class="nav-link text-center" asp-controller="Account" asp-action="Logoff" style="color: white">
@@ -43,6 +127,7 @@
 
             </div>
         </li>
+
         <li>
             &nbsp;&nbsp;&nbsp;
         </li>
