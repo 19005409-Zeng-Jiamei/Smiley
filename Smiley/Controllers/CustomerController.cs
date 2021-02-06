@@ -18,10 +18,10 @@ namespace Smiley.Controllers
     {
 
         [Authorize(Roles = "admin, owner")]
-        public IActionResult ViewAll()
+        public IActionResult ViewCustomers()
         {
             DataTable dt = DBUtl.GetTable("SELECT * FROM SmileyCustomer");
-            return View("Index", dt.Rows);
+            return View("ViewCustomers", dt.Rows);
 
         }
 
