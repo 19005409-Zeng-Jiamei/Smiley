@@ -121,7 +121,7 @@ namespace Smiley.Controllers
             ViewData["UserList"] = UserList;
 
 
-            string select = "SELECT * FROM Sensor WHERE sensor_id ='{0}'";
+            string select = "SELECT * FROM Sensor WHERE sensor_id ={0}";
             List<Sensor> list = DBUtl.GetList<Sensor>(select, id);
             if (list.Count == 1)
             {
@@ -170,7 +170,7 @@ namespace Smiley.Controllers
             else
             {
                 string update =
-                   @"UPDATE Sensor SET start_time='{1: HH:mm}', end_time='{2: HH:mm}', smiley_user_id='{3}', location_id='{4}' WHERE sensor_id={0}";
+                   @"UPDATE Sensor SET start_time='{1: HH:mm}', end_time='{2: HH:mm}', smiley_user_id='{3}', location_id={4} WHERE sensor_id={0}";
                 int res = DBUtl.ExecSQL(update, sense.sensor_id, sense.start_time, sense.end_time, sense.smiley_user_id, sense.location_id);
                 if (res == 1)
                 {
