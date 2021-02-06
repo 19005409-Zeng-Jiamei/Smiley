@@ -32,7 +32,7 @@ namespace Smiley.Controllers
                 new SelectListItem("Bronze","bronze"),
                 new SelectListItem("Silver","silver"),
             new SelectListItem("Gold","gold"),};
-            ViewData["UserRoleList"] = rolelist;
+            ViewData["MembershipList"] = rolelist;
             return View();
         }
 
@@ -108,7 +108,7 @@ namespace Smiley.Controllers
                 new SelectListItem("Bronze","bronze"),
                 new SelectListItem("Silver","silver"),
             new SelectListItem("Gold","gold"),};
-            ViewData["UserRoleList"] = rolelist;
+            ViewData["MembershipList"] = rolelist;
 
 
             string select = "SELECT * FROM SmileyCustomer WHERE customer_id='{0}'";

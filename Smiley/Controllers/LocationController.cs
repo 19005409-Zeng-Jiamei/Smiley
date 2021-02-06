@@ -19,9 +19,9 @@ namespace Smiley.Controllers
         {
             DataTable dt = new DataTable();
             if (User.IsInRole("admin"))
-                dt = DBUtl.GetTable("SELECT * FROM Exact_Location INNER JOIN Building ON Building.building_id = Exact_Location.building_id");
+                dt = DBUtl.GetTable("SELECT * FROM ((Exact_Location INNER JOIN Sensor ON Sensor.location_id = Exact_Location.location_id) INNER JOIN Building ON Building.building_id = Exact_Location.building_id)");
             else
-                dt = DBUtl.GetTable("SELECT * FROM ((Exact_Location INNER JOIN Sensor ON Sensor.location_id = Exact_Location.location_id WHERE smiley_user_id='{0}') INNER JOIN Building ON Building.building_id = Exact_Location.building_id", User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                dt = DBUtl.GetTable("SELECT * FROM ((Exact_Location INNER JOIN Sensor ON Sensor.location_id = Exact_Location.location_id) INNER JOIN Building ON Building.building_id = Exact_Location.building_id) WHERE smiley_user_id='{0}'", User.FindFirst(ClaimTypes.NameIdentifier).Value);
             return View("ViewLocations", dt.Rows);
 
         }

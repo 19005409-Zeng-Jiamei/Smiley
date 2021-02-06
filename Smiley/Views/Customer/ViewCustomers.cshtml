@@ -1,4 +1,4 @@
-﻿@model List<Customer>
+﻿@model DataRowCollection
 
 @section MoreScripts {
     <link href="~/lib/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
@@ -39,23 +39,23 @@
         </tr>
     </thead>
     <tbody style=" background-color: #2F2FA2; color: white;">
-        @foreach (Customer customer in Model)
+        @foreach (DataRow row in Model)
         {
             <tr>
-                <td>@customer.customer_name</td>
-                <td>@customer.surname</td>
-                <td>@customer.email</td>
-                <td>@customer.membership</td>
-                <td>@String.Format("{0:yyyy-MM-dd}", customer.signup_date)</td>
+                <td>@row["customer_name"]</td>
+                <td>@row["surname"]</td>
+                <td>@row["email"]</td>
+                <td>@row["membership"]</td>
+                <td>@String.Format("{0:yyyy-MM-dd}", row["signup_date"])</td>
                 <td>
-                    <a asp-controller="Customer" asp-action="Update" asp-route-id="@customer.customer_id">
+                    <a asp-controller="Customer" asp-action="Update" asp-route-id="@row["customer_id"]">
                         <i class="fas fa-pencil-alt"></i>
                     </a>
                     |
                     <a asp-controller="Customer"
                        asp-action="Delete"
-                       asp-route-id="@customer.customer_id"
-                       onclick="return confirm('Delete User [@customer.customer_name]')"><i class="fas fa-trash-alt"></i></a>
+                       asp-route-id="@row["customer_id"]"
+                       onclick="return confirm('Delete User [@row["customer_name"]')"><i class="fas fa-trash-alt"></i></a>
                 </td>
             </tr>
         }
