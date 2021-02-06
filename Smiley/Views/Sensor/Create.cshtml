@@ -1,46 +1,49 @@
-﻿@model Customer
+﻿@model Sensor
 
-<form asp-controller="Customer"
-      asp-action="Create"
-      method="post">
+    <form asp-controller="Sensor"
+          asp-action="Create"
+          method="post">
 
-    <div class="form-group row">
-        <div class="offset-sm-2 col-sm-4">
-            <h2>Create a New Sensor</h2>
+        <div class="form-group row">
+            <div class="offset-sm-2 col-sm-4">
+                <h2>Create a New Sensor</h2>
+            </div>
         </div>
-    </div>
 
-    <div class="form-group row">
-        <label class="control-label col-sm-2" asp-for="customer_name">Customer Name: </label>
-        <div class="col-sm-4">
-            <input type="text" asp-for="customer_name" class="form-control" />
+        <div class="form-group row">
+            <label class="control-label col-sm-2" asp-for="start_time">Sensor Start Time: </label>
+            <div class="col-sm-4">
+                <input type="text" asp-for="start_time" class="form-control" />
+            </div>
+            <div class="col-sm-3">
+                <span asp-validation-for="start_time" class="text-danger"></span>
+            </div>
         </div>
-        <div class="col-sm-3">
-            <span asp-validation-for="customer_name" class="text-danger"></span>
-        </div>
-    </div>
 
-    <div class="form-group row">
-        <label class="control-label col-sm-2" asp-for="surname">Surname: </label>
-        <div class="col-sm-4">
-            <input type="text" asp-for="surname" class="form-control" />
+        <div class="form-group row">
+            <label class="control-label col-sm-2" asp-for="end_time">End Time: </label>
+            <div class="col-sm-4">
+                <input type="text" asp-for="end_time" class="form-control" />
+            </div>
+            <div class="col-sm-3">
+                <span asp-validation-for="end_time" class="text-danger"></span>
+            </div>
         </div>
-        <div class="col-sm-3">
-            <span asp-validation-for="surname" class="text-danger"></span>
+        @{
+            List<SelectListItem> locaList = ViewData["LocationList"] as List<SelectListItem>;
+            List<SelectListItem> userList = ViewData["UserList"] as List<SelectListItem>;
+        }
+        <div class="form-group row">
+            <label class="control-label col-sm-2" asp-for="location_id">Location Name : </label>
+            <div class="col-sm-4">
+                <select asp-for="location_id" class="form-group" asp-items="locaList"></select>
+            </div>
+            <div class="col-sm-3">
+                <span asp-validation-for="location_id" class="text-danger"></span>
+            </div>
         </div>
-    </div>
 
-    <div class="form-group row">
-        <label class="control-label col-sm-2" asp-for="email">Email : </label>
-        <div class="col-sm-4">
-            <input type="text" asp-for="email" class="form-control" />
-        </div>
-        <div class="col-sm-3">
-            <span asp-validation-for="email" class="text-danger"></span>
-        </div>
-    </div>
-
-    @*@if (User.IsInRole("admin"))
+        @if (User.IsInRole("manager"))
         {
             <div class="form-group row">
                 <label class="control-label col-sm-2" asp-for="smiley_user_id">Smiley User ID : </label>
@@ -52,34 +55,24 @@
                 </div>
 
             </div>
-        }*@
+        }
 
-    <div class="form-group row">
-        <label class="control-label col-sm-2" asp-for="email">Email : </label>
-        <div class="col-sm-4">
-            <input type="text" asp-for="email" class="form-control" />
-        </div>
-        <div class="col-sm-3">
-            <span asp-validation-for="email" class="text-danger"></span>
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <div class="offset-sm-2 col-sm-6">
-            <input type="submit" value="Create" class="btn btn-primary" />
-        </div>
-    </div>
-
-    @if (ViewData["Message"] != null)
-    {
         <div class="form-group row">
-            <div class="offset-sm-2 col-sm-4">
-                <div class="alert alert-@ViewData[" MsgType"]">
-                    <text>@ViewData["Message"]</text>
-                </div>
+            <div class="offset-sm-2 col-sm-6">
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </div>
-    }
 
-</form>
+        @if (ViewData["Message"] != null)
+        {
+            <div class="form-group row">
+                <div class="offset-sm-2 col-sm-4">
+                    <div class="alert alert-@ViewData[" MsgType"]">
+                        <text>@ViewData["Message"]</text>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </form>
 

@@ -29,14 +29,14 @@ namespace Smiley.Controllers
         [Authorize(Roles = "owner, admin")]
         public IActionResult Create()
         {
-            List<SelectListItem> Buildlist = DBUtl.GetList<SelectListItem>(
-                @"SELECT DISTINCT
-                building_id as Value,
-                building_name as Text
-                FROM Building 
-                ORDER BY building_name"
-                );
-            ViewData["BuildingList"] = Buildlist;
+            string sql = @"SELECT building_id, building_name FROM Building";
+            List<Building> buildList = DBUtl.GetList<Building>(sql);
+            List<SelectListItem> BuildList = new List<SelectListItem>();
+            foreach (var buildItem in buildList)
+            {
+                BuildList.Add(new SelectListItem(buildItem.building_name, buildItem.building_id.ToString()));
+            }
+            ViewData["BuildingList"] = BuildList;
 
             return View();
         }
