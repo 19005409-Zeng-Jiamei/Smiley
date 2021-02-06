@@ -7,6 +7,10 @@ using Smiley.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+
 
 namespace Smiley.Controllers
 {
@@ -32,6 +36,18 @@ namespace Smiley.Controllers
             return View();
         }
 
+        public async Task<string> SnapShot(IFormFile upimage)
+        {
+            string filename = Guid.NewGuid().ToString() + ".jpg";
+            string fullpath = Path.Combine(_env.WebRootPath, @"customers\" + filename);
+            using (FileStream fs = new FileStream(fullpath, FileMode.Create))
+            {
+                upimage.CopyTo(fs);
+                fs.Close();
+            }
+            return filename;
+        }
+
         [Authorize(Roles = "admin, owner")]
         [HttpPost]
         public IActionResult Create(Customer customer)
@@ -44,15 +60,34 @@ namespace Smiley.Controllers
             }
             else
             {
-                string insert =
-                   @"INSERT INTO SmileyCustomer(customer_name, surname, email, membership, signup_date) VALUES
-                   ('{0}', '{1}', '{2}', '{3}', CURDATE())";
-
-                int res = DBUtl.ExecSQL(insert, customer.customer_name, customer.surname, customer.email, customer.membership);
-                if (res == 1)
+                if (DBUtl.ExecSQL("INSERT INTO FaceId(face_picfile) VALUES ('{0}')", customer.picfile) == 1)
                 {
-                    TempData["Message"] = "Customer Created";
-                    TempData["MsgType"] = "success";
+                    List<FaceID> dt = DBUtl.GetList<FaceID>("SELECT * FROM FaceId WHERE face_picfile = '{0}'", customer.picfile);
+                    if (dt.Count == 1)
+                    {
+                        int faceID = dt[0].face_record_id;
+                        string custInsert =
+                    @"INSERT INTO SmileyCustomer(customer_name, surname, email, membership, signup_date, face_id) VALUES
+                   ('{0}', '{1}', '{2}', '{3}', CURDATE()), {4}";
+
+                        int res = DBUtl.ExecSQL(custInsert, customer.customer_name, customer.surname, customer.email, customer.membership, faceID);
+                        if (res == 1)
+                        {
+                            TempData["Message"] = "Customer Created";
+                            TempData["MsgType"] = "success";
+                        }
+                        else
+                        {
+                            TempData["Message"] = DBUtl.DB_Message;
+                            TempData["MsgType"] = "danger";
+                        }
+                    }
+                    else
+                    {
+                        TempData["Message"] = DBUtl.DB_Message;
+                        TempData["MsgType"] = "danger";
+
+                    }
                 }
                 else
                 {
@@ -61,7 +96,10 @@ namespace Smiley.Controllers
                 }
                 return RedirectToAction("ViewAll");
             }
+            
         }
+
+
 
         [Authorize(Roles = "admin, owner")]
         public IActionResult Update(int id)
@@ -143,6 +181,21 @@ namespace Smiley.Controllers
                 }
             }
             return RedirectToAction("ViewAll");
+        }
+
+        private void UploadFile(IFormFile ufile, string fname)
+        {
+            string fullpath = Path.Combine(_env.WebRootPath, fname);
+            using (var fileStream = new FileStream(fullpath, FileMode.Create))
+            {
+                ufile.CopyToAsync(fileStream);
+            }
+        }
+
+        private IWebHostEnvironment _env;
+        public CustomerController(IWebHostEnvironment environment)
+        {
+            _env = environment;
         }
 
     }

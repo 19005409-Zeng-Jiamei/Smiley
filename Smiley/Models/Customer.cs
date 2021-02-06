@@ -24,7 +24,7 @@ namespace Smiley.Models
         [Required(ErrorMessage = "Please enter membership")]
         public string membership { get; set; }
 
-        [Required(ErrorMessage = "Please enter Picture")]
+        [Required(ErrorMessage = "Please take a Picture")]
         public string picfile { get; set; }
 
         [Required(ErrorMessage = "Please enter Sign Up date")]
