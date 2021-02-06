@@ -22,7 +22,7 @@ namespace Smiley.Controllers
             dt = DBUtl.GetTable("SELECT * FROM Exact_Location INNER JOIN Sensor ON Sensor.location_id = Exact_Location.location_id");  
             else
                 dt = DBUtl.GetTable("SELECT * FROM Exact_Location INNER JOIN Sensor ON Sensor.location_id = Exact_Location.location_id WHERE smiley_user_id='{0}'", User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            return View("ViewLocation", dt.Rows);
+            return View("ViewLocations", dt.Rows);
 
         }
 
