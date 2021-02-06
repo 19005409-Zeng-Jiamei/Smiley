@@ -12,10 +12,12 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 
 
+
 namespace Smiley.Controllers
 {
     public class CustomerController : Controller
     {
+        private IWebHostEnvironment _env;
 
         [Authorize(Roles = "admin, owner")]
         public IActionResult ViewCustomers()
@@ -26,6 +28,7 @@ namespace Smiley.Controllers
         }
 
         [Authorize(Roles = "admin, owner")]
+        [HttpGet]
         public IActionResult Create()
         {
             List<SelectListItem> rolelist = new List<SelectListItem> {
@@ -34,18 +37,6 @@ namespace Smiley.Controllers
             new SelectListItem("Gold","gold"),};
             ViewData["MembershipList"] = rolelist;
             return View();
-        }
-
-        public async Task<string> SnapShot(IFormFile upimage)
-        {
-            string filename = Guid.NewGuid().ToString() + ".jpg";
-            string fullpath = Path.Combine(_env.WebRootPath, @"customers\" + filename);
-            using (FileStream fs = new FileStream(fullpath, FileMode.Create))
-            {
-                upimage.CopyTo(fs);
-                fs.Close();
-            }
-            return filename;
         }
 
         [Authorize(Roles = "admin, owner")]
@@ -65,7 +56,8 @@ namespace Smiley.Controllers
             }
             else
             {
-                if (DBUtl.ExecSQL("INSERT INTO FaceId(face_picfile) VALUES ('{0}')", customer.picfile) == 1)
+                return RedirectToAction("ViewCustomers");
+                /*if (DBUtl.ExecSQL("INSERT INTO FaceId(face_picfile) VALUES ('{0}')", customer.picfile) == 1)
                 {
                     List<FaceID> dt = DBUtl.GetList<FaceID>("SELECT * FROM FaceId WHERE face_picfile = '{0}'", customer.picfile);
                     if (dt.Count == 1)
@@ -80,6 +72,8 @@ namespace Smiley.Controllers
                         {
                             TempData["Message"] = "Customer Created";
                             TempData["MsgType"] = "success";
+                            return RedirectToAction("ViewCustomers");
+
                         }
                         else
                         {
@@ -98,13 +92,12 @@ namespace Smiley.Controllers
                 {
                     TempData["Message"] = DBUtl.DB_Message;
                     TempData["MsgType"] = "danger";
-                }
-                return RedirectToAction("ViewAll");
+                }*/
+
             }
 
+
         }
-
-
 
         [Authorize(Roles = "admin, owner")]
         public IActionResult Update(int id)
@@ -193,6 +186,18 @@ namespace Smiley.Controllers
             return RedirectToAction("ViewAll");
         }
 
+        public async Task<string> SnapShot(IFormFile upimage)
+        {
+            string filename = Guid.NewGuid().ToString() + ".jpg";
+            string fullpath = Path.Combine(_env.WebRootPath, @"customers\" + filename);
+            using (FileStream fs = new FileStream(fullpath, FileMode.Create))
+            {
+                upimage.CopyTo(fs);
+                fs.Close();
+            }
+            return filename;
+        }
+
         private void UploadFile(IFormFile ufile, string fname)
         {
             string fullpath = Path.Combine(_env.WebRootPath, fname);
@@ -202,7 +207,6 @@ namespace Smiley.Controllers
             }
         }
 
-        private IWebHostEnvironment _env;
         public CustomerController(IWebHostEnvironment environment)
         {
             _env = environment;

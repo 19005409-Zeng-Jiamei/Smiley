@@ -560,5 +560,26 @@ namespace Smiley.Controllers
             }
         }
 
+        public async Task<string> SnapShot(IFormFile upimage)
+        {
+            string filename = Guid.NewGuid().ToString() + ".jpg";
+            string fullpath = Path.Combine(_env.WebRootPath, @"users\" + filename);
+            using (FileStream fs = new FileStream(fullpath, FileMode.Create))
+            {
+                upimage.CopyTo(fs);
+                fs.Close();
+            }
+            return filename;
+        }
+
+        private void UploadFile(IFormFile ufile, string fname)
+        {
+            string fullpath = Path.Combine(_env.WebRootPath, fname);
+            using (var fileStream = new FileStream(fullpath, FileMode.Create))
+            {
+                ufile.CopyToAsync(fileStream);
+            }
+        }
+
     }
 }

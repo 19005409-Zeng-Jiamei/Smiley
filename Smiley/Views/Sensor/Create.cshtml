@@ -1,78 +1,114 @@
 ﻿@model Sensor
 
-    <form asp-controller="Sensor"
-          asp-action="Create"
-          method="post">
+@section MoreScripts {
+    <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <script src="~/lib/moment/moment.min.js"></script>
+    <link href="~/lib/dtpicker/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <script src="~/lib/dtpicker/js/tempusdominus-bootstrap-4.min.js"></script>
 
+    <script language="javascript">
+      $(document).ready(function () {
+         $('#JSStartTime')
+            .datetimepicker({
+               format: 'HH:mm',
+               sideBySide: true
+            });
+      });
+        $(document).ready(function () {
+            $('#JSEndTime')
+                .datetimepicker({
+                    format: 'HH:mm',
+                    sideBySide: true
+                });
+        });
+    </script>
+}
+
+
+<form asp-controller="Sensor"
+      asp-action="Create"
+      method="post">
+
+    <div class="form-group row">
+        <div class="offset-sm-2 col-sm-4">
+            <h2>Create a New Sensor</h2>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="control-label col-sm-2" asp-for="start_time">Sensor Start Time: </label>
+        <div class="col-sm-4">
+            <div class="input-group date" id="JSStartTime" data-target-input="nearest">
+                <input type="text" asp-for="start_time" class="form-control" />
+                <div class="input-group-append" data-target="#JSStartTime" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <span asp-validation-for="start_time" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="control-label col-sm-2" asp-for="end_time">Sensor End Time: </label>
+        <div class="col-sm-4">
+            <div class="input-group date" id="JSEndTime" data-target-input="nearest">
+                <input type="text" asp-for="end_time" class="form-control" />
+                <div class="input-group-append" data-target="#JSEndTime" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <span asp-validation-for="end_time" class="text-danger"></span>
+        </div>
+    </div>
+
+    @{
+        List<SelectListItem> locaList = ViewData["LocationList"] as List<SelectListItem>;
+        List<SelectListItem> userList = ViewData["UserList"] as List<SelectListItem>;
+    }
+    <div class="form-group row">
+        <label class="control-label col-sm-2" asp-for="location_id">Location Name : </label>
+        <div class="col-sm-4">
+            <select asp-for="location_id" class="form-group" asp-items="locaList"></select>
+        </div>
+        <div class="col-sm-3">
+            <span asp-validation-for="location_id" class="text-danger"></span>
+        </div>
+    </div>
+
+    @if (User.IsInRole("admin"))
+    {
+        <div class="form-group row">
+            <label class="control-label col-sm-2" asp-for="smiley_user_id">Smiley User ID : </label>
+            <div class="col-sm-4">
+                <select asp-for="smiley_user_id" class="form-group" asp-items="userList"></select>
+            </div>
+            <div class="col-sm-3">
+                <span asp-validation-for="smiley_user_id" class="text-danger"></span>
+            </div>
+
+        </div>
+    }
+
+    <div class="form-group row">
+        <div class="offset-sm-2 col-sm-6">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </div>
+
+    @if (ViewData["Message"] != null)
+    {
         <div class="form-group row">
             <div class="offset-sm-2 col-sm-4">
-                <h2>Create a New Sensor</h2>
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label class="control-label col-sm-2" asp-for="start_time">Sensor Start Time: </label>
-            <div class="col-sm-4">
-                <input type="text" asp-for="start_time" class="form-control" />
-            </div>
-            <div class="col-sm-3">
-                <span asp-validation-for="start_time" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label class="control-label col-sm-2" asp-for="end_time">End Time: </label>
-            <div class="col-sm-4">
-                <input type="text" asp-for="end_time" class="form-control" />
-            </div>
-            <div class="col-sm-3">
-                <span asp-validation-for="end_time" class="text-danger"></span>
-            </div>
-        </div>
-        @{
-            List<SelectListItem> locaList = ViewData["LocationList"] as List<SelectListItem>;
-            List<SelectListItem> userList = ViewData["UserList"] as List<SelectListItem>;
-        }
-        <div class="form-group row">
-            <label class="control-label col-sm-2" asp-for="location_id">Location Name : </label>
-            <div class="col-sm-4">
-                <select asp-for="location_id" class="form-group" asp-items="locaList"></select>
-            </div>
-            <div class="col-sm-3">
-                <span asp-validation-for="location_id" class="text-danger"></span>
-            </div>
-        </div>
-
-        @if (User.IsInRole("manager"))
-        {
-            <div class="form-group row">
-                <label class="control-label col-sm-2" asp-for="smiley_user_id">Smiley User ID : </label>
-                <div class="col-sm-4">
-                    <select asp-for="smiley_user_id" class="form-group" asp-items="userList"></select>
-                </div>
-                <div class="col-sm-3">
-                    <span asp-validation-for="smiley_user_id" class="text-danger"></span>
-                </div>
-
-            </div>
-        }
-
-        <div class="form-group row">
-            <div class="offset-sm-2 col-sm-6">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </div>
-
-        @if (ViewData["Message"] != null)
-        {
-            <div class="form-group row">
-                <div class="offset-sm-2 col-sm-4">
-                    <div class="alert alert-@ViewData[" MsgType"]">
-                        <text>@ViewData["Message"]</text>
-                    </div>
+                <div class="alert alert-@ViewData[" MsgType"]">
+                    <text>@ViewData["Message"]</text>
                 </div>
             </div>
-        }
+        </div>
+    }
 
-    </form>
+</form>
 

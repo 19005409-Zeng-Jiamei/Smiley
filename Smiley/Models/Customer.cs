@@ -27,7 +27,6 @@ namespace Smiley.Models
         [Required(ErrorMessage = "Please take a Picture")]
         public string picfile { get; set; }
 
-        [Required(ErrorMessage = "Please enter Sign Up date")]
         public DateTime signup_date { get; set; }
 
         public int face_id { get; set; }

@@ -19,9 +19,9 @@ namespace Smiley.Controllers
         {
             DataTable dt = new DataTable();
             if (User.IsInRole("admin"))
-                dt = DBUtl.GetTable("SELECT * FROM ((Exact_Location INNER JOIN Sensor ON Sensor.location_id = Exact_Location.location_id) INNER JOIN Building ON Building.building_id = Exact_Location.building_id)");
+                dt = DBUtl.GetTable("SELECT * FROM ((Exact_Location LEFT JOIN Sensor ON Sensor.location_id = Exact_Location.location_id) LEFT JOIN Building ON Building.building_id = Exact_Location.building_id)");
             else
-                dt = DBUtl.GetTable("SELECT * FROM ((Exact_Location INNER JOIN Sensor ON Sensor.location_id = Exact_Location.location_id) INNER JOIN Building ON Building.building_id = Exact_Location.building_id) WHERE smiley_user_id='{0}'", User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                dt = DBUtl.GetTable("SELECT * FROM ((Exact_Location LEFT JOIN Sensor ON Sensor.location_id = Exact_Location.location_id) LEFT JOIN Building ON Building.building_id = Exact_Location.building_id) WHERE smiley_user_id='{0}'", User.FindFirst(ClaimTypes.NameIdentifier).Value);
             return View("ViewLocations", dt.Rows);
 
         }
@@ -146,7 +146,7 @@ namespace Smiley.Controllers
             {
                 string update =
                    @"UPDATE Exact_Location
-                    SET location_name='{1}', location_type='{2}', location_address='{3}', building_id={4} WHERE Pid='{0}'";
+                    SET location_name='{1}', location_type='{2}',location_address='{3}', building_id={4} WHERE location_id={0}";
                 int res = DBUtl.ExecSQL(update, loca.location_id, loca.location_name, loca.location_type, loca.location_address, loca.building_id);
                 if (res == 1)
                 {

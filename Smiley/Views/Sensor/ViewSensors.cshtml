@@ -51,12 +51,21 @@
             {
                 <tr>
                     <td>@row["sensor_id"]</td>
-                    <td>@String.Format("{0:HH:mm}", row["start_time"])</td>
-                    <td>@String.Format("{0:HH:mm}", row["end_time"])</td>
+                    @{ string startTime = String.Format("{0:HH:mm}", DateTime.Parse(row["start_time"].ToString()));
+                        string endTime = String.Format("{0:HH:mm}", DateTime.Parse(row["end_time"].ToString()));
+                        if (startTime.Equals("00:00") && endTime.Equals("00:00"))
+                        {
+                            startTime = "Null";
+                            endTime = "Null";
+                        }
+                    }
+                    
+                    <td>@startTime</td>
+                    <td>@endTime</td>
                     <td>
                         @{string icon = "fas fa-lightbulb";
                             List<String> stats = new List<string>() { "Off   ", "on" };
-                            if (row["sensor_status"].Equals("1"))
+                            if (row["sensor_status"].ToString().Equals("1"))
                             {
                                 icon = "far fa-lightbulb";
                                 stats = new List<string>() { "On   ", "off" };
@@ -65,7 +74,7 @@
                         <a asp-controller="Sensor"
                            asp-action="UpdateStatus"
                            asp-route-id="@row["sensor_id"]"
-                           onclick="return confirm('Turn @stats[1] Sensor @row["sensor_id"]')" style="color:white">
+                           onclick="return confirm('Turn @stats[1] Sensor @row["sensor_id"]')" style="color:black">
                             @stats[0] <i class='@icon'></i>
                         </a>
                     </td>

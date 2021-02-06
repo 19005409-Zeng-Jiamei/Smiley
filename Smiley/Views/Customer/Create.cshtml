@@ -26,7 +26,7 @@
                         var data = new FormData();
                         data.append('upimage', blob);
                         var xhr = new XMLHttpRequest();
-                        xhr.open('POST', "/candidate/snapshot", true);
+                        xhr.open('POST', "/customer/snapshot", true);
                         xhr.onload = function () {
                             if (xhr.status == 403 || xhr.status == 404) {
                                 alert("Error Loading Photo");
@@ -34,7 +34,7 @@
                                 document.getElementById("picfile").value = this.response;
                                 //calert(this.response);
                                 var img = document.createElement("img");
-                                img.src = "/candidates/" + this.response;
+                                img.src = "/customers/" + this.response;
                                 img.width = 120;
                                 img.height = 80;
                                 snapshot.appendChild(img);
@@ -50,8 +50,8 @@
             });
     });
 
-
 </script>
+
 
 @model Customer
 
@@ -65,7 +65,11 @@
     <div class="col-sm-9">
         <form asp-controller="Customer"
               asp-action="Create"
-              method="post">
+              method="post" enctype="multipart/form-data">
+
+
+            <input type="text" asp-for="customer_id" class="form-control" hidden />
+
 
             <div class="form-group row">
                 <label class="control-label col-sm-2" asp-for="customer_name">Name: </label>
@@ -116,13 +120,23 @@
                     <input type="text" asp-for="picfile" class="form-control" hidden />
                     <div id="snapshot" class="form-group row"></div>
                 </div>
+                <div class="col-sm-3">
+                    <span asp-validation-for="picfile" class="text-danger"></span>
+                </div>
             </div>
 
+
+            <input type="text" asp-for="signup_date" class="form-control" hidden value="1" />
+
+
+          <input type="text" asp-for="face_id" class="form-control" hidden value="1" />
+          
             <div class="form-group row">
                 <div class="offset-sm-2 col-sm-10">
                     <input type="submit" value="Create" class="btn btn-primary" />
                 </div>
             </div>
+
 
             @if (ViewData["Message"] != null)
             {
