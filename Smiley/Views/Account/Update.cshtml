@@ -26,27 +26,7 @@
         </div>
     </div>
 
-    <input asp-for="smiley_user_id" readonly />
-
-    <div class="form-group row">
-        <label class="control-label col-sm-2" asp-for="smiley_user_pw">Password: </label>
-        <div class="col-sm-4">
-            <input type="text" asp-for="smiley_user_pw" class="form-control" />
-        </div>
-        <div class="col-sm-3">
-            <span asp-validation-for="smiley_user_pw" class="text-danger"></span>
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label class="control-label col-sm-2" asp-for="smiley_user_pw2">Confirm Password: </label>
-        <div class="col-sm-4">
-            <input type="text" asp-for="smiley_user_pw2" class="form-control" />
-        </div>
-        <div class="col-sm-3">
-            <span asp-validation-for="smiley_user_pw2" class="text-danger"></span>
-        </div>
-    </div>
+    <input asp-for="smiley_user_id" hidden />
 
     <div class="form-group row">
         <label class="control-label col-sm-2" asp-for="full_name">Full Name: </label>

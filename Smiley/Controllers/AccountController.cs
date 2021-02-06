@@ -94,9 +94,9 @@ namespace Smiley.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult FaceLogin()
+        public IActionResult FaceIDLogin()
         {
-            return View("FaceLogin");
+            return View("FaceIDLogin");
         }
 
         [Authorize]
@@ -233,7 +233,7 @@ namespace Smiley.Controllers
         }
 
         [Authorize(Roles = "owner, admin")]
-        public IActionResult Update(int id)
+        public IActionResult Update(string id)
         {
             List<SelectListItem> rolelist = new List<SelectListItem>();
             if (User.IsInRole("admin"))
@@ -296,7 +296,7 @@ namespace Smiley.Controllers
         }
 
         [Authorize(Roles = "manager")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(string id)
         {
             string select = @"SELECT * FROM SmileyUser WHERE smiley_user_id={0}";
             DataTable ds = DBUtl.GetTable(select, id);
@@ -388,7 +388,7 @@ namespace Smiley.Controllers
                             var person = await faceClient.PersonGroupPerson.GetAsync(personGroupId, candidateId);
                             Debug.WriteLine("Identified as {0} ({1})", person.Name, confidence);
 
-                            if (!AuthenticateUser(person.Name, out ClaimsPrincipal principal))
+                            if (!AuthenticateFaceUser(person.Name, out ClaimsPrincipal principal))
                             {
                                 TempData["Message"] = "Cannot find User Face ID";
                                 ViewData["MsgType"] = "warning";
@@ -495,7 +495,7 @@ namespace Smiley.Controllers
 
         }
 
-        private bool AuthenticateUser(string uid, out ClaimsPrincipal principal)
+        private bool AuthenticateFaceUser(string uid, out ClaimsPrincipal principal)
         {
             principal = null;
 

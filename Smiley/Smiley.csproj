@@ -21,7 +21,7 @@
 
 	<ItemGroup>
 	  <None Include="Views\Account\Create.cshtml" />
-	  <None Include="Views\Account\FaceLogin.cshtml" />
+	  <None Include="Views\Account\FaceIDLogin.cshtml" />
 	  <None Include="Views\Account\Login.cshtml" />
 	  <None Include="Views\Account\Profile.cshtml" />
 	  <None Include="Views\Account\Update.cshtml" />
