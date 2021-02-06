@@ -107,7 +107,7 @@ namespace Smiley.Controllers
                 string update =
                    @"UPDATE Building
                     SET building_name='{1}', building_type='{2}', building_address='{3}', building_postal_code={4} WHERE building_id='{0}'";
-                int res = DBUtl.ExecSQL(update, build.building_id, build.building_type, build.building_address, build.building_postal_code);
+                int res = DBUtl.ExecSQL(update, build.building_id, build.building_name, build.building_type, build.building_address, build.building_postal_code);
                 if (res == 1)
                 {
                     TempData["Message"] = "Building Updated";
