@@ -161,6 +161,21 @@ namespace Smiley.Controllers
             {
                 ViewData["Message"] = "Invalid Input";
                 ViewData["MsgType"] = "warning";
+                List<SelectListItem> rolelist = new List<SelectListItem>();
+                if (User.IsInRole("admin"))
+                {
+                    rolelist = new List<SelectListItem> {
+                    new SelectListItem("Admin","admin"),
+                new SelectListItem("Owner","owner"),
+                new SelectListItem("User","user"),};
+                }
+                else
+                {
+                    rolelist = new List<SelectListItem> {
+                new SelectListItem("Owner","owner"),
+                new SelectListItem("User","user"),};
+                }
+                ViewData["UserRoleList"] = rolelist;
                 return View("Create");
             }
             else
@@ -273,6 +288,20 @@ namespace Smiley.Controllers
             {
                 ViewData["Message"] = "Invalid Input";
                 ViewData["MsgType"] = "warning";
+                List<SelectListItem> rolelist = new List<SelectListItem>();
+                if (User.IsInRole("admin"))
+                {
+                    rolelist = new List<SelectListItem> { new SelectListItem("Admin","admin"),
+                new SelectListItem("Owner","owner"),
+                new SelectListItem("User","user"),};
+                }
+                else
+                {
+                    rolelist = new List<SelectListItem> {
+                new SelectListItem("Owner","owner"),
+                new SelectListItem("User","user"),};
+                }
+                ViewData["UserRoleList"] = rolelist;
                 return View("Update");
             }
             else

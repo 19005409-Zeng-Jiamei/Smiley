@@ -90,6 +90,14 @@ namespace Smiley.Controllers
         {
             if (!ModelState.IsValid)
             {
+                List<SelectListItem> Typelist = DBUtl.GetList<SelectListItem>(
+                @"SELECT DISTINCT
+                building_type as Value,
+                building_type as Text
+                FROM Building 
+                ORDER BY building_type"
+                );
+                ViewData["BuildTypeList"] = Typelist;
                 ViewData["Message"] = "Invalid Input";
                 ViewData["MsgType"] = "warning";
                 return View("Update");

@@ -56,6 +56,11 @@ namespace Smiley.Controllers
             {
                 ViewData["Message"] = "Invalid Input";
                 ViewData["MsgType"] = "warning";
+                List<SelectListItem> rolelist = new List<SelectListItem> {
+                new SelectListItem("Bronze","bronze"),
+                new SelectListItem("Silver","silver"),
+            new SelectListItem("Gold","gold"),};
+                ViewData["MembershipList"] = rolelist;
                 return View("Create");
             }
             else
@@ -96,7 +101,7 @@ namespace Smiley.Controllers
                 }
                 return RedirectToAction("ViewAll");
             }
-            
+
         }
 
 
@@ -133,6 +138,11 @@ namespace Smiley.Controllers
             {
                 ViewData["Message"] = "Invalid Input";
                 ViewData["MsgType"] = "warning";
+                List<SelectListItem> rolelist = new List<SelectListItem> {
+                new SelectListItem("Bronze","bronze"),
+                new SelectListItem("Silver","silver"),
+            new SelectListItem("Gold","gold"),};
+                ViewData["MembershipList"] = rolelist;
                 return View("Update");
             }
             else

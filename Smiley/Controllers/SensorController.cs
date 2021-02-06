@@ -29,13 +29,15 @@ namespace Smiley.Controllers
         [Authorize(Roles = "owner, admin")]
         public IActionResult Create()
         {
-            List<SelectListItem> localist = DBUtl.GetList<SelectListItem>(
-                @"SELECT DISTINCT
-                location_id as Value,
-                location_name as Text
-                FROM Exact_Location 
-                ORDER BY location_name"
-                );
+            string sql = @"SELECT location_id, location_name FROM Exact_Location";
+            List<Location> locaList = DBUtl.GetList<Location>(sql);
+
+            List<SelectListItem> localist = new List<SelectListItem>();
+            foreach (var locaItem in locaList)
+            {
+                localist.Add(new SelectListItem(locaItem.location_name, locaItem.location_id.ToString()));
+            }
+
             ViewData["LocationList"] = localist;
 
             return View();
@@ -49,6 +51,16 @@ namespace Smiley.Controllers
             {
                 ViewData["Message"] = "Invalid Input";
                 ViewData["MsgType"] = "warning";
+                string sql = @"SELECT location_id, location_name FROM Exact_Location";
+                List<Location> locaList = DBUtl.GetList<Location>(sql);
+
+                List<SelectListItem> localist = new List<SelectListItem>();
+                foreach (var locaItem in locaList)
+                {
+                    localist.Add(new SelectListItem(locaItem.location_name, locaItem.location_id.ToString()));
+                }
+
+                ViewData["LocationList"] = localist;
                 return View("Create");
             }
             else
@@ -75,23 +87,26 @@ namespace Smiley.Controllers
         [Authorize(Roles = "owner, admin")]
         public IActionResult Update(int id)
         {
-            List<SelectListItem> localist = DBUtl.GetList<SelectListItem>(
-                @"SELECT DISTINCT
-                location_id as Value,
-                location_name as Text
-                FROM Exact_Location 
-                ORDER BY location_name"
-                );
+            string sql = @"SELECT location_id, location_name FROM Exact_Location";
+            List<Location> locaList = DBUtl.GetList<Location>(sql);
+
+            List<SelectListItem> localist = new List<SelectListItem>();
+            foreach (var locaItem in locaList)
+            {
+                localist.Add(new SelectListItem(locaItem.location_name, locaItem.location_id.ToString()));
+            }
+
             ViewData["LocationList"] = localist;
 
-            List<SelectListItem> UserList = DBUtl.GetList<SelectListItem>(
-                @"SELECT DISTINCT
-                smiley_user_id as Value,
-                full_name as Text
-                FROM SmileyUser 
-                WHERE smiley_user_role = 'owner'
-                ORDER BY full_name"
-                );
+            string smilesql = @"SELECT smiley_user_id, full_name FROM SmileyUser";
+            List<User> useList = DBUtl.GetList<User>(smilesql);
+
+            List<SelectListItem> UserList = new List<SelectListItem>();
+            foreach (var userItem in useList)
+            {
+                UserList.Add(new SelectListItem(userItem.full_name, userItem.smiley_user_id.ToString()));
+            }
+
             ViewData["OwnerList"] = UserList;
 
 
@@ -117,6 +132,27 @@ namespace Smiley.Controllers
             {
                 ViewData["Message"] = "Invalid Input";
                 ViewData["MsgType"] = "warning";
+                string sql = @"SELECT location_id, location_name FROM Exact_Location";
+                List<Location> locaList = DBUtl.GetList<Location>(sql);
+
+                List<SelectListItem> localist = new List<SelectListItem>();
+                foreach (var locaItem in locaList)
+                {
+                    localist.Add(new SelectListItem(locaItem.location_name, locaItem.location_id.ToString()));
+                }
+
+                ViewData["LocationList"] = localist;
+
+                string smilesql = @"SELECT smiley_user_id, full_name FROM SmileyUser";
+                List<User> useList = DBUtl.GetList<User>(smilesql);
+
+                List<SelectListItem> UserList = new List<SelectListItem>();
+                foreach (var userItem in useList)
+                {
+                    UserList.Add(new SelectListItem(userItem.full_name, userItem.smiley_user_id.ToString()));
+                }
+
+                ViewData["OwnerList"] = UserList;
                 return View("Update");
             }
             else

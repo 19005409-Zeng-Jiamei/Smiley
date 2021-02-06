@@ -49,6 +49,14 @@ namespace Smiley.Controllers
             {
                 ViewData["Message"] = "Invalid Input";
                 ViewData["MsgType"] = "warning";
+                string sql = @"SELECT building_id, building_name FROM Building";
+                List<Building> buildList = DBUtl.GetList<Building>(sql);
+                List<SelectListItem> BuildList = new List<SelectListItem>();
+                foreach (var buildItem in buildList)
+                {
+                    BuildList.Add(new SelectListItem(buildItem.building_name, buildItem.building_id.ToString()));
+                }
+                ViewData["BuildingList"] = BuildList;
                 return View("Create");
             }
             else
@@ -75,14 +83,14 @@ namespace Smiley.Controllers
         [Authorize(Roles = "owner, admin")]
         public IActionResult Update(int id)
         {
-            List<SelectListItem> Buildlist = DBUtl.GetList<SelectListItem>(
-                @"SELECT DISTINCT
-                building_id as Value,
-                building_name as Text
-                FROM Building 
-                ORDER BY building_name"
-                );
-            ViewData["BuildingList"] = Buildlist;
+            string sql = @"SELECT building_id, building_name FROM Building";
+            List<Building> buildList = DBUtl.GetList<Building>(sql);
+            List<SelectListItem> BuildList = new List<SelectListItem>();
+            foreach (var buildItem in buildList)
+            {
+                BuildList.Add(new SelectListItem(buildItem.building_name, buildItem.building_id.ToString()));
+            }
+            ViewData["BuildingList"] = BuildList;
 
             List<SelectListItem> LocaTypelist = DBUtl.GetList<SelectListItem>(
                 @"SELECT DISTINCT
@@ -116,6 +124,22 @@ namespace Smiley.Controllers
             {
                 ViewData["Message"] = "Invalid Input";
                 ViewData["MsgType"] = "warning";
+                string sql = @"SELECT building_id, building_name FROM Building";
+                List<Building> buildList = DBUtl.GetList<Building>(sql);
+                List<SelectListItem> BuildList = new List<SelectListItem>();
+                foreach (var buildItem in buildList)
+                {
+                    BuildList.Add(new SelectListItem(buildItem.building_name, buildItem.building_id.ToString()));
+                }
+                ViewData["BuildingList"] = BuildList;
+                List<SelectListItem> LocaTypelist = DBUtl.GetList<SelectListItem>(
+                @"SELECT DISTINCT
+                location_type as Value,
+                location_type as Text
+                FROM Exact_Location 
+                ORDER BY location_type"
+                );
+                ViewData["LocationTypeList"] = LocaTypelist;
                 return View("Update");
             }
             else
