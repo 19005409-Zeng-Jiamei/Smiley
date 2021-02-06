@@ -5,6 +5,24 @@
 <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="nav navbar-nav ml-auto">
 
+        <li class="nav-item dropdown">
+
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="far fa-smile" style="color:white"></i>
+            </a>
+
+            <div class="dropdown-menu dropdown-menu-sm-right" aria-labelledby="navbarDropdown" style="background-color:#F64C72;">
+
+                <a class="dropdown-item" asp-controller="Customer" asp-action="ViewCustomers" style="color:white">
+                      All Member 
+                </a>
+
+                <a class="dropdown-item" asp-controller="Customer" asp-action="Create" style="color:white">
+                    <i class="fas fa-plus" style="color:white"></i>  Add Member
+                </a>
+
+            </div>
+        </li>
 
         <li class="nav-item dropdown">
 
@@ -63,25 +81,6 @@
             </div>
         </li>
 
-        <li class="nav-item dropdown">
-
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fas fa-video" style="color:white"></i>
-            </a>
-
-            <div class="dropdown-menu dropdown-menu-sm-right" aria-labelledby="navbarDropdown" style="background-color:#F64C72;">
-
-                <a class="nav-link" asp-controller="Account" asp-action="Users">
-                    <i class="fas fa-users" style="color:white"></i>  View All Users
-                </a>
-
-                <a class="nav-link" asp-controller="Account" asp-action="Create" style="color:white">
-                    <i class="fas fa-user-plus" style="color:white"></i>  Create User
-                </a>
-
-            </div>
-
-        </li>
 
         <li class="nav-item dropdown">
 
