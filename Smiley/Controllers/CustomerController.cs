@@ -21,7 +21,7 @@ namespace Smiley.Controllers
         public IActionResult ViewCustomers()
         {
             DataTable dt = DBUtl.GetTable("SELECT * FROM SmileyCustomer");
-            return View(dt.Rows);
+            return View("ViewCustomers", dt.Rows);
 
         }
 
