@@ -1,0 +1,62 @@
+﻿
+@section MoreScripts {
+    <link href="~/lib/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#JSDoorTable').DataTable({
+                ordering: true,
+                paging: true,
+                searching: true,
+                info: true,
+                lengthChange: true,
+                pageLength: 10
+            });
+        });
+    </script>
+}
+
+@model DataRowCollection 
+
+<h2>Doors</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-@TempData["MsgType"]">
+        @TempData["Message"]
+    </div>
+}
+
+<div>
+    <table id="JSDoorTable" class="table" style=" background-color:white;">
+        <thead>
+            <tr>
+                <th>Gesture</th>
+                <th>TimeStamp</th>
+                <th>Sensor ID</th>
+                @*<th>&nbsp;</th>*@
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (DataRow row in Model)
+            {
+                <tr>
+                    <td>@row["door_gesture"]</td>
+                    <td>@row["time_stamp"]</td>
+                    <td>@row["sensor_id"]</td>
+                </tr>
+            }
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <th>Gesture</th>
+                <th>TimeStamp</th>
+                <th>Sensor ID</th>
+                @*<th>&nbsp;</th>*@
+            </tr>
+        </tfoot>
+    </table>
+</div>
