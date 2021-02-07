@@ -8,9 +8,11 @@ namespace Smiley.Models
 {
     public class FaceID
     {
-        public int face_record_id { get; set; }
+        public int face_id { get; set; }
 
         public string face_picfile { get; set; }
+
+        public string face_email { get; set; }
 
     }
 }

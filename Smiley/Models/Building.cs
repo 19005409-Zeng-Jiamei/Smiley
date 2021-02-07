@@ -24,7 +24,7 @@ namespace Smiley.Models
 
         [Required(ErrorMessage = "Please enter Building Postal Code")]
         [StringLength(6, MinimumLength =6, ErrorMessage = "A valid Postal Code")]
-        public string building_postal_code { get; set; }
+        public int building_postal_code { get; set; }
 
     }
 }

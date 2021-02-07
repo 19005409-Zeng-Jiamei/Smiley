@@ -14,9 +14,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="wwwroot\customers\" />
 		<Folder Include="wwwroot\users\" />
-		<Folder Include="wwwroot\smileyUsers\" />
 	</ItemGroup>
 
 	<ItemGroup>

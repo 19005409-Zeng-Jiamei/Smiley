@@ -87,13 +87,13 @@
                         <a asp-controller="Sensor"
                            asp-action="Update"
                            asp-route-id="@row["sensor_id"]">
-                            Update
+                            <i class="fas fa-pencil-alt"></i>
                         </a> |
                         <a asp-controller="Sensor"
                            asp-action="Delete"
                            asp-route-id="@row["sensor_id"]"
                            onclick="return confirm('Delete Sensor <@row["sensor_id"]>')">
-                            Delete
+                            <i class="fas fa-trash-alt"></i>
                         </a>
                     </td>
 

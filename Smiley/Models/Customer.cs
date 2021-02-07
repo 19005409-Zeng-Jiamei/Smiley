@@ -6,7 +6,7 @@ namespace Smiley.Models
 {
     public class Customer
     {
-        public string customer_id { get; set; }
+        public int customer_id { get; set; }
 
         [Required(ErrorMessage = "Please enter Name")]
         [StringLength(50, ErrorMessage = "Max 50 characters")]

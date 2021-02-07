@@ -52,14 +52,15 @@
                         <a asp-controller="Building"
                            asp-action="Update"
                            asp-route-id="@row["building_id"]">
-                            Update
+                            <i class="fas fa-pencil-alt"></i>
                         </a> |
                         <a asp-controller="Building"
                            asp-action="Delete"
                            asp-route-id="@row["building_id"]"
                            onclick="return confirm('Delete Building <@row["building_id"]>')">
-                            Delete
+                            <i class="fas fa-trash-alt"></i>
                         </a>
+                      
                     </td>
 
                 </tr>

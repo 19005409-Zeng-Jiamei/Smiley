@@ -1,9 +1,9 @@
-﻿DROP Table dbo.Emotion;
-DROP Table dbo.SmileyCustomer;
-DROP Table dbo.FaceId;
-DROP Table dbo.Feedback;
-DROP Table dbo.Exact_Location;
+﻿DROP Table dbo.Feedback;
 DROP Table dbo.Door;
+DROP Table dbo.Emotion;
 DROP Table dbo.Sensor;
+DROP Table dbo.Exact_Location;
 DROP Table dbo.Building;
 DROP Table dbo.SmileyUser;
+DROP Table dbo.SmileyCustomer;
+DROP Table dbo.FaceId;
