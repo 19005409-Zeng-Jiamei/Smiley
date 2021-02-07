@@ -179,7 +179,7 @@ namespace Smiley.Controllers
                 }
                 else
                 {
-                    TempData["Message"] = DBUtl.DB_Message + res;
+                    TempData["Message"] = DBUtl.DB_Message;
                     TempData["MsgType"] = "danger";
                 }
                 return RedirectToAction("ViewSensors");
