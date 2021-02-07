@@ -6,28 +6,33 @@
 
 <div class="row h-100 justify-content-center">
 
-    <div class="card col-sm-6 my-sm-auto" style="background-color: #2F2FA2;
+    <div class="card col-sm-6 my-sm-auto" style="background-color: #6393B4;
         color: white;
-        border-color: #2F2FA2;">
+        border-color: #6393B4;">
         <div class="card-body">
-            <img src="~/images/LogInPagePi.png" style="width:100%"/>
+            <img src="~/images/Raspberry Pi (no border) .png" style="width:100%"/>
         </div>
     </div>
 
     <div class="col-sm-4 my-sm-auto">
 
-        <div class="card" style="background-color: #2F2FA2;
+        <div class="card" style=" background-color: #6393B4;
         color: white;
-        border-color: white;
+        border-color: #6393B4;
         padding-left: 2em;
         padding-left: 2em;
         padding-right: 2em;">
+
             <div class="card-body">
-                <p style="font-family: Lucida Handwriting, cursive; font-size: 30px; color: #F64C72">Smiley</p>
+                <img src="~/images/smiley orange logo (meina) .png" style="width:100%" />
+            </div>
+            <div class="card-body">
+                <!--<p style="font-family: Lucida Handwriting, cursive; font-size: 30px; color: #F64C72">Smiley</p>-->
+               
 
                 <form asp-controller="Account"
                       asp-action="Login"
-                      method="post" style="background-color: #2F2FA2; color: white;">
+                      method="post" style=" background-color: #6393B4; color: white;">
 
                     <div class="form-group row">
                         <input asp-for="UserID" class="form-control" placeholder="User ID :" />
@@ -49,7 +54,8 @@
                     }
 
                     <div class="form-group row">
-                        <input type="submit" class="btn btn-sm btn-block" style=" background-color: #F64C72; color: white;" value="Login" />
+                        <input type="submit" class="btn btn-sm btn-block" style=" background-color: #6393B4;
+        color: white; border-color:white " value="Login" />
                     </div>
                 </form>
             </div>
@@ -57,13 +63,14 @@
 
         <br />
 
-        <div class="card" style="background-color: #2F2FA2;
+        <div class="card" style=" background-color: #6393B4;
         color: white;
-        border-color: white; padding-left: 2em;
+        border-color: #6393B4;
+        padding-left: 2em;
         padding-right: 2em;">
             <div class="card-body">
                 Login with Face ID
-                <a asp-action="FaceIDLogin" asp-controller="Account" style="        color: #F64C72;">
+                <a asp-action="FaceIDLogin" asp-controller="Account" style=" color: #DAAD86;">
                     Login
                 </a>
             </div>

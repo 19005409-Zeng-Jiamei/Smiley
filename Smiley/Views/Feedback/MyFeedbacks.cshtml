@@ -27,7 +27,7 @@
 }
 
 <div>
-    <table id="JSFeedbackTable" class="table" style=" background-color:white;">
+    <table id="JSFeedbackTable" class="table table-condensed table-hover" style=" background-color:white;">
         <thead>
             <tr>
                 <th>Gesture</th>
@@ -38,7 +38,7 @@
             </tr>
         </thead>
 
-        <tbody>
+        <tbody style="background-color: #BDD7EA;">
             @foreach (string[] feedbackRow in TempData["Feedbacks"] as List<string[]>)
             {
                 <tr>
