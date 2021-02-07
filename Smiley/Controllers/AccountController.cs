@@ -203,7 +203,7 @@ namespace Smiley.Controllers
                             List<FaceID> dt = DBUtl.GetList<FaceID>("SELECT * FROM FaceId WHERE face_picfile = '{0}'", user.smiley_user_picfile);
                             if (dt.Count == 1)
                             {
-                                int faceID = dt[0].face_record_id;
+                                int faceID = dt[0].face_id;
                                 string update = @"UPDATE SmileyUser SET face_id={1} WHERE smiley_user_id='{0}'";
                                 int test = DBUtl.ExecSQL(update, faceID);
                                 if (test == 1)

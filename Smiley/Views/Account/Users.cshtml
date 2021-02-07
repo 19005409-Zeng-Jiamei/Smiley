@@ -38,27 +38,32 @@
                 <th>Role</th>
                 <th>Last Login</th>
                 <th>Action</th>
+                <th>Face</th>
             </tr>
         </thead>
 
         <tbody>
             @foreach (User user in Model)
             {
-                <tr>
-                    <td>@user.full_name</td>
-                    <td>@user.email</td>
-                    <td>@user.smiley_user_role</td>
-                    <td>@user.last_login.ToString()</td>
-                    <td>
-                        <a asp-controller="Account" asp-action="Update" asp-route-id="@user.smiley_user_id">
-                            <i class="fas fa-pencil-alt"></i>
-                        </a> |
-                        <a asp-controller="Account" asp-action="Delete" asp-route-id="@user.smiley_user_id"
-                           onclick="return confirm('Delete User [@user.full_name]')"><i class="fas fa-trash-alt"></i></a>
-                    </td>
+            <tr>
+                <td>@user.full_name</td>
+                <td>@user.email</td>
+                <td>@user.smiley_user_role</td>
+                <td>@user.last_login.ToString()</td>
+                <td>
+                    <a asp-controller="Account" asp-action="Update" asp-route-id="@user.smiley_user_id">
+                        <i class="fas fa-pencil-alt"></i>
+                    </a> |
+                    <a asp-controller="Account" asp-action="Delete" asp-route-id="@user.smiley_user_id"
+                       onclick="return confirm('Delete User [@user.full_name]')"><i class="fas fa-trash-alt"></i></a>
+                </td>
+
+                <td>
+                    <img src="/smileyUsers/@user.email" width="100" height="100" />
+                </td>
 
 
-                </tr>
+            </tr>
             }
         </tbody>
 

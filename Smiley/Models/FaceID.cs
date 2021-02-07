@@ -12,7 +12,5 @@ namespace Smiley.Models
 
         public string face_picfile { get; set; }
 
-        public string face_email { get; set; }
-
     }
 }

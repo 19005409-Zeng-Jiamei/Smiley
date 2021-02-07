@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS Feedback;
 CREATE TABLE FaceId(
 	face_id             INT PRIMARY KEY IDENTITY,
 	face_picfile        VARCHAR(100)  NOT NULL,
-	face_email	        VARCHAR(100)  NOT NULL
+	face_email	    VARCHAR(100)  NOT NULL
 );
 
 
@@ -61,12 +61,12 @@ SET IDENTITY_INSERT FaceId OFF;
 CREATE TABLE SmileyCustomer(
 	customer_id         	INT PRIMARY KEY IDENTITY,
 	customer_name	    	VARCHAR(50)  	NOT NULL,
-	surname			        VARCHAR(50)  	NOT NULL,
-	email			        VARCHAR(50)  	NOT NULL,
+	surname			VARCHAR(50)  	NOT NULL,
+	email			VARCHAR(50)  	NOT NULL,
 	membership          	VARCHAR(50)  	NOT NULL,
 	picfile                 VARCHAR(200)    NULL,
-	signup_date         	DATE   	 	    NOT NULL,
-	face_id			        INT 		    NOT NULL,
+	signup_date         	DATE   	 	NOT NULL,
+	face_id			INT 		NOT NULL,
 	CONSTRAINT fk1 FOREIGN KEY(face_id) REFERENCES FaceId(face_id)
 );
 
@@ -104,15 +104,15 @@ SET IDENTITY_INSERT SmileyCustomer OFF;
 -- Create smiley's user table
 --
 CREATE TABLE SmileyUser(
-	smiley_user_id		    VARCHAR(20)   	PRIMARY KEY,
+	smiley_user_id		VARCHAR(20)   	PRIMARY KEY,
 	smiley_user_pw      	VARBINARY(50) 	NOT NULL,
-	full_name		        VARCHAR(50)   	NOT NULL,
-	smiley_user_picfile	    VARCHAR(200)  	NULL,
-	email			        VARCHAR(50)   	NOT NULL,
+	full_name		VARCHAR(50)   	NOT NULL,
+	smiley_user_picfile	VARCHAR(200)  	NOT NULL,
+	email			VARCHAR(50)   	NOT NULL,
 	smiley_user_role    	VARCHAR(20)   	NOT NULL,
 	last_login          	DATETIME      	NULL,
-	face_id			        INT 		    NOT NULL,
-	superior_id 		    VARCHAR(20)	    NULL,
+	face_id			INT 		NOT NULL,
+	superior_id 		VARCHAR(20)	NULL,
 	CONSTRAINT fk2 FOREIGN KEY(face_id) REFERENCES FaceId(face_id)
 );
 
@@ -121,23 +121,23 @@ CREATE TABLE SmileyUser(
 --
 --Insert smiley users' records
 --
-INSERT INTO SmileyUser (smiley_user_id, smiley_user_pw , full_name, email, smiley_user_role, superior_id, face_id) VALUES 
-('janice', HASHBYTES('SHA1', 'adminpw1'), 'Janice Chang', 'jiameizeng@gmail.com','admin', NULL, 2), --admin can CRUD all available sensor records
-('angeline',    HASHBYTES('SHA1', 'password2'), 'Angeline Mok', '19005146@myrp.edu.sg','owner', NULL, 1),
-('jinhan',   HASHBYTES('SHA1', 'password3'), 'Jinhan Ke', '19034471@myrp.edu.sg', 'owner', NULL, 3),
+INSERT INTO SmileyUser (smiley_user_id, smiley_user_pw , full_name, smiley_user_picfile, email, smiley_user_role, superior_id, face_id) VALUES 
+('janice', HASHBYTES('SHA1', 'adminpw1'), 'Janice Chang','wwwroot/smileyUsers/Janice','jiameizeng@gmail.com','admin', NULL, 2), --admin can CRUD all available sensor records
+('angeline',    HASHBYTES('SHA1', 'password2'), 'Angeline Mok', 'wwwroot/smileyUsers/Angeline','19005146@myrp.edu.sg','owner', NULL, 1),
+('jinhan',   HASHBYTES('SHA1', 'password3'), 'Jinhan Ke','wwwroot/smileyUsers/Jinhan' ,'19034471@myrp.edu.sg', 'owner', NULL, 3),
 --owner can CRUD all of its sensor records
-('jiamei',   HASHBYTES('SHA1', 'password1'), 'Jiamei Zeng', '19005409@myrp.edu.sg','user', 'jinhan',23 );--user can view all of its sensor records
+('jiamei',   HASHBYTES('SHA1', 'password1'), 'Jiamei Zeng','wwwroot/smileyUsers/Jiamei', '19005409@myrp.edu.sg','user', 'jinhan',23 );--user can view all of its sensor records
  
 
 --
 --Create sensor's building table
 --
 CREATE TABLE Building(
-	building_id			    INT PRIMARY KEY IDENTITY,
-	building_name			VARCHAR(50)   NOT NULL,
-	building_type			VARCHAR(50)   NOT NULL,
+	building_id			INT PRIMARY KEY IDENTITY,
+	building_name			VARCHAR(50)  NOT NULL,
+	building_type			VARCHAR(50)  NOT NULL,
 	building_address		VARCHAR(200)  NOT NULL,
-	building_postal_code	INT           NOT NULL
+	building_postal_code		INT           NOT NULL
 );
 
 
@@ -163,11 +163,11 @@ SET IDENTITY_INSERT Building OFF;
 --Create table for sensor's exact location
 --
 CREATE TABLE Exact_Location(
-	location_id		    INT PRIMARY KEY IDENTITY,
+	location_id		INT PRIMARY KEY IDENTITY,
 	location_name		VARCHAR(50) NOT NULL,
 	location_type		VARCHAR(50) NOT NULL,
 	location_address 	VARCHAR(50) NOT NULL,
-	building_id		    INT         NOT NULL,
+	building_id		INT NOT NULL,
 	CONSTRAINT fk3 FOREIGN KEY(building_id) REFERENCES Building(building_id)
 );
 
@@ -225,9 +225,9 @@ SET IDENTITY_INSERT Sensor OFF;
 --
 CREATE TABLE Emotion(
 	emotion_record_id      	INT PRIMARY KEY IDENTITY,
-	emotion_type		    VARCHAR(50)   NOT NULL,
-	time_stamp       	    DATE          NOT NULL,
-	sensor_id		        INT           NOT NULL,
+	emotion_type		VARCHAR(50)   NOT NULL,
+	time_stamp       	DATE   NOT NULL,
+	sensor_id		INT NOT NULL,
 	CONSTRAINT fk6 FOREIGN KEY(sensor_id) REFERENCES Sensor(sensor_id)
 );
 
@@ -266,7 +266,7 @@ CREATE TABLE Door(
 	door_record_id   INT PRIMARY KEY IDENTITY,
 	door_gesture	 VARCHAR(50) NOT NULL,
 	time_stamp       DATE        NOT NULL,
-	sensor_id	     INT 	     NOT NULL,
+	sensor_id	 INT 	     NOT NULL,
 	CONSTRAINT fk7 FOREIGN KEY(sensor_id) REFERENCES Sensor(sensor_id)
 );
 
@@ -301,7 +301,7 @@ SET IDENTITY_INSERT Door OFF;
 --Create feedback record table
 --
 CREATE TABLE Feedback(
-	feedback_id	      INT PRIMARY KEY IDENTITY,
+	feedback_id	  INT PRIMARY KEY IDENTITY,
 	feedback_gesture  VARCHAR(50) NOT NULL,		
 	time_stamp        DATE        NOT NULL,
 	sensor_id         INT 	      NOT NULL,
