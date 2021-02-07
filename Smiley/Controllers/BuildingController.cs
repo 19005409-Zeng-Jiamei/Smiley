@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Smiley.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.Rendering; //for SelectListItem
 
 namespace Smiley.Controllers
 {
@@ -61,6 +61,7 @@ namespace Smiley.Controllers
         [Authorize(Roles = "owner, admin")]
         public IActionResult Update(int id)
         {
+            //Typelist is used to populate the view's dropdown list
             List<SelectListItem> Typelist = DBUtl.GetList<SelectListItem>(
                 @"SELECT DISTINCT
                 building_type as Value,
@@ -70,7 +71,7 @@ namespace Smiley.Controllers
                 );
             ViewData["BuildTypeList"] = Typelist ;
 
-            string select = "SELECT * FROM Building WHERE building_id='{0}'";
+            string select = "SELECT * FROM Building WHERE building_id={0}";
             List<Building> list = DBUtl.GetList<Building>(select, id);
             if (list.Count == 1)
             {
@@ -106,7 +107,7 @@ namespace Smiley.Controllers
             {
                 string update =
                    @"UPDATE Building
-                    SET building_name='{1}', building_type='{2}', building_address='{3}', building_postal_code={4} WHERE building_id='{0}'";
+                    SET building_name='{1}', building_type='{2}', building_address='{3}', building_postal_code={4} WHERE building_id={0}";
                 int res = DBUtl.ExecSQL(update, build.building_id, build.building_name, build.building_type, build.building_address, build.building_postal_code);
                 if (res == 1)
                 {

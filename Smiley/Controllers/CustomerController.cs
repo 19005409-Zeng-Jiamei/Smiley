@@ -100,7 +100,7 @@ namespace Smiley.Controllers
         }
 
         [Authorize(Roles = "admin, owner")]
-        public IActionResult Update(int id)
+        public IActionResult Update(string id)
         {
             List<SelectListItem> rolelist = new List<SelectListItem> {
                 new SelectListItem("Bronze","bronze"),
@@ -119,7 +119,7 @@ namespace Smiley.Controllers
             {
                 TempData["Message"] = "Customer record does not exist";
                 TempData["MsgType"] = "warning";
-                return RedirectToAction("ViewAll");
+                return RedirectToAction("ViewCustomers");
             }
         }
 
@@ -142,7 +142,7 @@ namespace Smiley.Controllers
             {
                 string update =
                    @"UPDATE SmileyCustomer
-                    SET customer_name='{1}', surname='{2}', email='{3}', membership={4} WHERE customer_id={0}";
+                    SET customer_name='{1}', surname='{2}', email='{3}', membership='{4}' WHERE customer_id='{0}'";
                 int res = DBUtl.ExecSQL(update, customer.customer_id, customer.customer_name, customer.surname, customer.email, customer.membership);
                 if (res == 1)
                 {
@@ -161,7 +161,7 @@ namespace Smiley.Controllers
         [Authorize(Roles = "manager")]
         public IActionResult Delete(int id)
         {
-            string select = @"SELECT * FROM SmileyCustomer WHERE customer_id={0}";
+            string select = @"SELECT * FROM SmileyCustomer WHERE customer_id='{0}'";
             DataTable ds = DBUtl.GetTable(select, id);
             if (ds.Rows.Count != 1)
             {
@@ -170,7 +170,7 @@ namespace Smiley.Controllers
             }
             else
             {
-                string delete = "DELETE FROM SmileyCustomer WHERE customer_id={0}";
+                string delete = "DELETE FROM SmileyCustomer WHERE customer_id='{0}'";
                 int res = DBUtl.ExecSQL(delete, id);
                 if (res == 1)
                 {
@@ -183,7 +183,7 @@ namespace Smiley.Controllers
                     TempData["MsgType"] = "danger";
                 }
             }
-            return RedirectToAction("ViewAll");
+            return RedirectToAction("ViewCustomers");
         }
 
         public async Task<string> SnapShot(IFormFile upimage)
