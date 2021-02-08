@@ -133,6 +133,7 @@ namespace Smiley.Controllers
         }
 
         [Authorize(Roles = "owner, admin")]
+        [HttpGet]
         public IActionResult Create()
         {
             List<SelectListItem> rolelist = new List<SelectListItem>();
@@ -248,6 +249,7 @@ namespace Smiley.Controllers
         }
 
         [Authorize(Roles = "owner, admin")]
+        [HttpGet]
         public IActionResult Update(string id)
         {
             List<SelectListItem> rolelist = new List<SelectListItem>();
@@ -547,12 +549,12 @@ namespace Smiley.Controllers
             return false;
         }
 
-        public IActionResult UniqueUserID(string user_id)
+        public IActionResult UniqueUserID(string smiley_user_id)
         {
-            List<User> list = DBUtl.GetList<User>("SELECT * FROM SmileyUser WHERE smiley_user_id='{0}'", user_id);
+            List<User> list = DBUtl.GetList<User>("SELECT * FROM SmileyUser WHERE smiley_user_id='{0}'", smiley_user_id);
             if (list.Count == 1)
             {
-                return Json($"User ID {user_id} is already in use.");
+                return Json($"User ID {smiley_user_id} is already in use.");
             }
             else
             {
