@@ -118,17 +118,17 @@ namespace Smiley.Controllers
         public IActionResult Users()
         {
             string role = User.FindFirst(ClaimTypes.Role).Value;
-            List<User> list = new List<User>();
+            DataTable dt = new DataTable();
             if (role.Equals("admin"))
             {
-                list = DBUtl.GetList<User>("SELECT * FROM SmileyUser");
+                dt = DBUtl.GetTable("SELECT * FROM (SmileyUser LEFT JOIN FaceId ON FaceId.face_id = SmileyUser.face_id)");
             }
             else if (role.Equals("owner"))
             {
-                list = DBUtl.GetList<User>("SELECT * FROM SmileyUser WHERE smiley_user_role='user'");
+                dt = DBUtl.GetTable("SELECT * FROM (SmileyUser LEFT JOIN FaceId ON FaceId.face_id = SmileyUser.face_id) WHERE smiley_user_role='user'");
             }
 
-            return View(list);
+            return View(dt.Rows);
 
         }
 

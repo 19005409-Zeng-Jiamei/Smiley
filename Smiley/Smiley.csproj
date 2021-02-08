@@ -14,10 +14,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="wwwroot\users\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <None Include="Views\Account\Create.cshtml" />
 	  <None Include="Views\Account\FaceIDLogin.cshtml" />
 	  <None Include="Views\Account\Login.cshtml" />
