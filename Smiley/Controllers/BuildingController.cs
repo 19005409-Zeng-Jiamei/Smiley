@@ -151,5 +151,31 @@ namespace Smiley.Controllers
             return RedirectToAction("ViewBuildings");
         }
 
+        public IActionResult VerifyBuildingName(string building_name)
+        {
+            List<User> list = DBUtl.GetList<User>("SELECT * FROM Building WHERE building_name='{0}'", building_name);
+            if (list.Count == 1)
+            {
+                return Json($"Building Name {building_name} is already in use.");
+            }
+            else
+            {
+                return Json(true);
+            }
+        }
+
+        public IActionResult VerifyBuildingAddress(string building_address)
+        {
+            List<User> list = DBUtl.GetList<User>("SELECT * FROM Building WHERE building_address='{0}'", building_address);
+            if (list.Count == 1)
+            {
+                return Json($"Building Address {building_address} is already in use.");
+            }
+            else
+            {
+                return Json(true);
+            }
+        }
+
     }
 }
