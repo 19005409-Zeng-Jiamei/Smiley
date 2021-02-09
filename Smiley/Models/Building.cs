@@ -23,7 +23,7 @@ namespace Smiley.Models
         public string building_address { get; set; }
 
         [Required(ErrorMessage = "Please enter Building Postal Code")]
-        [StringLength(6, MinimumLength =6, ErrorMessage = "A valid Postal Code")]
+        [RegularExpression("[0-9]{6}", ErrorMessage = "A valid Postal Code")]
         public int building_postal_code { get; set; }
 
     }
