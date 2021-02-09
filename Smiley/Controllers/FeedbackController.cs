@@ -140,17 +140,17 @@ namespace Smiley.Controllers
 
             foreach (Gesture gest in gestList)
             {
-                feedbackList.Add(new string[] { gest.feedback_gesture, gest.time_stamp.ToString("dd/MM/yyyy HH:mm:ss"), gest.sensor_id.ToString(), "Gesture" });
+                feedbackList.Add(new string[] { gest.feedback_gesture, gest.time_stamp.AddHours(8).ToString("dd/MM/yyyy HH:mm:ss"), gest.sensor_id.ToString(), "Gesture" });
             }
 
             foreach (Door door in doorList)
             {
-                feedbackList.Add(new string[] { door.door_gesture, door.time_stamp.ToString("dd/MM/yyyy HH:mm:ss"), door.sensor_id.ToString(), "Door" });
+                feedbackList.Add(new string[] { door.door_gesture, door.time_stamp.AddHours(8).ToString("dd/MM/yyyy HH:mm:ss"), door.sensor_id.ToString(), "Door" });
             }
 
             foreach (Emotion emo in emoList)
             {
-                feedbackList.Add(new string[] { emo.emotion_type, emo.time_stamp.ToString("dd/MM/yyyy HH:mm:ss"), emo.sensor_id.ToString(), "Emotion" });
+                feedbackList.Add(new string[] { emo.emotion_type, emo.time_stamp.AddHours(8).ToString("dd/MM/yyyy HH:mm:ss"), emo.sensor_id.ToString(), "Emotion" });
             }
 
             return feedbackList;

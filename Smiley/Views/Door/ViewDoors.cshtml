@@ -42,11 +42,12 @@
         <tbody style="background-color: #BDD7EA;">
             @foreach (DataRow row in Model)
             {
-                <tr>
-                    <td>@row["door_gesture"]</td>
-                    <td>@row["time_stamp"]</td>
-                    <td>@row["sensor_id"]</td>
-                </tr>
+            <tr>
+                <td>@row["door_gesture"]</td>
+                @{DateTime timeStamp = DateTime.Parse(row["time_stamp"].ToString()).AddHours(8);}
+                <td>@timeStamp</td>
+                <td>@row["sensor_id"]</td>
+            </tr>
             }
         </tbody>
 

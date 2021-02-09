@@ -77,10 +77,10 @@ namespace Smiley.Controllers
             else
             {
                 string insert =
-                   @"INSERT INTO Sensor(start_time, end_time, sensor_status, smiley_user_id, location_id) VALUES
-                   ('{0: HH:mm}', '{1: HH:mm}', 1, '{2}', '{3}')";
+                   @"INSERT INTO Sensor(sensor_id, start_time, end_time, sensor_status, smiley_user_id, location_id) VALUES
+                   ({4},'{0: HH:mm}', '{1: HH:mm}', 1, '{2}', '{3}')";
 
-                int res = DBUtl.ExecSQL(insert, sense.start_time, sense.end_time, sense.smiley_user_id, sense.location_id);
+                int res = DBUtl.ExecSQL(insert, sense.start_time, sense.end_time, sense.smiley_user_id, sense.location_id, sense.sensor_id);
                 if (res == 1)
                 {
                     TempData["Message"] = "Sensor Created";
