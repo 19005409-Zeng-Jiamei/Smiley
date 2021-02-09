@@ -42,7 +42,11 @@
         @foreach (DataRow row in Model)
         {
             <tr>
-                <td>@row["customer_name"]</td>
+                <td>
+                    <a asp-controller="Customer" asp-action="Profile" asp-route-id="@row["customer_id"]">
+                        @row["customer_name"]
+                    </a>
+                </td>
                 <td>@row["surname"]</td>
                 <td>@row["email"]</td>
                 <td>@row["membership"]</td>

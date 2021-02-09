@@ -26,7 +26,8 @@
         </div>
     </div>
 
-    <input asp-for="smiley_user_id" hidden />
+    <input name="smiley_user_id" value="@ViewData["id"]" readonly />
+
 
     <div class="form-group row">
         <label class="control-label col-sm-2" asp-for="full_name">Full Name: </label>
@@ -48,6 +49,26 @@
         </div>
     </div>
 
+    <div class="form-group row">
+        <label class="control-label col-sm-2" asp-for="smiley_user_pw">Password: </label>
+        <div class="col-sm-7">
+            <input type="text" asp-for="smiley_user_pw" class="form-control" />
+        </div>
+        <div class="col-sm-3">
+            <span asp-validation-for="smiley_user_pw" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="control-label col-sm-2" asp-for="smiley_user_pw2">Confirm Password: </label>
+        <div class="col-sm-7">
+            <input type="text" asp-for="smiley_user_pw2" class="form-control" />
+        </div>
+        <div class="col-sm-3">
+            <span asp-validation-for="smiley_user_pw2" class="text-danger"></span>
+        </div>
+    </div>
+
     @{
         List<SelectListItem> roleList = ViewData["UserRoleList"] as List<SelectListItem>;
     }
@@ -62,22 +83,20 @@
     </div>
 
     <div class="form-group row">
-        <label class="control-label col-sm-2" asp-for="smiley_user_picfile">Photo:</label>
         <div class="col-sm-7">
-            <input type="text" asp-for="smiley_user_picfile" class="form-control" hidden />
-            <div id="snapshot" class="form-group row"></div>
+            <input type="text" asp-for="smiley_user_picfile" class="form-control" value="@ViewData["picfilename"]" hidden />
         </div>
     </div>
 
     <div class="form-group row">
         <div class="col-sm-7">
-            <input type="text" asp-for="last_login" class="form-control" value="1/1/2021" hidden />
+            <input type="text" asp-for="last_login" class="form-control" hidden value="1/1/2020" />
         </div>
     </div>
 
-    <input type="text" asp-for="face_id" class="form-control" value="1" hidden />
+    <input type="text" asp-for="face_id" class="form-control" hidden value="1" />
 
-    <input type="text" asp-for="superior_id" class="form-control" hidden />
+    <input type="text" asp-for="superior_id" class="form-control" value="Ahhh" hidden/>
 
     <div class="form-group row">
         <div class="offset-sm-2 col-sm-6">

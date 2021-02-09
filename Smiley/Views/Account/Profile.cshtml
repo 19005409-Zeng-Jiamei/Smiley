@@ -1,2 +1,56 @@
-﻿
+﻿@model DataRowCollection
+
+<div class="row" style="padding-top:10em;">
+    <div class="col-sm-3">
+        <img src=@string.Format("/users/{0}", Model[0]["face_picfile"]) class="col-sm-12" />
+    </div>
+    <div class="col-sm-9">
+        <h2 style="color:white">@Model[0]["full_name"]</h2>
+        <h3 style="color:white">User ID: @@@Model[0]["smiley_user_id"]</h3>
+    </div>
+</div>
+
+<table class="table table-borderless" style="color:white; border-color:white">
+    <tbody>
+        <tr>
+            <td>
+                Email
+            </td>
+            <td>
+                @Model[0]["email"]
+            </td>
+        </tr>
+        <tr>
+            <td>
+                User Role
+            </td>
+            <td>
+                @Model[0]["smiley_user_role"]
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Last Login
+            </td>
+            <td>
+                @String.Format("{0: dd/MM/yyyy HH:ss}", Model[0]["last_login"].ToString())
+            </td>
+        </tr>
+
+        @if (Model[0]["smiley_user_role"].Equals("user"))
+        {
+            <tr>
+                <td>
+                    Superior
+                </td>
+                <td>
+                    @Model[0]["superior_id"]
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+
 

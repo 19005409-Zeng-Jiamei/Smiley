@@ -36,7 +36,6 @@
                                 var img = document.createElement("img");
                                 img.src = "/customers/" + this.response;
                                 img.width = 120;
-                                img.height = 80;
                                 snapshot.appendChild(img);
 
                             }
@@ -68,7 +67,7 @@
               method="post" enctype="multipart/form-data">
 
 
-            <input type="text" asp-for="customer_id" class="form-control" hidden />
+            <input type="text" asp-for="customer_id" class="form-control" value="1" hidden />
 
 
             <div class="form-group row">
@@ -126,10 +125,10 @@
             </div>
 
 
-            <input type="text" asp-for="signup_date" class="form-control" hidden value="1" />
+            <input type="text" asp-for="signup_date" class="form-control" value="1/1/2021" hidden  />
 
 
-          <input type="text" asp-for="face_id" class="form-control" hidden value="1" />
+          <input type="text" asp-for="face_id" class="form-control" value="1" hidden  />
           
             <div class="form-group row">
                 <div class="offset-sm-2 col-sm-10" >

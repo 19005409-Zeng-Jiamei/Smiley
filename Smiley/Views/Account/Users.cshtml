@@ -46,7 +46,11 @@
             @foreach (DataRow user in Model)
             {
             <tr>
-                <td>@user["full_name"]</td>
+                <td>
+                    <a asp-controller="Account" asp-action="Profile" asp-route-id="@user["smiley_user_id"]">
+                        @user["full_name"]
+                    </a>
+                </td>
                 <td>@user["email"]</td>
                 <td>@user["smiley_user_role"]</td>
                 <td>@String.Format("{0:HH:mm}", user["last_login"])</td>
@@ -59,7 +63,7 @@
                 </td>
 
                 <td>
-                    <img src=@string.Format("/users/{0}.jpg", user["face_picfile"]) width="100" height="100" />
+                    <img src=@string.Format("/users/{0}", user["face_picfile"]) height="100" />
                 </td>
 
 

@@ -181,49 +181,32 @@ namespace Smiley.Controllers
             }
             else
             {
-                string insert = "";
-                if (user.smiley_user_role.Equals("user"))
+                if (DBUtl.ExecSQL("INSERT INTO FaceId(face_picfile) VALUES ('{0}')", user.smiley_user_picfile) == 1)
                 {
-                    insert = @"INSERT INTO SmileyUser (smiley_user_id, smiley_user_pw , full_name, email, smiley_user_role, superior_id) VALUES
-                   ('{0}', HASHBYTES('SHA1', '{1}'), '{2}', '{3}','{4}', '{5}')";
-
-                }
-                else
-                {
-                    insert = @"INSERT INTO SmileyUser (smiley_user_id, smiley_user_pw , full_name, email, smiley_user_role) VALUES
-                   ('{0}', HASHBYTES('SHA1', '{1}'), '{2}', '{3}','{4}')";
-                }
-
-                int res = DBUtl.ExecSQL(insert, user.smiley_user_id, user.smiley_user_pw, user.full_name, user.email, user.smiley_user_role, User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                if (res == 1)
-                {
-                    if (user.smiley_user_picfile != "" || user.smiley_user_picfile != null)
+                    List<FaceID> dt = DBUtl.GetList<FaceID>("SELECT * FROM FaceId WHERE face_picfile = '{0}'", user.smiley_user_picfile);
+                    if (dt.Count == 1)
                     {
-                        if (DBUtl.ExecSQL("INSERT INTO FaceId(face_picfile) VALUES ('{0}')", user.smiley_user_picfile) == 1)
-                        {
-                            List<FaceID> dt = DBUtl.GetList<FaceID>("SELECT * FROM FaceId WHERE face_picfile = '{0}'", user.smiley_user_picfile);
-                            if (dt.Count == 1)
-                            {
-                                int faceID = dt[0].face_id;
-                                string update = @"UPDATE SmileyUser SET face_id={1} WHERE smiley_user_id='{0}'";
-                                int test = DBUtl.ExecSQL(update, faceID);
-                                if (test == 1)
-                                {
-                                    TempData["Message"] = "User Updated";
-                                    TempData["MsgType"] = "success";
-                                }
-                                else
-                                {
-                                    TempData["Message"] = DBUtl.DB_Message;
-                                    TempData["MsgType"] = "danger";
-                                }
+                        int faceID = dt[0].face_id;
 
-                            }
-                            else
-                            {
-                                TempData["Message"] = DBUtl.DB_Message;
-                                TempData["MsgType"] = "danger";
-                            }
+                        string insertUser = "";
+                        if (user.smiley_user_role.Equals("user"))
+                        {
+                            insertUser = @"INSERT INTO SmileyUser (smiley_user_id, smiley_user_pw , full_name, email, smiley_user_role, face_id, superior_id) VALUES
+                   ('{0}', HASHBYTES('SHA1', '{1}'), '{2}', '{3}','{4}', {5}, '{6}')";
+
+                        }
+                        else
+                        {
+                            insertUser = @"INSERT INTO SmileyUser (smiley_user_id, smiley_user_pw , full_name, email, smiley_user_role, face_id) VALUES
+                   ('{0}', HASHBYTES('SHA1', '{1}'), '{2}', '{3}','{4}', {5})";
+                        }
+
+                        int res = DBUtl.ExecSQL(insertUser, user.smiley_user_id, user.smiley_user_pw, user.full_name, user.email, user.smiley_user_role, faceID, User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                        if (res == 1)
+                        {
+
+                            TempData["Message"] = "User Updated";
+                            TempData["MsgType"] = "success";
                         }
                         else
                         {
@@ -233,17 +216,16 @@ namespace Smiley.Controllers
                     }
                     else
                     {
-                        TempData["Message"] = "User Created";
-                        TempData["MsgType"] = "success";
+                        TempData["Message"] = DBUtl.DB_Message;
+                        TempData["MsgType"] = "danger";
                     }
-
                 }
                 else
                 {
                     TempData["Message"] = DBUtl.DB_Message;
                     TempData["MsgType"] = "danger";
                 }
-
+                
                 return RedirectToAction("Users");
             }
         }
@@ -272,13 +254,16 @@ namespace Smiley.Controllers
             List<User> list = DBUtl.GetList<User>(select, id);
             if (list.Count == 1)
             {
+                List<FaceID> dt = DBUtl.GetList<FaceID>("SELECT * FROM FaceId WHERE face_id = {0}", list[0].face_id);
+                ViewData["picfilename"] = dt[0].face_picfile;
+                ViewData["id"] = list[0].smiley_user_id;
                 return View(list[0]);
             }
             else
             {
                 TempData["Message"] = "User record does not exist";
                 TempData["MsgType"] = "warning";
-                return RedirectToAction("Index");
+                return RedirectToAction("Users");
             }
         }
 
@@ -310,7 +295,7 @@ namespace Smiley.Controllers
             {
                 string update =
                    @"UPDATE SmileyUser
-                    SET smiley_user_pw='{1}', full_name='{2}', email='{3}', smiley_user_role='{4}' WHERE smiley_user_id='{0}'";
+                    SET smiley_user_pw= HASHBYTES('SHA1', '{1}'), full_name='{2}', email='{3}', smiley_user_role='{4}' WHERE smiley_user_id='{0}'";
                 int res = DBUtl.ExecSQL(update, user.smiley_user_id, user.smiley_user_pw, user.full_name, user.email, user.smiley_user_role);
                 if (res == 1)
                 {
@@ -326,19 +311,15 @@ namespace Smiley.Controllers
             }
         }
 
-        [Authorize(Roles = "manager")]
+        [Authorize(Roles = "admin, owner")]
         public IActionResult Delete(string id)
         {
-            string select = @"SELECT * FROM SmileyUser WHERE smiley_user_id={0}";
+            string select = @"SELECT * FROM SmileyUser WHERE smiley_user_id='{0}'";
             DataTable ds = DBUtl.GetTable(select, id);
-            if (ds.Rows.Count != 1)
+            if (ds.Rows.Count == 1)
             {
-                TempData["Message"] = "User does not exist";
-                TempData["MsgType"] = "warning";
-            }
-            else
-            {
-                string delete = "DELETE FROM SmileyUser WHERE smiley_user_id={0}";
+
+                string delete = "DELETE FROM SmileyUser WHERE smiley_user_id='{0}'";
                 int res = DBUtl.ExecSQL(delete, id);
                 if (res == 1)
                 {
@@ -351,7 +332,29 @@ namespace Smiley.Controllers
                     TempData["MsgType"] = "danger";
                 }
             }
-            return RedirectToAction("Index");
+            else
+            {
+                TempData["Message"] = "User does not exist";
+                TempData["MsgType"] = "warning";
+            }
+            return RedirectToAction("Users");
+        }
+
+        [Authorize(Roles = "admin, owner")]
+        public IActionResult Profile(string id)
+        {
+            string select = "SELECT * FROM (SmileyUser LEFT JOIN FaceId ON FaceId.face_id = SmileyUser.face_id) WHERE smiley_user_id='{0}'";
+            DataTable dt = DBUtl.GetTable(select, id);
+            if (dt.Rows.Count == 1)
+            {
+                return View(dt.Rows);
+            }
+            else
+            {
+                TempData["Message"] = "User record does not exist";
+                TempData["MsgType"] = "warning";
+                return RedirectToAction("Users");
+            }
         }
 
         private bool AuthenticateUser(string uid, string pw, out ClaimsPrincipal principal)

@@ -21,7 +21,7 @@
 
     <div class="form-group row">
         <div class="offset-sm-2 col-sm-6 ">
-            <h2>Update Customer</h2> @*Input Name*@
+            <h2>Update Customer</h2>
         </div>
     </div>
 
@@ -29,17 +29,17 @@
 
     <div class="form-group row">
         <label class="control-label col-sm-2" asp-for="customer_name">Name: </label>
-        <div class="col-sm-4">
+        <div class="col-sm-7">
             <input type="text" asp-for="customer_name" class="form-control" />
         </div>
         <div class="col-sm-3">
             <span asp-validation-for="customer_name" class="text-danger"></span>
         </div>
-
     </div>
+
     <div class="form-group row">
         <label class="control-label col-sm-2" asp-for="surname">Surname: </label>
-        <div class="col-sm-4">
+        <div class="col-sm-7">
             <input type="text" asp-for="surname" class="form-control" />
         </div>
         <div class="col-sm-3">
@@ -49,7 +49,7 @@
 
     <div class="form-group row">
         <label class="control-label col-sm-2" asp-for="email">Email: </label>
-        <div class="col-sm-4">
+        <div class="col-sm-7">
             <input type="text" asp-for="email" class="form-control" />
         </div>
         <div class="col-sm-3">
@@ -62,13 +62,24 @@
     }
     <div class="form-group row">
         <label class="control-label col-sm-2" asp-for="membership">Membership: </label>
-        <div class="col-sm-4">
+        <div class="col-sm-7">
             <select asp-for="membership" class="form-group" asp-items="memberList"></select>
         </div>
         <div class="col-sm-3">
             <span asp-validation-for="membership" class="text-danger"></span>
         </div>
     </div>
+
+
+
+    <input type="text" asp-for="picfile" class="form-control" value="@ViewData["picfilename"]" hidden />
+
+
+
+    <input type="text" asp-for="signup_date" class="form-control" hidden />
+
+
+    <input type="text" asp-for="face_id" class="form-control" hidden />
 
     <div class="form-group row">
         <div class="offset-sm-2 col-sm-6">

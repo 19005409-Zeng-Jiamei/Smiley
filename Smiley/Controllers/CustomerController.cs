@@ -56,23 +56,22 @@ namespace Smiley.Controllers
             }
             else
             {
-                return RedirectToAction("ViewCustomers");
-                /*if (DBUtl.ExecSQL("INSERT INTO FaceId(face_picfile) VALUES ('{0}')", customer.picfile) == 1)
+                
+                if (DBUtl.ExecSQL("INSERT INTO FaceId(face_picfile) VALUES ('{0}')", customer.picfile) == 1)
                 {
                     List<FaceID> dt = DBUtl.GetList<FaceID>("SELECT * FROM FaceId WHERE face_picfile = '{0}'", customer.picfile);
                     if (dt.Count == 1)
                     {
-                        int faceID = dt[0].face_record_id;
+                        int faceID = dt[0].face_id;
                         string custInsert =
                     @"INSERT INTO SmileyCustomer(customer_name, surname, email, membership, signup_date, face_id) VALUES
-                   ('{0}', '{1}', '{2}', '{3}', CURDATE()), {4}";
+                   ('{0}', '{1}', '{2}', '{3}', '{5: dd/MM/yyyy}', {4})";
 
-                        int res = DBUtl.ExecSQL(custInsert, customer.customer_name, customer.surname, customer.email, customer.membership, faceID);
+                        int res = DBUtl.ExecSQL(custInsert, customer.customer_name, customer.surname, customer.email, customer.membership, faceID, DateTime.Now);
                         if (res == 1)
                         {
                             TempData["Message"] = "Customer Created";
                             TempData["MsgType"] = "success";
-                            return RedirectToAction("ViewCustomers");
 
                         }
                         else
@@ -92,7 +91,8 @@ namespace Smiley.Controllers
                 {
                     TempData["Message"] = DBUtl.DB_Message;
                     TempData["MsgType"] = "danger";
-                }*/
+                }
+                return RedirectToAction("ViewCustomers");
 
             }
 
@@ -113,6 +113,8 @@ namespace Smiley.Controllers
             List<Customer> list = DBUtl.GetList<Customer>(select, id);
             if (list.Count == 1)
             {
+                List<FaceID> dt = DBUtl.GetList<FaceID>("SELECT * FROM FaceId WHERE face_id = {0}", list[0].face_id);
+                ViewData["picfilename"] = dt[0].face_picfile;
                 return View(list[0]);
             }
             else
@@ -154,11 +156,11 @@ namespace Smiley.Controllers
                     TempData["Message"] = DBUtl.DB_Message;
                     TempData["MsgType"] = "danger";
                 }
-                return RedirectToAction("ViewAll");
+                return RedirectToAction("ViewCustomers");
             }
         }
 
-        [Authorize(Roles = "manager")]
+        [Authorize(Roles = "admin, owner")]
         public IActionResult Delete(int id)
         {
             string select = @"SELECT * FROM SmileyCustomer WHERE customer_id='{0}'";
@@ -186,6 +188,23 @@ namespace Smiley.Controllers
             return RedirectToAction("ViewCustomers");
         }
 
+        [Authorize(Roles = "admin, owner")]
+        public IActionResult Profile(int id)
+        {
+            string select = "SELECT * FROM (SmileyCustomer LEFT JOIN FaceId ON FaceId.face_id = SmileyCustomer.face_id) WHERE customer_id ={0}";
+            DataTable dt = DBUtl.GetTable(select, id);
+            if (dt.Rows.Count == 1)
+            {
+                return View(dt.Rows);
+            }
+            else
+            {
+                TempData["Message"] = "Customer record does not exist";
+                TempData["MsgType"] = "warning";
+                return RedirectToAction("ViewCustomers");
+            }
+        }
+
         public async Task<string> SnapShot(IFormFile upimage)
         {
             string filename = Guid.NewGuid().ToString() + ".jpg";
@@ -210,6 +229,19 @@ namespace Smiley.Controllers
         public CustomerController(IWebHostEnvironment environment)
         {
             _env = environment;
+        }
+
+        public IActionResult VerifyUserEmail(string email)
+        {
+            List<User> list = DBUtl.GetList<User>("SELECT * FROM SmileyCustomer WHERE email='{0}'", email);
+            if (list.Count == 1)
+            {
+                return Json($"Email {email} is already in use.");
+            }
+            else
+            {
+                return Json(true);
+            }
         }
 
     }
