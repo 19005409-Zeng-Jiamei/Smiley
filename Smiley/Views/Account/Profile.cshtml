@@ -2,7 +2,7 @@
 
 <div class="row" style="padding-top:10em;">
     <div class="col-sm-3">
-        <img src=@string.Format("/users/{0}", Model[0]["face_picfile"]) class="col-sm-12" />
+        <img src=@string.Format("/users/{0}.jpg", Model[0]["face_picfile"]) class="col-sm-12" />
     </div>
     <div class="col-sm-9">
         <h2 style="color:white">@Model[0]["full_name"]</h2>
